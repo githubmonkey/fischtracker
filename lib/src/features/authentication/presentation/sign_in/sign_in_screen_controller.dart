@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 
 class SignInScreenController extends AutoDisposeAsyncNotifier<void> {
   @override

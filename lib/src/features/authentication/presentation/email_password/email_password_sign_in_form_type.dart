@@ -1,4 +1,4 @@
-import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
 
 /// Form type for email & password authentication
 enum EmailPasswordSignInFormType { signIn, register }

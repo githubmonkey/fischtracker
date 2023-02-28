@@ -1,4 +1,4 @@
-package com.example.starter_architecture_flutter_firebase
+package org.rozendallabs.fischtracker
 
 import io.flutter.embedding.android.FlutterActivity
 
