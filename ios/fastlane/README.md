@@ -15,21 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios custom_lane
+### ios build_adhoc
 
 ```sh
-[bundle exec] fastlane ios custom_lane
+[bundle exec] fastlane ios build_adhoc
 ```
 
-Description of what the lane does
-
-### ios build
-
-```sh
-[bundle exec] fastlane ios build
-```
-
-Build release version and store it in build/ios/outputs
+Build release version and store it in build/ios/outputs; use adhoc profile for firebase
 
 ### ios distribute_to_firebase
 

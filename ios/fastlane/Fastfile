@@ -16,17 +16,12 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
-  end
-
-  desc "Build release version and store it in build/ios/outputs"
-  lane :build do
+  desc "Build release version and store it in build/ios/outputs; use adhoc profile for firebase"
+  lane :build_adhoc do
     # build_ios_app is a built-in fastlane action.
     build_ios_app(
       configuration: "Release",
-      export_method: 'app-store',
+      export_method: 'ad-hoc',
       output_directory: "../build/ios/outputs",
       output_name: "fischtracker-release.ipa"
     )
@@ -50,7 +45,7 @@ platform :ios do
 
   desc "Build and distribute all"
   lane :build_and_distribute do
-    build
+    build_adhoc
     distribute_to_firebase
   end
 end
