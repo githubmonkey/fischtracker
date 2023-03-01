@@ -21,6 +21,15 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 const _kTestingCrashlytics = true;
 
 Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint("Firebase couldn't be initialized: $e");
+  }
+
   FirebaseCrashlytics? crashlytics;
   if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
     crashlytics = _kTestingCrashlytics ? FirebaseCrashlytics.instance : null;
@@ -43,15 +52,6 @@ void guardedMain() async {
         '${record.loggerName}: '
         '${record.message}');
   });
-
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    debugPrint("Firebase couldn't be initialized: $e");
-  }
 
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
