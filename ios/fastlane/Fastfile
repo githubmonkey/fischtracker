@@ -38,8 +38,8 @@ platform :ios do
       firebase_cli_token: ENV['FIREBASE_TOKEN'],
       app: "1:468951951198:ios:44b8508d6a6dde0a2411cf",
       testers: "Clients",
-      release_notes: "Automatic demo release"
-      ipa_path: "../build/ios/outputs/fischtracker-release.ipa",
+      release_notes: "Automatic demo release",
+      ipa_path: "../build/ios/outputs/fischtracker-release.ipa"
     )
 
     upload_symbols_to_crashlytics(
