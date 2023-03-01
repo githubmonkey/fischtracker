@@ -32,7 +32,7 @@ platform :ios do
     firebase_app_distribution(
       firebase_cli_token: ENV['FIREBASE_TOKEN'],
       app: "1:468951951198:ios:44b8508d6a6dde0a2411cf",
-      testers: "Clients",
+      groups: "Clients",
       release_notes: "Automatic demo release",
       ipa_path: "../build/ios/outputs/fischtracker-release.ipa"
     )
