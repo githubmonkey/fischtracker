@@ -4,6 +4,7 @@ import 'package:fischtracker/src/common_widgets/date_time_picker.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
 import 'package:fischtracker/src/utils/format.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class EntryScreen extends ConsumerStatefulWidget {
 class _EntryPageState extends ConsumerState<EntryScreen> {
   late DateTime _startDate;
   late TimeOfDay _startTime;
+  late bool _isOngoing;
   late DateTime _endDate;
   late TimeOfDay _endTime;
   late String _comment;
@@ -41,6 +43,8 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     _startDate = DateTime(start.year, start.month, start.day);
     _startTime = TimeOfDay.fromDateTime(start);
 
+    _isOngoing = (widget.entry?.start == null || widget.entry?.end == null);
+
     final end = widget.entry?.end ?? DateTime.now();
     _endDate = DateTime(end.year, end.month, end.day);
     _endTime = TimeOfDay.fromDateTime(end);
@@ -54,7 +58,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
               entryId: widget.entryId,
               jobId: widget.jobId,
               start: start,
-              end: end,
+              end: _isOngoing ? null : end,
               comment: _comment,
             );
     if (success && mounted) {
@@ -89,6 +93,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildStartDate(),
+              _buildIsOngoing(),
               _buildEndDate(),
               const SizedBox(height: 8.0),
               _buildDuration(),
@@ -111,13 +116,24 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     );
   }
 
+  Widget _buildIsOngoing() {
+    return SwitchListTile(
+      title: Text("Still Ongoing...".hardcoded,
+          style: Theme.of(context).textTheme.titleLarge),
+      value: _isOngoing,
+      onChanged: (value) => setState(() => _isOngoing = value),
+    );
+  }
+
   Widget _buildEndDate() {
     return DateTimePicker(
       labelText: 'End',
       selectedDate: _endDate,
       selectedTime: _endTime,
-      onSelectedDate: (date) => setState(() => _endDate = date),
-      onSelectedTime: (time) => setState(() => _endTime = time),
+      onSelectedDate:
+          _isOngoing ? null : (date) => setState(() => _endDate = date),
+      onSelectedTime:
+          _isOngoing ? null : (time) => setState(() => _endTime = time),
     );
   }
 

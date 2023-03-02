@@ -16,22 +16,23 @@ class InputDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool enabled = onPressed != null;
+    final color = valueStyle.color!.withOpacity(enabled ? 1.0 : 0.3);
+
     return InkWell(
       onTap: onPressed,
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: labelText,
+          enabled: enabled,
+          fillColor: enabled ? null : Colors.white70,
         ),
-        baseStyle: valueStyle,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(valueText, style: valueStyle),
-            Icon(Icons.arrow_drop_down,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.grey.shade700
-                    : Colors.white70),
+          Text(valueText, style: valueStyle.copyWith(color: color)),
+          Icon(Icons.arrow_drop_down, color: color),
           ],
         ),
       ),

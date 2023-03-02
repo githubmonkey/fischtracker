@@ -18,13 +18,13 @@ class EntriesRepository {
     required UserID uid,
     required JobID jobId,
     required DateTime start,
-    required DateTime end,
+    required DateTime? end,
     required String comment,
   }) =>
       _firestore.collection(entriesPath(uid)).add({
         'jobId': jobId,
         'start': start.millisecondsSinceEpoch,
-        'end': end.millisecondsSinceEpoch,
+        'end': end?.millisecondsSinceEpoch,
         'comment': comment,
       });
 

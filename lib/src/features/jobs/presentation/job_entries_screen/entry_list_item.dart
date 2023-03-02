@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:fischtracker/src/utils/format.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
+import 'package:fischtracker/src/utils/format.dart';
+import 'package:flutter/material.dart';
 
 class EntryListItem extends StatelessWidget {
   const EntryListItem({
@@ -37,7 +38,9 @@ class EntryListItem extends StatelessWidget {
     final dayOfWeek = Format.dayOfWeek(entry.start);
     final startDate = Format.date(entry.start);
     final startTime = TimeOfDay.fromDateTime(entry.start).format(context);
-    final endTime = TimeOfDay.fromDateTime(entry.end).format(context);
+    final endTime = entry.end == null
+        ? 'ongoing'.hardcoded
+        : TimeOfDay.fromDateTime(entry.end!).format(context);
     final durationFormatted = Format.hours(entry.durationInHours);
 
     final pay = job.ratePerHour * entry.durationInHours;

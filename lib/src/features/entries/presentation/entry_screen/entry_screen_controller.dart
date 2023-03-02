@@ -16,7 +16,7 @@ class EntryScreenController extends AutoDisposeAsyncNotifier<void> {
     EntryID? entryId,
     required JobID jobId,
     required DateTime start,
-    required DateTime end,
+    required DateTime? end,
     required String comment,
   }) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
