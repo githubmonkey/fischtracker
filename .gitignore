@@ -46,6 +46,10 @@ unlinked.ds
 unlinked_spec.ds
 .flutter-plugins-dependencies
 
+**/assets/extras/
+**/screenshots/
+**/test/failures
+
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
@@ -54,8 +58,10 @@ unlinked_spec.ds
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
+
 **/android/key.properties
 *.jks
+**/android/keys/
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -103,3 +109,13 @@ android/app/google-services.json
 
 # Firebase hosting
 .firebase/
+
+# fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+**/fastlane/readme.md
+
+# gemfile
+**/.gems
