@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/custom_text_button.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/primary_button.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/responsive_scrollable_card.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_form_type.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_validators.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/string_validators.dart';
-import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:fischtracker/src/common_widgets/custom_text_button.dart';
+import 'package:fischtracker/src/common_widgets/primary_button.dart';
+import 'package:fischtracker/src/common_widgets/responsive_scrollable_card.dart';
+import 'package:fischtracker/src/constants/app_sizes.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/email_password_sign_in_controller.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/email_password_sign_in_form_type.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/email_password_sign_in_validators.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/string_validators.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
+import 'package:fischtracker/src/utils/async_value_ui.dart';
 
 /// Email & password sign in screen.
 /// Wraps the [EmailPasswordSignInContents] widget below with a [Scaffold] and

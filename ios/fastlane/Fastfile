@@ -1,0 +1,51 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build release version and store it in build/ios/outputs; use adhoc profile for firebase"
+  lane :build_adhoc do
+    # build_ios_app is a built-in fastlane action.
+    build_ios_app(
+      configuration: "Release",
+      export_method: 'ad-hoc',
+      output_directory: "../build/ios/outputs",
+      output_name: "fischtracker-release.ipa"
+    )
+  end
+
+  desc "Distribute previously built to firebase, upload crashlytics symbols at the same time"
+  lane :distribute_to_firebase do
+    firebase_app_distribution(
+      firebase_cli_token: ENV['FIREBASE_TOKEN'],
+      app: "1:468951951198:ios:44b8508d6a6dde0a2411cf",
+      groups: "Clients",
+      release_notes: "Automatic demo release",
+      ipa_path: "../build/ios/outputs/fischtracker-release.ipa"
+    )
+
+    upload_symbols_to_crashlytics(
+      app_id: "1:468951951198:ios:44b8508d6a6dde0a2411cf",
+      dsym_path: "../build/ios/outputs/fischtracker-release.app.dSYM.zip"
+    )
+  end
+
+  desc "Build and distribute all"
+  lane :build_and_distribute do
+    build_adhoc
+    distribute_to_firebase
+  end
+end

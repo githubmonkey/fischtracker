@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
+import 'package:fischtracker/src/routing/app_router.dart';
 
 // This is a temporary implementation
 // TODO: Implement a better solution once this PR is merged:

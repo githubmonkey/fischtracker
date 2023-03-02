@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/data/onboarding_repository.dart';
+import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
 
 class OnboardingController extends AutoDisposeAsyncNotifier<void> {
   @override

@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/primary_button.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/keys.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/sign_in/sign_in_screen_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:fischtracker/src/common_widgets/primary_button.dart';
+import 'package:fischtracker/src/constants/keys.dart';
+import 'package:fischtracker/src/constants/strings.dart';
+import 'package:fischtracker/src/features/authentication/presentation/sign_in/sign_in_screen_controller.dart';
+import 'package:fischtracker/src/routing/app_router.dart';
+import 'package:fischtracker/src/utils/async_value_ui.dart';
 
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});

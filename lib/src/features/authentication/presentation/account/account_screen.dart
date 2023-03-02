@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/action_text_button.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/avatar.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/account/account_screen_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/alert_dialogs.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:fischtracker/src/common_widgets/action_text_button.dart';
+import 'package:fischtracker/src/common_widgets/avatar.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/authentication/presentation/account/account_screen_controller.dart';
+import 'package:fischtracker/src/localization/string_hardcoded.dart';
+import 'package:fischtracker/src/utils/alert_dialogs.dart';
+import 'package:fischtracker/src/utils/async_value_ui.dart';
 
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({super.key});

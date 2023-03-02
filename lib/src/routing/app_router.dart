@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/account/account_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_form_type.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/sign_in/sign_in_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/presentation/entries_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/presentation/entry_screen/entry_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/authentication/presentation/account/account_screen.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/email_password_sign_in_form_type.dart';
+import 'package:fischtracker/src/features/authentication/presentation/email_password/email_password_sign_in_screen.dart';
+import 'package:fischtracker/src/features/authentication/presentation/sign_in/sign_in_screen.dart';
+import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
+import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/data/onboarding_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/go_router_refresh_stream.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/scaffold_with_bottom_nav_bar.dart';
+import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
+import 'package:fischtracker/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
+import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
+import 'package:fischtracker/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:fischtracker/src/routing/go_router_refresh_stream.dart';
+import 'package:fischtracker/src/routing/scaffold_with_bottom_nav_bar.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
