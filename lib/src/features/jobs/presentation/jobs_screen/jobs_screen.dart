@@ -1,13 +1,13 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fischtracker/src/constants/strings.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/jobs_screen/jobs_screen_controller.dart';
 import 'package:fischtracker/src/routing/app_router.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class JobsScreen extends StatelessWidget {
   const JobsScreen({super.key});
@@ -19,7 +19,7 @@ class JobsScreen extends StatelessWidget {
         title: const Text(Strings.jobs),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
+            icon: const Icon(Icons.add),
             onPressed: () => context.goNamed(AppRoute.addJob.name),
           ),
         ],

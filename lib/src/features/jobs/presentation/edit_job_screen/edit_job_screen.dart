@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen_controller.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EditJobScreen extends ConsumerStatefulWidget {
   const EditJobScreen({super.key, this.jobId, this.job});
+
   final JobID? jobId;
   final Job? job;
 
@@ -68,9 +69,9 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
         actions: <Widget>[
           TextButton(
             onPressed: state.isLoading ? null : _submit,
-            child: const Text(
+            child: Text(
               'Save',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
         ],

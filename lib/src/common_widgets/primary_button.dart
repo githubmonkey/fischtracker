@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fischtracker/src/constants/app_sizes.dart';
+import 'package:flutter/material.dart';
 
 /// Primary button based on [ElevatedButton].
 /// Useful for CTAs in the app.
@@ -10,9 +10,11 @@ import 'package:fischtracker/src/constants/app_sizes.dart';
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton(
       {super.key, required this.text, this.isLoading = false, this.onPressed});
+
   final String text;
   final bool isLoading;
   final VoidCallback? onPressed;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,10 +26,7 @@ class PrimaryButton extends StatelessWidget {
             : Text(
                 text,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
       ),
     );

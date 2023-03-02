@@ -16,11 +16,17 @@ Future<bool?> showAlertDialog({
         actions: <Widget>[
           if (cancelActionText != null)
             TextButton(
-              child: Text(cancelActionText),
+              child: Text(
+                cancelActionText,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               onPressed: () => Navigator.of(context).pop(false),
             ),
           TextButton(
-            child: Text(defaultActionText),
+            child: Text(
+              defaultActionText,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ],

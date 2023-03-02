@@ -1,17 +1,18 @@
 import 'dart:async';
 
+import 'package:fischtracker/src/common_widgets/date_time_picker.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/utils/async_value_ui.dart';
+import 'package:fischtracker/src/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:fischtracker/src/common_widgets/date_time_picker.dart';
-import 'package:fischtracker/src/features/entries/domain/entry.dart';
-import 'package:fischtracker/src/features/jobs/domain/job.dart';
-import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
-import 'package:fischtracker/src/utils/async_value_ui.dart';
-import 'package:fischtracker/src/utils/format.dart';
 
 class EntryScreen extends ConsumerStatefulWidget {
   const EntryScreen({super.key, required this.jobId, this.entryId, this.entry});
+
   final JobID jobId;
   final EntryID? entryId;
   final Entry? entry;
@@ -29,6 +30,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
 
   DateTime get start => DateTime(_startDate.year, _startDate.month,
       _startDate.day, _startTime.hour, _startTime.minute);
+
   DateTime get end => DateTime(_endDate.year, _endDate.month, _endDate.day,
       _endTime.hour, _endTime.minute);
 
@@ -73,7 +75,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
           TextButton(
             child: Text(
               widget.entry != null ? 'Update' : 'Create',
-              style: const TextStyle(fontSize: 18.0, color: Colors.white),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             onPressed: () => _setEntryAndDismiss(),
           ),
