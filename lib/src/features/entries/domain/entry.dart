@@ -41,6 +41,14 @@ class Entry extends Equatable {
     );
   }
 
+  Entry copyWith({id, jobId, start, end, comment}) => Entry(
+        id: id ?? this.id,
+        jobId: jobId ?? this.jobId,
+        start: start ?? this.start,
+        end: end ?? this.end,
+        comment: comment ?? this.comment,
+      );
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'jobId': jobId,
