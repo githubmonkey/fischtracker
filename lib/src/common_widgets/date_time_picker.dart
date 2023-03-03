@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:fischtracker/src/common_widgets/input_dropdown.dart';
 import 'package:fischtracker/src/utils/format.dart';
+import 'package:flutter/material.dart';
 
 class DateTimePicker extends StatelessWidget {
-  const DateTimePicker({
+   const DateTimePicker({
     Key? key,
     required this.labelText,
     required this.selectedDate,
@@ -21,6 +21,7 @@ class DateTimePicker extends StatelessWidget {
   final ValueChanged<TimeOfDay>? onSelectedTime;
 
   Future<void> _selectDate(BuildContext context) async {
+    if (onSelectedDate == null) return;
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -33,6 +34,7 @@ class DateTimePicker extends StatelessWidget {
   }
 
   Future<void> _selectTime(BuildContext context) async {
+    if (onSelectedTime == null) return;
     final pickedTime =
         await showTimePicker(context: context, initialTime: selectedTime);
     if (pickedTime != null && pickedTime != selectedTime) {
@@ -42,7 +44,7 @@ class DateTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = Theme.of(context).textTheme.titleLarge!;
+    final valueStyle = Theme.of(context).textTheme.bodyLarge!;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
@@ -52,7 +54,8 @@ class DateTimePicker extends StatelessWidget {
             labelText: labelText,
             valueText: Format.date(selectedDate),
             valueStyle: valueStyle,
-            onPressed: () => _selectDate(context),
+            onPressed:
+                onSelectedDate == null ? null : () => _selectDate(context),
           ),
         ),
         const SizedBox(width: 12.0),
@@ -61,7 +64,8 @@ class DateTimePicker extends StatelessWidget {
           child: InputDropdown(
             valueText: selectedTime.format(context),
             valueStyle: valueStyle,
-            onPressed: () => _selectTime(context),
+            onPressed:
+                onSelectedTime == null ? null : () => _selectTime(context),
           ),
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:fischtracker/src/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class InputDropdown extends StatelessWidget {
@@ -16,22 +17,27 @@ class InputDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool enabled = onPressed != null;
+    final valuecolor = enabled
+        ? null
+        : flexSchemeLight.onSurface.withOpacity(0.38);
+    final fillcolor =
+        enabled ? null : flexSchemeLight.onSurface.withOpacity(0.04);
+
     return InkWell(
       onTap: onPressed,
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: labelText,
+          enabled: enabled,
+          fillColor: fillcolor,
         ),
-        baseStyle: valueStyle,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(valueText, style: valueStyle),
-            Icon(Icons.arrow_drop_down,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.grey.shade700
-                    : Colors.white70),
+            Text(valueText, style: valueStyle.copyWith(color: valuecolor)),
+            Icon(Icons.arrow_drop_down, color: valuecolor),
           ],
         ),
       ),
