@@ -18,7 +18,7 @@ final _theme = FlexThemeData.light(
   appBarElevation: 10.0,
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 10,
-    //blendOnColors: false,
+    blendOnColors: false,
     //inputDecoratorIsFilled: false,
     inputDecoratorBorderType: FlexInputBorderType.underline,
   ),

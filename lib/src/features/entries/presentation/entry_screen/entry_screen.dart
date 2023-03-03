@@ -93,6 +93,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildStartDate(),
+              const SizedBox(height: 8.0),
               _buildIsOngoing(),
               _buildEndDate(),
               const SizedBox(height: 8.0),
@@ -117,11 +118,23 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   }
 
   Widget _buildIsOngoing() {
-    return SwitchListTile(
-      title: Text("Still Ongoing...".hardcoded,
-          style: Theme.of(context).textTheme.titleLarge),
-      value: _isOngoing,
-      onChanged: (value) => setState(() => _isOngoing = value),
+    final color = _isOngoing
+        ? null
+        : Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.38);
+
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Still Ongoing...".hardcoded,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color),
+        ),
+        Switch(
+          value: _isOngoing,
+          onChanged: (value) => setState(() => _isOngoing = value),
+        ),
+      ],
     );
   }
 
