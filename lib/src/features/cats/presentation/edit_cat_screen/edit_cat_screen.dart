@@ -1,39 +1,32 @@
 import 'dart:async';
 
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
-import 'package:fischtracker/src/features/jobs/domain/job.dart';
-import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen_controller.dart';
+import 'package:fischtracker/src/features/cats/presentation/edit_cat_screen/edit_cat_screen_controller.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class EditJobScreen extends ConsumerStatefulWidget {
-  const EditJobScreen({super.key, this.catId, this.jobId, this.job});
+class EditCatScreen extends ConsumerStatefulWidget {
+  const EditCatScreen({super.key, this.catId, this.cat});
 
   final CatID? catId;
-  final JobID? jobId;
-  final Job? job;
+  final Cat? cat;
 
   @override
-  ConsumerState<EditJobScreen> createState() => _EditJobPageState();
+  ConsumerState<EditCatScreen> createState() => _EditCatPageState();
 }
 
-class _EditJobPageState extends ConsumerState<EditJobScreen> {
+class _EditCatPageState extends ConsumerState<EditCatScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _catid;
   String? _name;
-  int? _ratePerHour;
 
   @override
   void initState() {
     super.initState();
-    _catid = widget.job?.catId ?? widget.catId;
-    if (widget.job != null) {
-      assert(widget.job!.catId == widget.catId);
-      _name = widget.job?.name;
-      _ratePerHour = widget.job?.ratePerHour;
+    if (widget.cat != null) {
+      _name = widget.cat?.name;
     }
   }
 
@@ -49,12 +42,10 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       final success =
-          await ref.read(editJobScreenControllerProvider.notifier).submit(
-                jobId: widget.jobId,
-                oldJob: widget.job,
-                catId: _catid ?? '',
+          await ref.read(editCatScreenControllerProvider.notifier).submit(
+                catID: widget.catId,
+                oldCat: widget.cat,
                 name: _name ?? '',
-                ratePerHour: _ratePerHour ?? 0,
               );
       if (success && mounted) {
         context.pop();
@@ -65,13 +56,13 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
-      editJobScreenControllerProvider,
+      editCatScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(editJobScreenControllerProvider);
+    final state = ref.watch(editCatScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
+        title: Text(widget.cat == null ? 'New Cat' : 'Edit Cat'),
         actions: <Widget>[
           TextButton(
             onPressed: state.isLoading ? null : _submit,
@@ -112,32 +103,13 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
 
   List<Widget> _buildFormChildren() {
     return [
-      // TODO: make this a pulldown menu
       TextFormField(
-        decoration: const InputDecoration(labelText: 'CatID'),
-        keyboardAppearance: Brightness.light,
-        initialValue: _catid,
-        validator: (value) =>
-            (value ?? '').isNotEmpty ? null : 'Not a valid category',
-        onSaved: (value) => _catid = value,
-      ),
-      TextFormField(
-        decoration: const InputDecoration(labelText: 'Job name'),
+        decoration: const InputDecoration(labelText: 'Cat name'),
         keyboardAppearance: Brightness.light,
         initialValue: _name,
         validator: (value) =>
             (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (value) => _name = value,
-      ),
-      TextFormField(
-        decoration: const InputDecoration(labelText: 'Rate per hour'),
-        keyboardAppearance: Brightness.light,
-        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
-        keyboardType: const TextInputType.numberWithOptions(
-          signed: false,
-          decimal: false,
-        ),
-        onSaved: (value) => _ratePerHour = int.tryParse(value ?? '') ?? 0,
       ),
     ];
   }

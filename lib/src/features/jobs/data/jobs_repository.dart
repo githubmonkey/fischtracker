@@ -1,27 +1,34 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:fischtracker/src/features/authentication/domain/app_user.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class JobsRepository {
   const JobsRepository(this._firestore);
+
   final FirebaseFirestore _firestore;
 
   static String jobPath(String uid, String jobId) => 'users/$uid/jobs/$jobId';
+
   static String jobsPath(String uid) => 'users/$uid/jobs';
+
   static String entriesPath(String uid) => EntriesRepository.entriesPath(uid);
 
   // create
-  Future<void> addJob(
-          {required UserID uid,
-          required String name,
-          required int ratePerHour}) =>
+  Future<void> addJob({
+    required UserID uid,
+    required CatID catId,
+    required String name,
+    required int ratePerHour,
+  }) =>
       _firestore.collection(jobsPath(uid)).add({
+        'catId': catId,
         'name': name,
         'ratePerHour': ratePerHour,
       });
@@ -62,12 +69,19 @@ class JobsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Query<Job> queryJobs({required UserID uid}) =>
-      _firestore.collection(jobsPath(uid)).withConverter(
-            fromFirestore: (snapshot, _) =>
-                Job.fromMap(snapshot.data()!, snapshot.id),
-            toFirestore: (job, _) => job.toMap(),
-          );
+  Query<Job> queryJobs({required UserID uid, CatID? catId}) {
+    Query<Job> query = _firestore.collection(jobsPath(uid)).withConverter<Job>(
+          fromFirestore: (snapshot, _) =>
+              Job.fromMap(snapshot.data()!, snapshot.id),
+          toFirestore: (job, _) => job.toMap(),
+        );
+
+    if (catId != null) {
+      query = query.where('catId', isEqualTo: catId);
+    }
+    query.where('foobar', isEqualTo: 'barfoo');
+    return query;
+  }
 
   Future<List<Job>> fetchJobs({required UserID uid}) async {
     final jobs = await queryJobs(uid: uid).get();
@@ -96,4 +110,14 @@ final jobStreamProvider =
   }
   final repository = ref.watch(jobsRepositoryProvider);
   return repository.watchJob(uid: user.uid, jobId: jobId);
+});
+
+final catJobsQueryProvider =
+    Provider.autoDispose.family<Query<Job>, CatID>((ref, catId) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null when fetching jobs');
+  }
+  final repository = ref.watch(jobsRepositoryProvider);
+  return repository.queryJobs(uid: user.uid, catId: catId);
 });
