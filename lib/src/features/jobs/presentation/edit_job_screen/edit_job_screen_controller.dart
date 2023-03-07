@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
@@ -38,12 +39,28 @@ class EditJobScreenController extends AutoDisposeAsyncNotifier<void> {
     }
     // check if name is already used
     if (allLowerCaseNames.contains(name.toLowerCase())) {
-      state = AsyncError(JobSubmitException(), StackTrace.current);
+      state = AsyncError(
+          JobSubmitException(
+            title: 'Name already used',
+            description: 'Please choose a different job name',
+          ),
+          StackTrace.current);
       return false;
     }
 
     // TODO: check if CatID matches a valid category; less critical once it
     // comes from a pulldown menu
+    final catRepo = ref.read(catsRepositoryProvider);
+    final cats = await catRepo.fetchCats(uid: currentUser.uid);
+    if (!cats.any((cat) => cat.id == catId)) {
+      state = AsyncError(
+          JobSubmitException(
+            title: 'Unknown category',
+            description: 'Please choose a different category from the list',
+          ),
+          StackTrace.current);
+      return false;
+    }
 
     // job previously existed
     if (jobId != null) {
@@ -55,7 +72,10 @@ class EditJobScreenController extends AutoDisposeAsyncNotifier<void> {
     } else {
       state = await AsyncValue.guard(
         () => repository.addJob(
-            uid: currentUser.uid, catId: catId, name: name, ratePerHour: ratePerHour),
+            uid: currentUser.uid,
+            catId: catId,
+            name: name,
+            ratePerHour: ratePerHour),
       );
     }
     return state.hasError == false;

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen_controller.dart';
@@ -110,17 +111,23 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
     );
   }
 
+  Widget _buildCatDropdown() {
+    List<Cat> cats = ref.watch(catsStreamProvider).value ?? [];
+    return DropdownButtonFormField<String>(
+      items: cats
+          .map<DropdownMenuItem<String>>((Cat cat) =>
+          DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
+          .toList(),
+      value: _catid,
+      validator: (value) =>
+      (value ?? '').isNotEmpty ? null : 'Not a valid category',
+      onChanged: (value) => _catid = value,
+    );
+  }
+
   List<Widget> _buildFormChildren() {
     return [
-      // TODO: make this a pulldown menu
-      TextFormField(
-        decoration: const InputDecoration(labelText: 'CatID'),
-        keyboardAppearance: Brightness.light,
-        initialValue: _catid,
-        validator: (value) =>
-            (value ?? '').isNotEmpty ? null : 'Not a valid category',
-        onSaved: (value) => _catid = value,
-      ),
+      _buildCatDropdown(),
       TextFormField(
         decoration: const InputDecoration(labelText: 'Job name'),
         keyboardAppearance: Brightness.light,

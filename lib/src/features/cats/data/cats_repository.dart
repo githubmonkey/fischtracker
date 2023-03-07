@@ -74,6 +74,15 @@ final catsQueryProvider = Provider<Query<Cat>>((ref) {
   return repository.queryCats(uid: user.uid);
 });
 
+final catsStreamProvider = StreamProvider<List<Cat>>((ref) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null');
+  }
+  final repository = ref.watch(catsRepositoryProvider);
+  return repository.watchCats(uid: user.uid);
+});
+
 final catStreamProvider =
     StreamProvider.autoDispose.family<Cat, CatID>((ref, catId) {
   final user = ref.watch(firebaseAuthProvider).currentUser;

@@ -1,6 +1,8 @@
 class JobSubmitException {
-  String get title => 'Name already used';
-  String get description => 'Please choose a different job name';
+  JobSubmitException({required this.title, required this.description});
+
+  String title;
+  String description;
 
   @override
   String toString() {
