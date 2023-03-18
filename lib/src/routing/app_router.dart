@@ -34,8 +34,10 @@ enum AppRoute {
   cat,
   addCat,
   editCat,
+  addJobForCat,
   jobs,
   job,
+  jobdirect,
   addJob,
   editJob,
   entry,
@@ -67,7 +69,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return '/cats';
         }
       } else {
-        if (state.subloc.startsWith('/jobs') ||
+        if (state.subloc.startsWith('/cats') ||
+            state.subloc.startsWith('/jobs') ||
             state.subloc.startsWith('/entries') ||
             state.subloc.startsWith('/account')) {
           return '/signIn';
@@ -133,10 +136,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 },
               ),
               GoRoute(
-                path: ':id',
+                path: ':cid',
                 name: AppRoute.cat.name,
                 pageBuilder: (context, state) {
-                  final id = state.params['id']!;
+                  final id = state.params['cid']!;
                   return MaterialPage(
                     key: state.pageKey,
                     child: CatJobsScreen(catId: id),
@@ -145,10 +148,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: 'jobs/add',
-                    name: AppRoute.addJob.name,
+                    name: AppRoute.addJobForCat.name,
                     parentNavigatorKey: _rootNavigatorKey,
                     pageBuilder: (context, state) {
-                      final catId = state.params['id']!;
+                      final catId = state.params['cid']!;
                       return MaterialPage(
                         key: state.pageKey,
                         fullscreenDialog: true,
@@ -156,29 +159,74 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       );
                     },
                   ),
-                  // GoRoute(
-                  //   path: 'jobs/:jid',
-                  //   name: AppRoute.job.name,
-                  //   pageBuilder: (context, state) {
-                  //     final catId = state.params['id']!;
-                  //     final jobId = state.params['jid']!;
-                  //     final job = state.extra as Job?;
-                  //     return MaterialPage(
-                  //       key: state.pageKey,
-                  //       child: const Text('not implemented'),
-                  //       // child: JobScreen(
-                  //       //   catId: catId,
-                  //       //   jobId: jobId,
-                  //       //   job: job,
-                  //       // ),
-                  //     );
-                  //   },
-                  // ),
+                  GoRoute(
+                    path: 'jobs/:jid',
+                    name: AppRoute.job.name,
+                    pageBuilder: (context, state) {
+                      final jid = state.params['jid']!;
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: JobEntriesScreen(jobId: jid),
+                      );
+                    },
+                    routes: [
+                      GoRoute(
+                        path: 'entries/add',
+                        name: AppRoute.addEntry.name,
+                        parentNavigatorKey: _rootNavigatorKey,
+                        pageBuilder: (context, state) {
+                          final jid = state.params['jid']!;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            fullscreenDialog: true,
+                            child: EntryScreen(
+                              jobId: jid,
+                            ),
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: 'entries/:eid',
+                        name: AppRoute.entry.name,
+                        pageBuilder: (context, state) {
+                          final jobId = state.params['jid']!;
+                          final entryId = state.params['eid']!;
+                          final entry = state.extra as Entry?;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            child: EntryScreen(
+                              jobId: jobId,
+                              entryId: entryId,
+                              entry: entry,
+                            ),
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: 'edit',
+                        name: AppRoute.editJob.name,
+                        pageBuilder: (context, state) {
+                          final catId = state.params['cid'];
+                          final jobId = state.params['jid'];
+                          final job = state.extra as Job?;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            fullscreenDialog: true,
+                            child: EditJobScreen(
+                              jobId: jobId,
+                              job: job,
+                              catId: catId,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                   GoRoute(
                     path: 'edit',
                     name: AppRoute.editCat.name,
                     pageBuilder: (context, state) {
-                      final catId = state.params['id'];
+                      final catId = state.params['cid'];
                       final cat = state.extra as Cat?;
                       return MaterialPage(
                         key: state.pageKey,
@@ -199,77 +247,77 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               child: const JobsScreen(),
             ),
             routes: [
-              // GoRoute(
-              //   path: 'add',
-              //   name: AppRoute.addJob.name,
-              //   parentNavigatorKey: _rootNavigatorKey,
-              //   pageBuilder: (context, state) {
-              //     return MaterialPage(
-              //       key: state.pageKey,
-              //       fullscreenDialog: true,
-              //       child: const EditJobScreen(catId: null),
-              //     );
-              //   },
-              // ),
               GoRoute(
-                path: ':id',
-                name: AppRoute.job.name,
+                path: 'add',
+                name: AppRoute.addJob.name,
+                parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
-                  final id = state.params['id']!;
                   return MaterialPage(
                     key: state.pageKey,
-                    child: JobEntriesScreen(jobId: id),
+                    fullscreenDialog: true,
+                    child: const EditJobScreen(catId: null),
                   );
                 },
-                routes: [
-                  GoRoute(
-                    path: 'entries/add',
-                    name: AppRoute.addEntry.name,
-                    parentNavigatorKey: _rootNavigatorKey,
-                    pageBuilder: (context, state) {
-                      final jobId = state.params['id']!;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        fullscreenDialog: true,
-                        child: EntryScreen(
-                          jobId: jobId,
-                        ),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'entries/:eid',
-                    name: AppRoute.entry.name,
-                    pageBuilder: (context, state) {
-                      final jobId = state.params['id']!;
-                      final entryId = state.params['eid']!;
-                      final entry = state.extra as Entry?;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        child: EntryScreen(
-                          jobId: jobId,
-                          entryId: entryId,
-                          entry: entry,
-                        ),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'edit',
-                    name: AppRoute.editJob.name,
-                    pageBuilder: (context, state) {
-                      final jobId = state.params['id'];
-                      final job = state.extra as Job?;
-                      final catId = job?.catId;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        fullscreenDialog: true,
-                        child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
-                      );
-                    },
-                  ),
-                ],
               ),
+               GoRoute(
+                path: ':jid',
+                name: AppRoute.jobdirect.name,
+                pageBuilder: (context, state) {
+                  final jid = state.params['jid']!;
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: JobEntriesScreen(jobId: jid),
+                  );
+                },
+              //   routes: [
+              //     GoRoute(
+              //       path: 'entries/add',
+              //       name: AppRoute.addEntry.name,
+              //       parentNavigatorKey: _rootNavigatorKey,
+              //       pageBuilder: (context, state) {
+              //         final jobId = state.params['id']!;
+              //         return MaterialPage(
+              //           key: state.pageKey,
+              //           fullscreenDialog: true,
+              //           child: EntryScreen(
+              //             jobId: jobId,
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //     GoRoute(
+              //       path: 'entries/:eid',
+              //       name: AppRoute.entry.name,
+              //       pageBuilder: (context, state) {
+              //         final jobId = state.params['id']!;
+              //         final entryId = state.params['eid']!;
+              //         final entry = state.extra as Entry?;
+              //         return MaterialPage(
+              //           key: state.pageKey,
+              //           child: EntryScreen(
+              //             jobId: jobId,
+              //             entryId: entryId,
+              //             entry: entry,
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //     GoRoute(
+              //       path: 'edit',
+              //       name: AppRoute.editJob.name,
+              //       pageBuilder: (context, state) {
+              //         final jobId = state.params['id'];
+              //         final job = state.extra as Job?;
+              //         final catId = job?.catId;
+              //         return MaterialPage(
+              //           key: state.pageKey,
+              //           fullscreenDialog: true,
+              //           child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
+              //         );
+              //       },
+              //     ),
+              //   ],
+               ),
             ],
           ),
           GoRoute(

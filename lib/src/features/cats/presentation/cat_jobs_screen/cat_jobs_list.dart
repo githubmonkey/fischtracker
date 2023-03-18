@@ -34,7 +34,7 @@ class CatJobsList extends ConsumerWidget {
               .deleteJob(job.id),
           onTap: () => context.goNamed(
             AppRoute.job.name,
-            params: {'id': cat.id, 'jid': job.id},
+            params: {'cid': cat.id, 'jid': job.id},
             extra: job,
           ),
         );

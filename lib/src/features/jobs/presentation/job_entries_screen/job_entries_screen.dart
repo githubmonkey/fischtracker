@@ -37,7 +37,7 @@ class JobEntriesPageContents extends StatelessWidget {
             icon: const Icon(Icons.edit),
             onPressed: () => context.goNamed(
               AppRoute.editJob.name,
-              params: {'id': job.id},
+              params: {'cid': job.catId, 'jid': job.id},
               extra: job,
             ),
           ),
@@ -48,7 +48,7 @@ class JobEntriesPageContents extends StatelessWidget {
         child: const Icon(Icons.add),
         onPressed: () => context.goNamed(
           AppRoute.addEntry.name,
-          params: {'id': job.id},
+          params: {'cid': job.catId, 'jid': job.id},
           extra: job,
         ),
       ),

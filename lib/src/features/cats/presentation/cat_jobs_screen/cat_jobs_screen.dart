@@ -37,7 +37,7 @@ class CatJobsPageContents extends StatelessWidget {
             icon: const Icon(Icons.edit),
             onPressed: () => context.goNamed(
               AppRoute.editCat.name,
-              params: {'id': cat.id},
+              params: {'cid': cat.id},
               extra: cat,
             ),
           ),
@@ -47,8 +47,8 @@ class CatJobsPageContents extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => context.goNamed(
-          AppRoute.addJob.name,
-          params: {'id': cat.id},
+          AppRoute.addJobForCat.name,
+          params: {'cid': cat.id},
           extra: cat,
         ),
       ),

@@ -46,7 +46,7 @@ class CatsScreen extends StatelessWidget {
                   cat: cat,
                   onTap: () => context.goNamed(
                     AppRoute.cat.name,
-                    params: {'id': cat.id},
+                    params: {'cid': cat.id},
                   ),
                 ),
               );

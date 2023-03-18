@@ -15,7 +15,15 @@ class JobsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(Strings.jobs)),
+      appBar: AppBar(
+        title: const Text(Strings.jobs),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => context.goNamed(AppRoute.addJob.name),
+          ),
+        ],
+      ),
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(
@@ -37,8 +45,8 @@ class JobsScreen extends StatelessWidget {
                 child: JobListTile(
                   job: job,
                   onTap: () => context.goNamed(
-                    AppRoute.job.name,
-                    params: {'id': job.id},
+                    AppRoute.jobdirect.name,
+                    params: {'jid': job.id},
                   ),
                 ),
               );

@@ -34,7 +34,7 @@ class JobEntriesList extends ConsumerWidget {
               .deleteEntry(entry.id),
           onTap: () => context.goNamed(
             AppRoute.entry.name,
-            params: {'id': job.id, 'eid': entry.id},
+            params: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
             extra: entry,
           ),
         );
