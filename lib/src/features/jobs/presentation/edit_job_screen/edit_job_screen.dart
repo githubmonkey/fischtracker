@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen_controller.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
@@ -8,8 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EditJobScreen extends ConsumerStatefulWidget {
-  const EditJobScreen({super.key, this.jobId, this.job});
+  const EditJobScreen({super.key, this.catId, this.jobId, this.job});
 
+  final CatID? catId;
   final JobID? jobId;
   final Job? job;
 
@@ -20,13 +23,16 @@ class EditJobScreen extends ConsumerStatefulWidget {
 class _EditJobPageState extends ConsumerState<EditJobScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  String? _catid;
   String? _name;
   int? _ratePerHour;
 
   @override
   void initState() {
     super.initState();
+    _catid = widget.job?.catId ?? widget.catId;
     if (widget.job != null) {
+      assert(widget.job!.catId == widget.catId);
       _name = widget.job?.name;
       _ratePerHour = widget.job?.ratePerHour;
     }
@@ -47,6 +53,7 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
           await ref.read(editJobScreenControllerProvider.notifier).submit(
                 jobId: widget.jobId,
                 oldJob: widget.job,
+                catId: _catid ?? '',
                 name: _name ?? '',
                 ratePerHour: _ratePerHour ?? 0,
               );
@@ -104,8 +111,23 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
     );
   }
 
+  Widget _buildCatDropdown() {
+    List<Cat> cats = ref.watch(catsStreamProvider).value ?? [];
+    return DropdownButtonFormField<String>(
+      items: cats
+          .map<DropdownMenuItem<String>>((Cat cat) =>
+          DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
+          .toList(),
+      value: _catid,
+      validator: (value) =>
+      (value ?? '').isNotEmpty ? null : 'Not a valid category',
+      onChanged: (value) => _catid = value,
+    );
+  }
+
   List<Widget> _buildFormChildren() {
     return [
+      _buildCatDropdown(),
       TextFormField(
         decoration: const InputDecoration(labelText: 'Job name'),
         keyboardAppearance: Brightness.light,

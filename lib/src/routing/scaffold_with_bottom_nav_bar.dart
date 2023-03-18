@@ -30,10 +30,12 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       // Note: this won't remember the previous state of the route
       // More info here:
       // https://github.com/flutter/flutter/issues/99124
-      context.goNamed(AppRoute.jobs.name);
+      context.goNamed(AppRoute.cats.name);
     } else if (index == 1) {
-      context.goNamed(AppRoute.entries.name);
+      context.goNamed(AppRoute.jobs.name);
     } else if (index == 2) {
+      context.goNamed(AppRoute.entries.name);
+    } else if (index == 3) {
       context.goNamed(AppRoute.account.name);
     }
   }
@@ -47,6 +49,10 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
         currentIndex: _selectedIndex,
         items: [
           // products
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.category),
+            label: 'Cats'.hardcoded,
+          ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.work),
             label: 'Jobs'.hardcoded,

@@ -1,14 +1,18 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('fromMap', () {
     test('job with all properties', () {
       final job = Job.fromMap(const {
+        'catId': 'cat-123',
         'name': 'Blogging',
         'ratePerHour': 10,
       }, 'abc');
-      expect(job, const Job(name: 'Blogging', ratePerHour: 10, id: 'abc'));
+      expect(
+          job,
+          const Job(
+              catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc'));
     });
 
     test('missing name', () {
@@ -18,12 +22,27 @@ void main() {
               }, 'abc'),
           throwsA(isInstanceOf<StateError>()));
     });
+
+    test('missing catid', () {
+      expect(
+          () => Job.fromMap(const {
+                'name': 'Blogging',
+                'ratePerHour': 10,
+              }, 'abc'),
+          throwsA(isInstanceOf<StateError>()));
+    });
   });
 
   group('toMap', () {
     test('valid name, ratePerHour', () {
-      const job = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
+      const job = Job(
+        catId: 'cat-123',
+        name: 'Blogging',
+        ratePerHour: 10,
+        id: 'abc',
+      );
       expect(job.toMap(), {
+        'catId': 'cat-123',
         'name': 'Blogging',
         'ratePerHour': 10,
       });
@@ -31,14 +50,24 @@ void main() {
   });
 
   group('equality', () {
-    test('different properties, equality returns false', () {
-      const job1 = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
-      const job2 = Job(name: 'Blogging', ratePerHour: 5, id: 'abc');
+    test('different catIds, equality returns false', () {
+      const job1 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
+      const job2 = Job(catId: 'cat-567', name: 'Blogging', ratePerHour: 5, id: 'abc');
+      expect(job1 == job2, false);
+    });
+    test('different names, equality returns false', () {
+      const job1 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
+      const job2 = Job(catId: 'cat-123', name: 'Research', ratePerHour: 5, id: 'abc');
+      expect(job1 == job2, false);
+    });
+    test('different rates, equality returns false', () {
+      const job1 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
+      const job2 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
       expect(job1 == job2, false);
     });
     test('same properties, equality returns true', () {
-      const job1 = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
-      const job2 = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
+      const job1 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
+      const job2 = Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
       expect(job1 == job2, true);
     });
   });

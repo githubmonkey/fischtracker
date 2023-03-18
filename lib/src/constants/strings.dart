@@ -19,6 +19,9 @@ class Strings {
   // Home page
   static const String homePage = 'Home Page';
 
+  // Cats page
+  static const String cats = 'Categories';
+
   // Jobs page
   static const String jobs = 'Jobs';
 
