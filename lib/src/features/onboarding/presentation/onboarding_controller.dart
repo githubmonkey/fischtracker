@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
 
-class OnboardingController extends AutoDisposeAsyncNotifier<void> {
+part 'onboarding_controller.g.dart';
+
+@riverpod
+class OnboardingController extends _$OnboardingController {
   @override
   FutureOr<void> build() {
     // no op
@@ -15,7 +18,3 @@ class OnboardingController extends AutoDisposeAsyncNotifier<void> {
     state = await AsyncValue.guard(onboardingRepository.setOnboardingComplete);
   }
 }
-
-final onboardingControllerProvider =
-    AutoDisposeAsyncNotifierProvider<OnboardingController, void>(
-        OnboardingController.new);

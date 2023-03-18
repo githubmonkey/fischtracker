@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:fischtracker/src/localization/string_hardcoded.dart';
-import 'package:fischtracker/src/routing/app_router.dart';
+import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
+import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 
 // This is a temporary implementation
 // TODO: Implement a better solution once this PR is merged:
@@ -36,7 +36,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
     } else if (index == 2) {
       context.goNamed(AppRoute.entries.name);
     } else if (index == 3) {
-      context.goNamed(AppRoute.account.name);
+      context.goNamed(AppRoute.profile.name);
     }
   }
 
@@ -49,10 +49,6 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
         currentIndex: _selectedIndex,
         items: [
           // products
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.category),
-            label: 'Cats'.hardcoded,
-          ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.work),
             label: 'Jobs'.hardcoded,
