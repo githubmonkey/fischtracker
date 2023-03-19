@@ -5,7 +5,9 @@ import 'package:fischtracker/src/features/authentication/data/firebase_auth_repo
 import 'package:fischtracker/src/features/authentication/domain/app_user.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'cats_repository.g.dart';
 
 class CatsRepository {
   const CatsRepository(this._firestore);
@@ -61,34 +63,37 @@ class CatsRepository {
   }
 }
 
-final catsRepositoryProvider = Provider<CatsRepository>((ref) {
+@Riverpod(keepAlive: true)
+CatsRepository catsRepository(CatsRepositoryRef ref) {
   return CatsRepository(FirebaseFirestore.instance);
-});
+}
 
-final catsQueryProvider = Provider<Query<Cat>>((ref) {
+@riverpod
+Query<Cat> catsQuery(CatsQueryRef ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
   }
   final repository = ref.watch(catsRepositoryProvider);
   return repository.queryCats(uid: user.uid);
-});
+}
 
-final catsStreamProvider = StreamProvider<List<Cat>>((ref) {
+@riverpod
+Stream<List<Cat>> catsStream(CatsStreamRef ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
   }
   final repository = ref.watch(catsRepositoryProvider);
   return repository.watchCats(uid: user.uid);
-});
+}
 
-final catStreamProvider =
-    StreamProvider.autoDispose.family<Cat, CatID>((ref, catId) {
+@riverpod
+Stream<Cat> catStream(CatStreamRef ref, {required CatID catId}) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
   }
   final repository = ref.watch(catsRepositoryProvider);
   return repository.watchCat(uid: user.uid, catId: catId);
-});
+}

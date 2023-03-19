@@ -7,7 +7,7 @@ part of 'job_entries_list_controller.dart';
 // **************************************************************************
 
 String _$jobsEntriesListControllerHash() =>
-    r'f9a08b66a0c962d210a09aebb711d38acb354b1e';
+    r'c0b0ec77a64139392be63418c3860fddc94dde65';
 
 /// See also [JobsEntriesListController].
 @ProviderFor(JobsEntriesListController)

@@ -14,7 +14,7 @@ class CatJobsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final catAsync = ref.watch(catStreamProvider(catId));
+    final catAsync = ref.watch(catStreamProvider(catId: catId));
     return ScaffoldAsyncValueWidget<Cat>(
       value: catAsync,
       data: (cat) => CatJobsPageContents(cat: cat),

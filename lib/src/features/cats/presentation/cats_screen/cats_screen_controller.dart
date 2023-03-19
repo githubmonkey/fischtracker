@@ -1,9 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class CatsScreenController extends AutoDisposeAsyncNotifier<void> {
+part 'cats_screen_controller.g.dart';
+
+@riverpod
+class CatsScreenController extends _$CatsScreenController {
   @override
   FutureOr<void> build() {
     // ok to leave this empty if the return type is FutureOr<void>
@@ -23,7 +26,3 @@ class CatsScreenController extends AutoDisposeAsyncNotifier<void> {
     //     () => repository.deleteCat(uid: currentUser.uid, catId: cat.id));
   }
 }
-
-final catsScreenControllerProvider =
-    AutoDisposeAsyncNotifierProvider<CatsScreenController, void>(
-        CatsScreenController.new);

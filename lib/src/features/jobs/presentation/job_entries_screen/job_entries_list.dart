@@ -1,7 +1,4 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
@@ -9,9 +6,13 @@ import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/e
 import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_list_controller.dart';
 import 'package:fischtracker/src/routing/app_router.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class JobEntriesList extends ConsumerWidget {
   const JobEntriesList({super.key, required this.job});
+
   final Job job;
 
   @override
@@ -20,7 +21,7 @@ class JobEntriesList extends ConsumerWidget {
       jobsEntriesListControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final jobEntriesQuery = ref.watch(jobEntriesQueryProvider(job.id));
+    final jobEntriesQuery = ref.watch(jobEntriesQueryProvider(jobId: job.id));
     return FirestoreListView<Entry>(
       query: jobEntriesQuery,
       itemBuilder: (context, doc) {
