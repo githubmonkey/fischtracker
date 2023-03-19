@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,16 +15,14 @@ class CatsScreenController extends _$CatsScreenController {
   }
 
   Future<void> deleteCat(Cat cat) async {
-    throw AssertionError('Not yet implemented');
-    //
-    // final currentUser = ref.read(authRepositoryProvider).currentUser;
-    // if (currentUser == null) {
-    //   throw AssertionError('User can\'t be null');
-    // }
-    //
-    // final repository = ref.read(catsRepositoryProvider);
-    // state = const AsyncLoading();
-    // state = await AsyncValue.guard(
-    //     () => repository.deleteCat(uid: currentUser.uid, catId: cat.id));
+    final currentUser = ref.read(authRepositoryProvider).currentUser;
+    if (currentUser == null) {
+      throw AssertionError('User can\'t be null');
+    }
+    final repository = ref.read(catsRepositoryProvider);
+    // TODO: check that the cat is empty
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+        () => repository.deleteCat(uid: currentUser.uid, catId: cat.id));
   }
 }

@@ -20,6 +20,7 @@ class JobsScreenController extends _$JobsScreenController {
       throw AssertionError('User can\'t be null');
     }
     final repository = ref.read(jobsRepositoryProvider);
+    // TODO: check that the job is empty
     state = const AsyncLoading();
     state = await AsyncValue.guard(
         () => repository.deleteJob(uid: currentUser.uid, jobId: job.id));
