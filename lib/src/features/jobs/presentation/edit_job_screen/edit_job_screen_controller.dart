@@ -1,10 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/jobs_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/edit_job_screen/job_submit_exception.dart';
+import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/job_submit_exception.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'edit_job_screen_controller.g.dart';
 
@@ -80,4 +82,9 @@ class EditJobScreenController extends _$EditJobScreenController {
     }
     return state.hasError == false;
   }
+}
+
+@riverpod
+int count(CountRef ref) {
+  return 0;
 }

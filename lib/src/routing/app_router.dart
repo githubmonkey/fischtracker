@@ -1,22 +1,26 @@
+import 'package:fischtracker/src/features/authentication/presentation/custom_profile_screen.dart';
+import 'package:fischtracker/src/features/authentication/presentation/custom_sign_in_screen.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:fischtracker/src/features/cats/presentation/cat_jobs_screen/cat_jobs_screen.dart';
+import 'package:fischtracker/src/features/cats/presentation/cats_screen/cats_screen.dart';
+import 'package:fischtracker/src/features/cats/presentation/edit_cat_screen/edit_cat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/account/account_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_form_type.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/email_password/email_password_sign_in_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/presentation/sign_in/sign_in_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/presentation/entries_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/presentation/entry_screen/entry_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
+import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/data/onboarding_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_screen.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/go_router_refresh_stream.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/scaffold_with_bottom_nav_bar.dart';
+import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
+import 'package:fischtracker/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
+import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
+import 'package:fischtracker/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:fischtracker/src/routing/go_router_refresh_stream.dart';
+import 'package:fischtracker/src/routing/scaffold_with_bottom_nav_bar.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'app_router.g.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -63,10 +67,11 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {
         if (state.subloc.startsWith('/signIn')) {
-          return '/jobs';
+          return '/cats';
         }
       } else {
-        if (state.subloc.startsWith('/jobs') ||
+        if (state.subloc.startsWith('/cats') ||
+            state.subloc.startsWith('/jobs') ||
             state.subloc.startsWith('/entries') ||
             state.subloc.startsWith('/account')) {
           return '/signIn';
@@ -89,7 +94,7 @@ GoRouter goRouter(GoRouterRef ref) {
         name: AppRoute.signIn.name,
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
-          child: const SignInScreen(),
+          child: const CustomSignInScreen(),
         ),
       ),
       ShellRoute(
@@ -99,78 +104,122 @@ GoRouter goRouter(GoRouterRef ref) {
         },
         routes: [
           GoRoute(
-            path: '/jobs',
-            name: AppRoute.jobs.name,
+            path: '/cats',
+            name: AppRoute.cats.name,
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const JobsScreen(),
+              child: const CatsScreen(),
             ),
             routes: [
               GoRoute(
                 path: 'add',
-                name: AppRoute.addJob.name,
+                name: AppRoute.addCat.name,
                 parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
                   return MaterialPage(
                     key: state.pageKey,
                     fullscreenDialog: true,
-                    child: const EditJobScreen(),
+                    child: const EditCatScreen(),
                   );
                 },
               ),
               GoRoute(
-                path: ':id',
-                name: AppRoute.job.name,
+                path: ':cid',
+                name: AppRoute.cat.name,
                 pageBuilder: (context, state) {
-                  final id = state.params['id']!;
+                  final id = state.params['cid']!;
                   return MaterialPage(
                     key: state.pageKey,
-                    child: JobEntriesScreen(jobId: id),
+                    child: CatJobsScreen(catId: id),
                   );
                 },
                 routes: [
                   GoRoute(
-                    path: 'entries/add',
-                    name: AppRoute.addEntry.name,
+                    path: 'jobs/add',
+                    name: AppRoute.addJobForCat.name,
                     parentNavigatorKey: _rootNavigatorKey,
                     pageBuilder: (context, state) {
-                      final jobId = state.params['id']!;
+                      final catId = state.params['cid']!;
                       return MaterialPage(
                         key: state.pageKey,
                         fullscreenDialog: true,
-                        child: EntryScreen(
-                          jobId: jobId,
-                        ),
+                        child: EditJobScreen(catId: catId),
                       );
                     },
                   ),
                   GoRoute(
-                    path: 'entries/:eid',
-                    name: AppRoute.entry.name,
+                    path: 'jobs/:jid',
+                    name: AppRoute.job.name,
                     pageBuilder: (context, state) {
-                      final jobId = state.params['id']!;
-                      final entryId = state.params['eid']!;
-                      final entry = state.extra as Entry?;
+                      final jid = state.params['jid']!;
                       return MaterialPage(
                         key: state.pageKey,
-                        child: EntryScreen(
-                          jobId: jobId,
-                          entryId: entryId,
-                          entry: entry,
-                        ),
+                        child: JobEntriesScreen(jobId: jid),
                       );
                     },
+                    routes: [
+                      GoRoute(
+                        path: 'entries/add',
+                        name: AppRoute.addEntry.name,
+                        parentNavigatorKey: _rootNavigatorKey,
+                        pageBuilder: (context, state) {
+                          final jid = state.params['jid']!;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            fullscreenDialog: true,
+                            child: EntryScreen(
+                              jobId: jid,
+                            ),
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: 'entries/:eid',
+                        name: AppRoute.entry.name,
+                        pageBuilder: (context, state) {
+                          final jobId = state.params['jid']!;
+                          final entryId = state.params['eid']!;
+                          final entry = state.extra as Entry?;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            child: EntryScreen(
+                              jobId: jobId,
+                              entryId: entryId,
+                              entry: entry,
+                            ),
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: 'edit',
+                        name: AppRoute.editJob.name,
+                        pageBuilder: (context, state) {
+                          final catId = state.params['cid'];
+                          final jobId = state.params['jid'];
+                          final job = state.extra as Job?;
+                          return MaterialPage(
+                            key: state.pageKey,
+                            fullscreenDialog: true,
+                            child: EditJobScreen(
+                              jobId: jobId,
+                              job: job,
+                              catId: catId,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   GoRoute(
                     path: 'edit',
-                    name: AppRoute.editJob.name,
+                    name: AppRoute.editCat.name,
                     pageBuilder: (context, state) {
-                      final jobId = state.params['id'];
-                      final job = state.extra as Job?;
+                      final catId = state.params['cid'];
+                      final cat = state.extra as Cat?;
                       return MaterialPage(
                         key: state.pageKey,
                         fullscreenDialog: true,
-                        child: EditJobScreen(jobId: jobId, job: job),
+                        child: EditCatScreen(catId: catId, cat: cat),
                       );
                     },
                   ),

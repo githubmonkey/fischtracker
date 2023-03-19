@@ -32,7 +32,7 @@ void main() {
                 'name': 'Blogging',
                 'ratePerHour': 10,
               }, 'abc'),
-          throwsA(isInstanceOf<StateError>()));
+          throwsA(isInstanceOf<TypeError>()));
     });
   });
 

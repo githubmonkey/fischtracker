@@ -10,7 +10,7 @@ void main() {
 
     test('missing name', () {
       expect(() => Cat.fromMap(const {}, 'id_abc'),
-          throwsA(isInstanceOf<StateError>()));
+          throwsA(isInstanceOf<TypeError>()));
     });
   });
 

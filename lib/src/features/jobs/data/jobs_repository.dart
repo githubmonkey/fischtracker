@@ -1,28 +1,34 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/domain/app_user.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/data/entries_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:fischtracker/src/features/authentication/domain/app_user.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'jobs_repository.g.dart';
 
 class JobsRepository {
   const JobsRepository(this._firestore);
+
   final FirebaseFirestore _firestore;
 
   static String jobPath(String uid, String jobId) => 'users/$uid/jobs/$jobId';
+
   static String jobsPath(String uid) => 'users/$uid/jobs';
+
   static String entriesPath(String uid) => EntriesRepository.entriesPath(uid);
 
   // create
-  Future<void> addJob(
-          {required UserID uid,
-          required String name,
-          required int ratePerHour}) =>
+  Future<void> addJob({
+    required UserID uid,
+    required String catId,
+    required String name,
+    required int ratePerHour,
+  }) =>
       _firestore.collection(jobsPath(uid)).add({
         'catId': catId,
         'name': name,
