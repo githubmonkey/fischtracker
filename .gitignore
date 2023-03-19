@@ -119,3 +119,6 @@ android/app/google-services.json
 
 # gemfile
 **/.gems
+
+# riverpod code generator
+**/*.g.dart
