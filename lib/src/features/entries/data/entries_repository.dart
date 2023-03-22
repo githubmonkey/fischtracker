@@ -17,22 +17,58 @@ class EntriesRepository {
 
   static String entriesPath(String uid) => 'users/$uid/entries';
 
+  static String jobPath(String uid, String jobId) => 'users/$uid/jobs/$jobId';
+
   // create
+  // Add a new entry and update the matching job object
   Future<void> addEntry({
     required UserID uid,
     required JobID jobId,
     required DateTime start,
     required DateTime? end,
     required String comment,
-  }) =>
-      _firestore.collection(entriesPath(uid)).add({
-        'jobId': jobId,
-        'start': start.millisecondsSinceEpoch,
-        'end': end?.millisecondsSinceEpoch,
-        'comment': comment,
-      });
+  }) {
+    final batch = _firestore.batch();
+
+    final entryref = _firestore.collection(entriesPath(uid)).doc();
+    final jobref = _firestore.doc(jobPath(uid, jobId));
+
+    batch.set(entryref, {
+      'id': entryref.id,
+      'jobId': jobId,
+      'start': start.millisecondsSinceEpoch,
+      'end': end?.millisecondsSinceEpoch,
+      'comment': comment,
+    });
+
+    batch.update(jobref, {
+      'lastEntryId': entryref.id,
+      'lastEntryStart': start.millisecondsSinceEpoch,
+      'lastEntryEnd': end?.millisecondsSinceEpoch,
+      'lastEntryComment': comment,
+    });
+
+    return batch.commit();
+  }
 
   // update
+  // This one also updates lastentry in the matching job object
+  Future<void> updateLastEntry({required UserID uid, required Entry entry}) {
+    final batch = _firestore.batch();
+    final entryref = _firestore.doc(entryPath(uid, entry.id));
+    final jobref = _firestore.doc(jobPath(uid, entry.jobId));
+
+    batch.update(entryref, entry.toMap());
+    batch.update(jobref, {
+      'lastEntryId': entry.id,
+      'lastEntryStart': entry.start.millisecondsSinceEpoch,
+      'lastEntryEnd': entry.end?.millisecondsSinceEpoch,
+      'lastEntryComment': entry.comment,
+    });
+
+    return batch.commit();
+  }
+
   Future<void> updateEntry({
     required UserID uid,
     required Entry entry,
@@ -60,6 +96,19 @@ class EntriesRepository {
       query = query.where('jobId', isEqualTo: jobId);
     }
     return query;
+  }
+
+  Future<List<Entry>> fetchOpenEntries({required UserID uid}) async {
+    Query<Entry> query = _firestore
+        .collection(entriesPath(uid))
+        .withConverter<Entry>(
+            fromFirestore: (snapshot, _) =>
+                Entry.fromMap(snapshot.data()!, snapshot.id),
+            toFirestore: (entry, _) => entry.toMap())
+        .where('end', isNull: true);
+
+    final entries = await query.get();
+    return entries.docs.map((doc) => doc.data()).toList();
   }
 }
 
