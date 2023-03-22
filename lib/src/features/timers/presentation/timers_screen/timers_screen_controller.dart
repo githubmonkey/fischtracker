@@ -15,6 +15,7 @@ class TimersScreenController extends _$TimersScreenController {
     // ok to leave this empty if the return type is FutureOr<void>
   }
 
+  // first check if any open entries have to be closed, then open as requested
   Future<void> openEntry(JobID jobid) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
@@ -24,13 +25,21 @@ class TimersScreenController extends _$TimersScreenController {
 
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() => repository.addEntry(
-          uid: currentUser.uid,
-          jobId: jobid,
-          start: DateTime.now(),
-          end: null,
-          comment: "",
-        ));
+    state = await AsyncValue.guard(() async {
+      final entries = await repository.fetchOpenEntries(uid: currentUser.uid);
+      for (var e in entries) {
+        await repository.updateLastEntry(
+            uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
+      }
+
+      return repository.addEntry(
+        uid: currentUser.uid,
+        jobId: jobid,
+        start: DateTime.now(),
+        end: null,
+        comment: "",
+      );
+    });
   }
 
   Future<void> closeEntries() async {

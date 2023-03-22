@@ -1,11 +1,13 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/timers/presentation/timers_screen/timers_screen_controller.dart';
 import 'package:fischtracker/src/localization/string_hardcoded.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
+import 'package:fischtracker/src/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -68,18 +70,42 @@ class CatJobsCard extends StatelessWidget {
   }
 }
 
-class JobListTile extends ConsumerWidget {
+class JobListTile extends StatelessWidget {
   const JobListTile({Key? key, required this.job, this.onTap})
       : super(key: key);
   final Job job;
   final VoidCallback? onTap;
 
+  String getLastEntryDetails(BuildContext context, Entry entry) {
+    final startDate = Format.date(entry.start);
+    final startTime = TimeOfDay.fromDateTime(entry.start).format(context);
+    final endTime = entry.end == null
+        ? 'ongoing'.hardcoded
+        : TimeOfDay.fromDateTime(entry.end!).format(context);
+    return '$startDate $startTime - $endTime';
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(job.name),
-      trailing: StartStopButton(job: job),
-      onTap: onTap,
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: onTap,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(job.name, style: Theme.of(context).textTheme.titleMedium),
+                if (job.lastEntry != null )
+                Text(getLastEntryDetails(context, job.lastEntry!),
+                    style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
+          ),
+        ),
+        StartStopButton(job: job),
+      ],
     );
   }
 }
@@ -99,10 +125,8 @@ class StartStopButton extends ConsumerWidget {
       );
     } else {
       return ElevatedButton(
-        onPressed: (() {
-          ref.read(timersScreenControllerProvider.notifier).closeEntries();
-          ref.read(timersScreenControllerProvider.notifier).openEntry(job.id);
-        }),
+        onPressed: () =>
+            ref.read(timersScreenControllerProvider.notifier).openEntry(job.id),
         child: const Text('start'),
       );
     }
