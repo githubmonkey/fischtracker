@@ -1,23 +1,24 @@
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:fischtracker/src/features/authentication/presentation/custom_profile_screen.dart';
 import 'package:fischtracker/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/cats/presentation/cat_jobs_screen/cat_jobs_screen.dart';
 import 'package:fischtracker/src/features/cats/presentation/cats_screen/cats_screen.dart';
 import 'package:fischtracker/src/features/cats/presentation/edit_cat_screen/edit_cat_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
-import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
 import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
-import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
+import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
 import 'package:fischtracker/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
 import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
 import 'package:fischtracker/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:fischtracker/src/features/timers/presentation/timers_screen/timers_screen.dart';
 import 'package:fischtracker/src/routing/go_router_refresh_stream.dart';
 import 'package:fischtracker/src/routing/scaffold_with_bottom_nav_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -29,12 +30,13 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 enum AppRoute {
   onboarding,
   signIn,
-  jobs,
+  timers,
   cats,
   cat,
   addCat,
   editCat,
   addJobForCat,
+  jobs,
   job,
   jobdirect,
   addJob,
@@ -67,10 +69,11 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {
         if (state.subloc.startsWith('/signIn')) {
-          return '/cats';
+          return '/timers';
         }
       } else {
-        if (state.subloc.startsWith('/cats') ||
+        if (state.subloc.startsWith('/timers') ||
+            state.subloc.startsWith('/cats') ||
             state.subloc.startsWith('/jobs') ||
             state.subloc.startsWith('/entries') ||
             state.subloc.startsWith('/account')) {
@@ -103,6 +106,14 @@ GoRouter goRouter(GoRouterRef ref) {
           return ScaffoldWithBottomNavBar(child: child);
         },
         routes: [
+          GoRoute(
+            path: '/timers',
+            name: AppRoute.timers.name,
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const TimersScreen(),
+            ),
+          ),
           GoRoute(
             path: '/cats',
             name: AppRoute.cats.name,
@@ -247,7 +258,7 @@ GoRouter goRouter(GoRouterRef ref) {
                   );
                 },
               ),
-               GoRoute(
+              GoRoute(
                 path: ':jid',
                 name: AppRoute.jobdirect.name,
                 pageBuilder: (context, state) {
@@ -257,55 +268,55 @@ GoRouter goRouter(GoRouterRef ref) {
                     child: JobEntriesScreen(jobId: jid),
                   );
                 },
-              //   routes: [
-              //     GoRoute(
-              //       path: 'entries/add',
-              //       name: AppRoute.addEntry.name,
-              //       parentNavigatorKey: _rootNavigatorKey,
-              //       pageBuilder: (context, state) {
-              //         final jobId = state.params['id']!;
-              //         return MaterialPage(
-              //           key: state.pageKey,
-              //           fullscreenDialog: true,
-              //           child: EntryScreen(
-              //             jobId: jobId,
-              //           ),
-              //         );
-              //       },
-              //     ),
-              //     GoRoute(
-              //       path: 'entries/:eid',
-              //       name: AppRoute.entry.name,
-              //       pageBuilder: (context, state) {
-              //         final jobId = state.params['id']!;
-              //         final entryId = state.params['eid']!;
-              //         final entry = state.extra as Entry?;
-              //         return MaterialPage(
-              //           key: state.pageKey,
-              //           child: EntryScreen(
-              //             jobId: jobId,
-              //             entryId: entryId,
-              //             entry: entry,
-              //           ),
-              //         );
-              //       },
-              //     ),
-              //     GoRoute(
-              //       path: 'edit',
-              //       name: AppRoute.editJob.name,
-              //       pageBuilder: (context, state) {
-              //         final jobId = state.params['id'];
-              //         final job = state.extra as Job?;
-              //         final catId = job?.catId;
-              //         return MaterialPage(
-              //           key: state.pageKey,
-              //           fullscreenDialog: true,
-              //           child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
-              //         );
-              //       },
-              //     ),
-              //   ],
-               ),
+                //   routes: [
+                //     GoRoute(
+                //       path: 'entries/add',
+                //       name: AppRoute.addEntry.name,
+                //       parentNavigatorKey: _rootNavigatorKey,
+                //       pageBuilder: (context, state) {
+                //         final jobId = state.params['id']!;
+                //         return MaterialPage(
+                //           key: state.pageKey,
+                //           fullscreenDialog: true,
+                //           child: EntryScreen(
+                //             jobId: jobId,
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //     GoRoute(
+                //       path: 'entries/:eid',
+                //       name: AppRoute.entry.name,
+                //       pageBuilder: (context, state) {
+                //         final jobId = state.params['id']!;
+                //         final entryId = state.params['eid']!;
+                //         final entry = state.extra as Entry?;
+                //         return MaterialPage(
+                //           key: state.pageKey,
+                //           child: EntryScreen(
+                //             jobId: jobId,
+                //             entryId: entryId,
+                //             entry: entry,
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //     GoRoute(
+                //       path: 'edit',
+                //       name: AppRoute.editJob.name,
+                //       pageBuilder: (context, state) {
+                //         final jobId = state.params['id'];
+                //         final job = state.extra as Job?;
+                //         final catId = job?.catId;
+                //         return MaterialPage(
+                //           key: state.pageKey,
+                //           fullscreenDialog: true,
+                //           child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
+                //         );
+                //       },
+                //     ),
+                //   ],
+              ),
             ],
           ),
           GoRoute(
