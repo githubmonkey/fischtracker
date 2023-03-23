@@ -11,16 +11,14 @@ final darkTheme = Provider((ref) => _darkTheme);
 // you use a lower version, some properties may not be supported. In
 // that case you can also remove them after copying the theme to your app.
 final _theme = FlexThemeData.light(
-  scheme: FlexScheme.amber,
+  scheme: FlexScheme.mango,
   surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
   blendLevel: 9,
-  appBarStyle: FlexAppBarStyle.material,
-  appBarElevation: 10.0,
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 10,
     blendOnColors: false,
     //inputDecoratorIsFilled: false,
-    inputDecoratorBorderType: FlexInputBorderType.underline,
+    //inputDecoratorBorderType: FlexInputBorderType.underline,
   ),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
@@ -35,7 +33,7 @@ final _darkTheme = FlexThemeData.dark(
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 20,
     //inputDecoratorIsFilled: false,
-    inputDecoratorBorderType: FlexInputBorderType.underline,
+    //inputDecoratorBorderType: FlexInputBorderType.underline,
   ),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
