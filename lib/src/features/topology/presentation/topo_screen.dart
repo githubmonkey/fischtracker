@@ -63,7 +63,10 @@ class CatListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      elevation: 0.5,
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.zero),
+      ),
       child: Column(
         children: [
           Dismissible(
