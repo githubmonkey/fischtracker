@@ -33,13 +33,13 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       context.goNamed(AppRoute.timers.name);
     } else if (index == 1) {
       context.goNamed(AppRoute.topo.name);
+    // } else if (index == 2) {
+    //   context.goNamed(AppRoute.cats.name);
+    // } else if (index == 3) {
+    //   context.goNamed(AppRoute.jobs.name);
     } else if (index == 2) {
-      context.goNamed(AppRoute.cats.name);
-    } else if (index == 3) {
-      context.goNamed(AppRoute.jobs.name);
-    } else if (index == 4) {
       context.goNamed(AppRoute.entries.name);
-    } else if (index == 5) {
+    } else if (index == 3) {
       context.goNamed(AppRoute.profile.name);
     }
   }
@@ -61,14 +61,14 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
             icon: const Icon(Icons.account_tree),
             label: 'Topology'.hardcoded,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.category),
-            label: 'Cats'.hardcoded,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.work),
-            label: 'Jobs'.hardcoded,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: const Icon(Icons.category),
+          //   label: 'Cats'.hardcoded,
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: const Icon(Icons.work),
+          //   label: 'Jobs'.hardcoded,
+          // ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.view_headline),
             label: 'Entries'.hardcoded,
