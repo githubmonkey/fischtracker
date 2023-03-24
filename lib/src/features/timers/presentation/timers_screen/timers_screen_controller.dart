@@ -15,7 +15,47 @@ class TimersScreenController extends _$TimersScreenController {
     // ok to leave this empty if the return type is FutureOr<void>
   }
 
-  // first check if any open entries have to be closed, then open as requested
+  Future<void> onChange(Job job) async {
+    final currentUser = ref.read(authRepositoryProvider).currentUser;
+    if (currentUser == null) {
+      throw AssertionError('User can\'t be null');
+    }
+    final repository = ref.read(entriesRepositoryProvider);
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      if (job.isOpen) {
+        // close this one and whatever else might be open
+        // TODO: no need to expect more than one
+        repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
+          for (var e in entries) {
+            repository.updateLastEntry(
+                uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
+          }
+        });
+      } else {
+        // close all expect the one we are trying to open
+        repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
+          for (var e in entries) {
+            if (e.jobId != job.id) {
+              repository.updateLastEntry(
+                  uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
+            }
+          }
+        });
+        // open the one we are interested in
+        repository.addEntry(
+          uid: currentUser.uid,
+          jobId: job.id,
+          start: DateTime.now(),
+          end: null,
+          comment: "",
+        );
+      }
+    });
+  }
+
+// first check if any open entries have to be closed, then open as requested
   Future<void> openEntry(JobID jobid) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {

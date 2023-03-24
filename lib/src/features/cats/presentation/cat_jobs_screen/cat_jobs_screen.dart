@@ -47,7 +47,7 @@ class CatJobsPageContents extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => context.goNamed(
-          AppRoute.addJobForCat.name,
+          AppRoute.addJob.name,
           params: {'cid': cat.id},
           extra: cat,
         ),

@@ -3,18 +3,15 @@ import 'package:fischtracker/src/features/authentication/presentation/custom_pro
 import 'package:fischtracker/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/cats/presentation/cat_jobs_screen/cat_jobs_screen.dart';
-import 'package:fischtracker/src/features/cats/presentation/cats_screen/cats_screen.dart';
 import 'package:fischtracker/src/features/cats/presentation/edit_cat_screen/edit_cat_screen.dart';
-import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
-import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
 import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
-import 'package:fischtracker/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
 import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
 import 'package:fischtracker/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:fischtracker/src/features/timers/presentation/timers_screen/timers_screen.dart';
+import 'package:fischtracker/src/features/topology/presentation/topo_screen.dart';
 import 'package:fischtracker/src/routing/go_router_refresh_stream.dart';
 import 'package:fischtracker/src/routing/scaffold_with_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +28,13 @@ enum AppRoute {
   onboarding,
   signIn,
   timers,
+  topo,
   cats,
   cat,
   addCat,
   editCat,
-  addJobForCat,
   jobs,
   job,
-  jobdirect,
   addJob,
   editJob,
   entry,
@@ -73,6 +69,7 @@ GoRouter goRouter(GoRouterRef ref) {
         }
       } else {
         if (state.subloc.startsWith('/timers') ||
+            state.subloc.startsWith('/topo') ||
             state.subloc.startsWith('/cats') ||
             state.subloc.startsWith('/jobs') ||
             state.subloc.startsWith('/entries') ||
@@ -115,15 +112,15 @@ GoRouter goRouter(GoRouterRef ref) {
             ),
           ),
           GoRoute(
-            path: '/cats',
-            name: AppRoute.cats.name,
+            path: '/topology',
+            name: AppRoute.topo.name,
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const CatsScreen(),
+              child: const TopoScreen(),
             ),
             routes: [
               GoRoute(
-                path: 'add',
+                path: 'cat/add',
                 name: AppRoute.addCat.name,
                 parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
@@ -135,132 +132,45 @@ GoRouter goRouter(GoRouterRef ref) {
                 },
               ),
               GoRoute(
-                path: ':cid',
+                path: 'cat/:cid',
                 name: AppRoute.cat.name,
                 pageBuilder: (context, state) {
-                  final id = state.params['cid']!;
+                  final cid = state.params['cid']!;
                   return MaterialPage(
                     key: state.pageKey,
-                    child: CatJobsScreen(catId: id),
+                    child: CatJobsScreen(catId: cid),
                   );
                 },
-                routes: [
-                  GoRoute(
-                    path: 'jobs/add',
-                    name: AppRoute.addJobForCat.name,
-                    parentNavigatorKey: _rootNavigatorKey,
-                    pageBuilder: (context, state) {
-                      final catId = state.params['cid']!;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        fullscreenDialog: true,
-                        child: EditJobScreen(catId: catId),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'jobs/:jid',
-                    name: AppRoute.job.name,
-                    pageBuilder: (context, state) {
-                      final jid = state.params['jid']!;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        child: JobEntriesScreen(jobId: jid),
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'entries/add',
-                        name: AppRoute.addEntry.name,
-                        parentNavigatorKey: _rootNavigatorKey,
-                        pageBuilder: (context, state) {
-                          final jid = state.params['jid']!;
-                          return MaterialPage(
-                            key: state.pageKey,
-                            fullscreenDialog: true,
-                            child: EntryScreen(
-                              jobId: jid,
-                            ),
-                          );
-                        },
-                      ),
-                      GoRoute(
-                        path: 'entries/:eid',
-                        name: AppRoute.entry.name,
-                        pageBuilder: (context, state) {
-                          final jobId = state.params['jid']!;
-                          final entryId = state.params['eid']!;
-                          final entry = state.extra as Entry?;
-                          return MaterialPage(
-                            key: state.pageKey,
-                            child: EntryScreen(
-                              jobId: jobId,
-                              entryId: entryId,
-                              entry: entry,
-                            ),
-                          );
-                        },
-                      ),
-                      GoRoute(
-                        path: 'edit',
-                        name: AppRoute.editJob.name,
-                        pageBuilder: (context, state) {
-                          final catId = state.params['cid'];
-                          final jobId = state.params['jid'];
-                          final job = state.extra as Job?;
-                          return MaterialPage(
-                            key: state.pageKey,
-                            fullscreenDialog: true,
-                            child: EditJobScreen(
-                              jobId: jobId,
-                              job: job,
-                              catId: catId,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  GoRoute(
-                    path: 'edit',
-                    name: AppRoute.editCat.name,
-                    pageBuilder: (context, state) {
-                      final catId = state.params['cid'];
-                      final cat = state.extra as Cat?;
-                      return MaterialPage(
-                        key: state.pageKey,
-                        fullscreenDialog: true,
-                        child: EditCatScreen(catId: catId, cat: cat),
-                      );
-                    },
-                  ),
-                ],
               ),
-            ],
-          ),
-          GoRoute(
-            path: '/jobs',
-            name: AppRoute.jobs.name,
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const JobsScreen(),
-            ),
-            routes: [
               GoRoute(
-                path: 'add',
-                name: AppRoute.addJob.name,
-                parentNavigatorKey: _rootNavigatorKey,
+                path: 'cat/:cid/edit',
+                name: AppRoute.editCat.name,
                 pageBuilder: (context, state) {
+                  final catId = state.params['cid'];
+                  final cat = state.extra as Cat?;
                   return MaterialPage(
                     key: state.pageKey,
                     fullscreenDialog: true,
-                    child: const EditJobScreen(catId: null),
+                    child: EditCatScreen(catId: catId, cat: cat),
                   );
                 },
               ),
               GoRoute(
-                path: ':jid',
-                name: AppRoute.jobdirect.name,
+                path: 'cat/:cid/job/add',
+                name: AppRoute.addJob.name,
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) {
+                  final catId = state.params['cid']!;
+                  return MaterialPage(
+                    key: state.pageKey,
+                    fullscreenDialog: true,
+                    child: EditJobScreen(catId: catId),
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'cat/:cid/job/:jid',
+                name: AppRoute.job.name,
                 pageBuilder: (context, state) {
                   final jid = state.params['jid']!;
                   return MaterialPage(
@@ -268,57 +178,232 @@ GoRouter goRouter(GoRouterRef ref) {
                     child: JobEntriesScreen(jobId: jid),
                   );
                 },
-                //   routes: [
-                //     GoRoute(
-                //       path: 'entries/add',
-                //       name: AppRoute.addEntry.name,
-                //       parentNavigatorKey: _rootNavigatorKey,
-                //       pageBuilder: (context, state) {
-                //         final jobId = state.params['id']!;
-                //         return MaterialPage(
-                //           key: state.pageKey,
-                //           fullscreenDialog: true,
-                //           child: EntryScreen(
-                //             jobId: jobId,
-                //           ),
-                //         );
-                //       },
-                //     ),
-                //     GoRoute(
-                //       path: 'entries/:eid',
-                //       name: AppRoute.entry.name,
-                //       pageBuilder: (context, state) {
-                //         final jobId = state.params['id']!;
-                //         final entryId = state.params['eid']!;
-                //         final entry = state.extra as Entry?;
-                //         return MaterialPage(
-                //           key: state.pageKey,
-                //           child: EntryScreen(
-                //             jobId: jobId,
-                //             entryId: entryId,
-                //             entry: entry,
-                //           ),
-                //         );
-                //       },
-                //     ),
-                //     GoRoute(
-                //       path: 'edit',
-                //       name: AppRoute.editJob.name,
-                //       pageBuilder: (context, state) {
-                //         final jobId = state.params['id'];
-                //         final job = state.extra as Job?;
-                //         final catId = job?.catId;
-                //         return MaterialPage(
-                //           key: state.pageKey,
-                //           fullscreenDialog: true,
-                //           child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
-                //         );
-                //       },
-                //     ),
-                //   ],
+              ),
+              GoRoute(
+                path: 'cat/:cid/job/:jid/edit',
+                name: AppRoute.editJob.name,
+                pageBuilder: (context, state) {
+                  final catId = state.params['cid'];
+                  final jobId = state.params['jid'];
+                  final job = state.extra as Job?;
+                  return MaterialPage(
+                    key: state.pageKey,
+                    fullscreenDialog: true,
+                    child: EditJobScreen(
+                      jobId: jobId,
+                      job: job,
+                      catId: catId,
+                    ),
+                  );
+                },
               ),
             ],
           ),
+          // GoRoute(
+          //   path: '/cats',
+          //   name: AppRoute.cats.name,
+          //   pageBuilder: (context, state) => NoTransitionPage(
+          //     key: state.pageKey,
+          //     child: const CatsScreen(),
+          //   ),
+          //   // routes: [
+          //   //   GoRoute(
+          //   //     path: 'add',
+          //   //     //name: AppRoute.addCat.name,
+          //   //     parentNavigatorKey: _rootNavigatorKey,
+          //   //     pageBuilder: (context, state) {
+          //   //       return MaterialPage(
+          //   //         key: state.pageKey,
+          //   //         fullscreenDialog: true,
+          //   //         child: const EditCatScreen(),
+          //   //       );
+          //   //     },
+          //   //   ),
+          //   //   GoRoute(
+          //   //     path: ':cid',
+          //   //     //name: AppRoute.cat.name,
+          //   //     pageBuilder: (context, state) {
+          //   //       final id = state.params['cid']!;
+          //   //       return MaterialPage(
+          //   //         key: state.pageKey,
+          //   //         child: CatJobsScreen(catId: id),
+          //   //       );
+          //   //     },
+          //   //     routes: [
+          //   //       GoRoute(
+          //   //         path: 'jobs/add',
+          //   //         //name: AppRoute.addJobForCat.name,
+          //   //         parentNavigatorKey: _rootNavigatorKey,
+          //   //         pageBuilder: (context, state) {
+          //   //           final catId = state.params['cid']!;
+          //   //           return MaterialPage(
+          //   //             key: state.pageKey,
+          //   //             fullscreenDialog: true,
+          //   //             child: EditJobScreen(catId: catId),
+          //   //           );
+          //   //         },
+          //   //       ),
+          //   //       GoRoute(
+          //   //         path: 'jobs/:jid',
+          //   //         //name: AppRoute.job.name,
+          //   //         pageBuilder: (context, state) {
+          //   //           final jid = state.params['jid']!;
+          //   //           return MaterialPage(
+          //   //             key: state.pageKey,
+          //   //             child: JobEntriesScreen(jobId: jid),
+          //   //           );
+          //   //         },
+          //   //         routes: [
+          //   //           GoRoute(
+          //   //             path: 'entries/add',
+          //   //             name: AppRoute.addEntry.name,
+          //   //             parentNavigatorKey: _rootNavigatorKey,
+          //   //             pageBuilder: (context, state) {
+          //   //               final jid = state.params['jid']!;
+          //   //               return MaterialPage(
+          //   //                 key: state.pageKey,
+          //   //                 fullscreenDialog: true,
+          //   //                 child: EntryScreen(
+          //   //                   jobId: jid,
+          //   //                 ),
+          //   //               );
+          //   //             },
+          //   //           ),
+          //   //           GoRoute(
+          //   //             path: 'entries/:eid',
+          //   //             name: AppRoute.entry.name,
+          //   //             pageBuilder: (context, state) {
+          //   //               final jobId = state.params['jid']!;
+          //   //               final entryId = state.params['eid']!;
+          //   //               final entry = state.extra as Entry?;
+          //   //               return MaterialPage(
+          //   //                 key: state.pageKey,
+          //   //                 child: EntryScreen(
+          //   //                   jobId: jobId,
+          //   //                   entryId: entryId,
+          //   //                   entry: entry,
+          //   //                 ),
+          //   //               );
+          //   //             },
+          //   //           ),
+          //   //           GoRoute(
+          //   //             path: 'edit',
+          //   //             //name: AppRoute.editJob.name,
+          //   //             pageBuilder: (context, state) {
+          //   //               final catId = state.params['cid'];
+          //   //               final jobId = state.params['jid'];
+          //   //               final job = state.extra as Job?;
+          //   //               return MaterialPage(
+          //   //                 key: state.pageKey,
+          //   //                 fullscreenDialog: true,
+          //   //                 child: EditJobScreen(
+          //   //                   jobId: jobId,
+          //   //                   job: job,
+          //   //                   catId: catId,
+          //   //                 ),
+          //   //               );
+          //   //             },
+          //   //           ),
+          //   //         ],
+          //   //       ),
+          //   //       GoRoute(
+          //   //         path: 'edit',
+          //   //         //name: AppRoute.editCat.name,
+          //   //         pageBuilder: (context, state) {
+          //   //           final catId = state.params['cid'];
+          //   //           final cat = state.extra as Cat?;
+          //   //           return MaterialPage(
+          //   //             key: state.pageKey,
+          //   //             fullscreenDialog: true,
+          //   //             child: EditCatScreen(catId: catId, cat: cat),
+          //   //           );
+          //   //         },
+          //   //       ),
+          //   //     ],
+          //   //   ),
+          //   // ],
+          // ),
+          // GoRoute(
+          //   path: '/jobs',
+          //   name: AppRoute.jobs.name,
+          //   pageBuilder: (context, state) => NoTransitionPage(
+          //     key: state.pageKey,
+          //     child: const JobsScreen(),
+          //   ),
+          //   routes: [
+          //     // GoRoute(
+          //     //   path: 'add',
+          //     //   name: AppRoute.addJob.name,
+          //     //   parentNavigatorKey: _rootNavigatorKey,
+          //     //   pageBuilder: (context, state) {
+          //     //     return MaterialPage(
+          //     //       key: state.pageKey,
+          //     //       fullscreenDialog: true,
+          //     //       child: const EditJobScreen(catId: null),
+          //     //     );
+          //     //   },
+          //     // ),
+          //     // GoRoute(
+          //     //   path: ':jid',
+          //     //   name: AppRoute.jobdirect.name,
+          //     //   pageBuilder: (context, state) {
+          //     //     final jid = state.params['jid']!;
+          //     //     return MaterialPage(
+          //     //       key: state.pageKey,
+          //     //       child: JobEntriesScreen(jobId: jid),
+          //     //     );
+          //     //   },
+          //     //   //   routes: [
+          //     //   //     GoRoute(
+          //     //   //       path: 'entries/add',
+          //     //   //       name: AppRoute.addEntry.name,
+          //     //   //       parentNavigatorKey: _rootNavigatorKey,
+          //     //   //       pageBuilder: (context, state) {
+          //     //   //         final jobId = state.params['id']!;
+          //     //   //         return MaterialPage(
+          //     //   //           key: state.pageKey,
+          //     //   //           fullscreenDialog: true,
+          //     //   //           child: EntryScreen(
+          //     //   //             jobId: jobId,
+          //     //   //           ),
+          //     //   //         );
+          //     //   //       },
+          //     //   //     ),
+          //     //   //     GoRoute(
+          //     //   //       path: 'entries/:eid',
+          //     //   //       name: AppRoute.entry.name,
+          //     //   //       pageBuilder: (context, state) {
+          //     //   //         final jobId = state.params['id']!;
+          //     //   //         final entryId = state.params['eid']!;
+          //     //   //         final entry = state.extra as Entry?;
+          //     //   //         return MaterialPage(
+          //     //   //           key: state.pageKey,
+          //     //   //           child: EntryScreen(
+          //     //   //             jobId: jobId,
+          //     //   //             entryId: entryId,
+          //     //   //             entry: entry,
+          //     //   //           ),
+          //     //   //         );
+          //     //   //       },
+          //     //   //     ),
+          //     //   //     GoRoute(
+          //     //   //       path: 'edit',
+          //     //   //       name: AppRoute.editJob.name,
+          //     //   //       pageBuilder: (context, state) {
+          //     //   //         final jobId = state.params['id'];
+          //     //   //         final job = state.extra as Job?;
+          //     //   //         final catId = job?.catId;
+          //     //   //         return MaterialPage(
+          //     //   //           key: state.pageKey,
+          //     //   //           fullscreenDialog: true,
+          //     //   //           child: EditJobScreen(jobId: jobId, job: job, catId: catId,),
+          //     //   //         );
+          //     //   //       },
+          //     //   //     ),
+          //     //   //   ],
+          //     // ),
+          //   ],
+          // ),
           GoRoute(
             path: '/entries',
             name: AppRoute.entries.name,

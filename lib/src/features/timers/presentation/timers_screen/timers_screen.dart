@@ -17,7 +17,7 @@ class TimersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Toggles".hardcoded)),
+      appBar: AppBar(title: const Text('FischTracker')),
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(
@@ -70,7 +70,7 @@ class CatJobsCard extends StatelessWidget {
   }
 }
 
-class JobListTile extends StatelessWidget {
+class JobListTile extends ConsumerWidget {
   const JobListTile({Key? key, required this.job, this.onTap})
       : super(key: key);
   final Job job;
@@ -86,49 +86,14 @@ class JobListTile extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: onTap,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(job.name, style: Theme.of(context).textTheme.titleMedium),
-                if (job.lastEntry != null )
-                Text(getLastEntryDetails(context, job.lastEntry!),
-                    style: Theme.of(context).textTheme.bodySmall),
-              ],
-            ),
-          ),
-        ),
-        StartStopButton(job: job),
-      ],
-    );
-  }
-}
-
-class StartStopButton extends ConsumerWidget {
-  const StartStopButton({Key? key, required this.job}) : super(key: key);
-  final Job job;
-
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (job.isOpen) {
-      return ElevatedButton(
-        onPressed: () => ref
-            .read(timersScreenControllerProvider.notifier)
-            .closeEntry(job.lastEntry!),
-        child: const Text('stop'),
-      );
-    } else {
-      return ElevatedButton(
-        onPressed: () =>
-            ref.read(timersScreenControllerProvider.notifier).openEntry(job.id),
-        child: const Text('start'),
-      );
-    }
+    return SwitchListTile(
+        value: job.isOpen,
+        title: Text(job.name),
+        subtitle: (job.lastEntry == null)
+            ? null
+            : Text(getLastEntryDetails(context, job.lastEntry!)),
+        onChanged: (_) =>
+            ref.read(timersScreenControllerProvider.notifier).onChange(job));
   }
 }

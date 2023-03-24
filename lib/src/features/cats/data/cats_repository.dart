@@ -29,9 +29,11 @@ class CatsRepository {
       _firestore.doc(catPath(uid, cat.id)).update(cat.toMap());
 
   // delete
-  // TODO: should clean up jobs and entries as well
+  // NOTE: This expects that the category is empty
   Future<void> deleteCat({required UserID uid, required CatID catId}) async {
-    throw AssertionError('Not yet implemented');
+    // delete job
+    final ref = _firestore.doc(catPath(uid, catId));
+    await ref.delete();
   }
 
   // read
@@ -55,7 +57,7 @@ class CatsRepository {
             fromFirestore: (snapshot, _) =>
                 Cat.fromMap(snapshot.data()!, snapshot.id),
             toFirestore: (cat, _) => cat.toMap(),
-          );
+          ).orderBy('name');
 
   Future<List<Cat>> fetchCats({required UserID uid}) async {
     final cats = await queryCats(uid: uid).get();

@@ -32,12 +32,14 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       // https://github.com/flutter/flutter/issues/99124
       context.goNamed(AppRoute.timers.name);
     } else if (index == 1) {
-      context.goNamed(AppRoute.cats.name);
+      context.goNamed(AppRoute.topo.name);
+    // } else if (index == 2) {
+    //   context.goNamed(AppRoute.cats.name);
+    // } else if (index == 3) {
+    //   context.goNamed(AppRoute.jobs.name);
     } else if (index == 2) {
-      context.goNamed(AppRoute.jobs.name);
-    } else if (index == 3) {
       context.goNamed(AppRoute.entries.name);
-    } else if (index == 4) {
+    } else if (index == 3) {
       context.goNamed(AppRoute.profile.name);
     }
   }
@@ -56,13 +58,17 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
             label: 'Timers'.hardcoded,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.category),
-            label: 'Cats'.hardcoded,
+            icon: const Icon(Icons.account_tree),
+            label: 'Topology'.hardcoded,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.work),
-            label: 'Jobs'.hardcoded,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: const Icon(Icons.category),
+          //   label: 'Cats'.hardcoded,
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: const Icon(Icons.work),
+          //   label: 'Jobs'.hardcoded,
+          // ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.view_headline),
             label: 'Entries'.hardcoded,
