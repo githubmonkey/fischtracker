@@ -55,7 +55,7 @@ class CatsRepository {
             fromFirestore: (snapshot, _) =>
                 Cat.fromMap(snapshot.data()!, snapshot.id),
             toFirestore: (cat, _) => cat.toMap(),
-          );
+          ).orderBy('name');
 
   Future<List<Cat>> fetchCats({required UserID uid}) async {
     final cats = await queryCats(uid: uid).get();

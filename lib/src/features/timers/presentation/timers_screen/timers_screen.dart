@@ -17,7 +17,7 @@ class TimersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Toggles".hardcoded)),
+      appBar: AppBar(title: Text('FischTracker')),
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(

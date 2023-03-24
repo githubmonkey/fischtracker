@@ -32,12 +32,14 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       // https://github.com/flutter/flutter/issues/99124
       context.goNamed(AppRoute.timers.name);
     } else if (index == 1) {
-      context.goNamed(AppRoute.cats.name);
+      context.goNamed(AppRoute.topo.name);
     } else if (index == 2) {
-      context.goNamed(AppRoute.jobs.name);
+      context.goNamed(AppRoute.cats.name);
     } else if (index == 3) {
-      context.goNamed(AppRoute.entries.name);
+      context.goNamed(AppRoute.jobs.name);
     } else if (index == 4) {
+      context.goNamed(AppRoute.entries.name);
+    } else if (index == 5) {
       context.goNamed(AppRoute.profile.name);
     }
   }
@@ -54,6 +56,10 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.punch_clock_rounded),
             label: 'Timers'.hardcoded,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.account_tree),
+            label: 'Topology'.hardcoded,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.category),

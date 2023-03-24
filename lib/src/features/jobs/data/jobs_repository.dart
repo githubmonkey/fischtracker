@@ -81,8 +81,7 @@ class JobsRepository {
     if (catId != null) {
       query = query.where('catId', isEqualTo: catId);
     }
-    query.where('foobar', isEqualTo: 'barfoo');
-    return query;
+    return query.orderBy('name');
   }
 
   Future<List<Job>> fetchJobs({required UserID uid}) async {
