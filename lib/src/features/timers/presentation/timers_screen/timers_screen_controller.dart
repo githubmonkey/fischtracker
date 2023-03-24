@@ -37,9 +37,10 @@ class TimersScreenController extends _$TimersScreenController {
         // close all expect the one we are trying to open
         repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
           for (var e in entries) {
-            if (e.jobId != job.id)
+            if (e.jobId != job.id) {
               repository.updateLastEntry(
                   uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
+            }
           }
         });
         // open the one we are interested in

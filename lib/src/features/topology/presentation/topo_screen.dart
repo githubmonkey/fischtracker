@@ -2,7 +2,7 @@ import 'package:fischtracker/src/common_widgets/empty_content.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/topology/data/topology_service.dart';
-import 'package:fischtracker/src/features/topology/presenation/topo_screen_controller.dart';
+import 'package:fischtracker/src/features/topology/presentation/topo_screen_controller.dart';
 import 'package:fischtracker/src/localization/string_hardcoded.dart';
 import 'package:fischtracker/src/routing/app_router.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
@@ -20,9 +20,9 @@ class TopoScreen extends StatelessWidget {
         title: Text("Topology".hardcoded),
         actions: <Widget>[
           TextButton.icon(
+            onPressed: () => context.goNamed(AppRoute.addCat.name),
             icon: const Icon(Icons.add),
             label: Text('New Category'.hardcoded),
-            onPressed: () => context.goNamed(AppRoute.addCat.name),
           ),
         ],
       ),
@@ -54,45 +54,64 @@ class TopoScreen extends StatelessWidget {
 }
 
 // Each cat tile is a card with cat name and a list of jobs
-class CatListTile extends StatelessWidget {
+class CatListTile extends ConsumerWidget {
   const CatListTile({super.key, required this.cat, required this.jobs});
 
   final Cat cat;
   final List<Job> jobs;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 0.5,
       child: Column(
         children: [
-          Row(children: [
-            Expanded(
-              child: ListTile(
-                title: Text(cat.name),
-                onTap: () => context.goNamed(
-                  AppRoute.editCat.name,
-                  params: {'cid': cat.id},
-                  extra: cat,
+          Dismissible(
+            key: Key('topo-cat-${cat.id}'),
+            background:
+                Container(color: Theme.of(context).colorScheme.tertiary),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) => ref
+                .read(topoScreenControllerProvider.notifier)
+                .deleteCat(cat, jobs),
+            child: Row(children: [
+              Expanded(
+                child: ListTile(
+                  title: Text(cat.name),
+                  onTap: () => context.goNamed(
+                    AppRoute.editCat.name,
+                    params: {'cid': cat.id},
+                    extra: cat,
+                  ),
                 ),
               ),
-            ),
-            IconButton(
-              onPressed: () => context
-                  .goNamed(AppRoute.addJob.name, params: {'cid': cat.id}),
-              icon: const Icon(Icons.add),
-            ),
-          ]),
+              TextButton.icon(
+                icon: const Icon(Icons.add),
+                label: Text('New Job'.hardcoded),
+                onPressed: () => context
+                    .goNamed(AppRoute.addJob.name, params: {'cid': cat.id}),
+              ),
+            ]),
+          ),
           if (jobs.isNotEmpty)
             Divider(thickness: 0.5, color: Theme.of(context).dividerColor),
           ...jobs
-              .map((job) => ListTile(
-                    leading: const Icon(Icons.work_history),
-                    title: Text(job.name),
-                    onTap: () => context.goNamed(
-                      AppRoute.editJob.name,
-                      params: {'cid': job.catId, 'jid': job.id},
-                      extra: job,
+              .map((job) => Dismissible(
+                    key: Key('topo-job-${job.id}'),
+                    background: Container(
+                        color: Theme.of(context).colorScheme.secondary),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction) => ref
+                        .read(topoScreenControllerProvider.notifier)
+                        .deleteJob(job),
+                    child: ListTile(
+                      leading: const Icon(Icons.work_history),
+                      title: Text(job.name),
+                      onTap: () => context.goNamed(
+                        AppRoute.editJob.name,
+                        params: {'cid': job.catId, 'jid': job.id},
+                        extra: job,
+                      ),
                     ),
                   ))
               .toList(),
