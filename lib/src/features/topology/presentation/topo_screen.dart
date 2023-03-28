@@ -83,11 +83,10 @@ class CatListTile extends ConsumerWidget {
               Expanded(
                 child: ListTile(
                   title: Text(cat.name),
-                  onTap: () => context.goNamed(
-                    AppRoute.editCat.name,
-                    params: {'cid': cat.id},
-                    extra: cat,
-                  ),
+                  onTap: () => context
+                      .goNamed(AppRoute.cat.name, params: {'cid': cat.id}),
+                  onLongPress: () => context.goNamed(AppRoute.editCat.name,
+                      params: {'cid': cat.id}, extra: cat),
                 ),
               ),
               TextButton.icon(
@@ -112,11 +111,11 @@ class CatListTile extends ConsumerWidget {
                     child: ListTile(
                       leading: const Icon(Icons.work_history),
                       title: Text(job.name),
-                      onTap: () => context.goNamed(
-                        AppRoute.editJob.name,
-                        params: {'cid': job.catId, 'jid': job.id},
-                        extra: job,
-                      ),
+                      onTap: () => context.goNamed(AppRoute.job.name,
+                          params: {'cid': job.catId, 'jid': job.id}),
+                      onLongPress: () => context.goNamed(AppRoute.editJob.name,
+                          params: {'cid': job.catId, 'jid': job.id},
+                          extra: job),
                     ),
                   ))
               .toList(),
