@@ -29,12 +29,11 @@ class JobEntriesList extends ConsumerWidget {
         return DismissibleEntryListItem(
           dismissibleKey: Key('entry-${entry.id}'),
           entry: entry,
-          job: job,
           onDismissed: () => ref
               .read(jobsEntriesListControllerProvider.notifier)
               .deleteEntry(entry.id),
           onTap: () => context.goNamed(
-            AppRoute.jobentry.name,
+            AppRoute.entryviajob.name,
             params: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
             extra: entry,
           ),

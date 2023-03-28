@@ -64,7 +64,7 @@ class CatListTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.zero),
       ),
       child: Column(

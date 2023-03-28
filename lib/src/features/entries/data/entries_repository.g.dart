@@ -21,6 +21,20 @@ final entriesRepositoryProvider = Provider<EntriesRepository>.internal(
 );
 
 typedef EntriesRepositoryRef = ProviderRef<EntriesRepository>;
+String _$entriesQueryHash() => r'93cd0d807140cdb2fbc5cd932f9c7c2800c90ec2';
+
+/// See also [entriesQuery].
+@ProviderFor(entriesQuery)
+final entriesQueryProvider = AutoDisposeProvider<Query<Entry>>.internal(
+  entriesQuery,
+  name: r'entriesQueryProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$entriesQueryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef EntriesQueryRef = AutoDisposeProviderRef<Query<Entry>>;
 String _$jobEntriesQueryHash() => r'4b9901b69f7a7c0211f097b6e1dce9434e187ca0';
 
 /// Copied from Dart SDK
