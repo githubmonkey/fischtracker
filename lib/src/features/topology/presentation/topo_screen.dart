@@ -64,7 +64,7 @@ class CatListTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.zero),
       ),
       child: Column(
@@ -74,18 +74,19 @@ class CatListTile extends ConsumerWidget {
             background:
                 Container(color: Theme.of(context).colorScheme.tertiary),
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) => ref
+            onDismissed: (direction) =>
+                ref.read(topoScreenControllerProvider.notifier).deleteCat(cat),
+            confirmDismiss: (direction) => ref
                 .read(topoScreenControllerProvider.notifier)
-                .deleteCat(cat, jobs),
+                .confirmDeleteCat(cat, jobs),
             child: Row(children: [
               Expanded(
                 child: ListTile(
                   title: Text(cat.name),
-                  onTap: () => context.goNamed(
-                    AppRoute.editCat.name,
-                    params: {'cid': cat.id},
-                    extra: cat,
-                  ),
+                  onTap: () => context
+                      .goNamed(AppRoute.cat.name, params: {'cid': cat.id}),
+                  onLongPress: () => context.goNamed(AppRoute.editCat.name,
+                      params: {'cid': cat.id}, extra: cat),
                 ),
               ),
               TextButton.icon(
@@ -110,11 +111,11 @@ class CatListTile extends ConsumerWidget {
                     child: ListTile(
                       leading: const Icon(Icons.work_history),
                       title: Text(job.name),
-                      onTap: () => context.goNamed(
-                        AppRoute.editJob.name,
-                        params: {'cid': job.catId, 'jid': job.id},
-                        extra: job,
-                      ),
+                      onTap: () => context.goNamed(AppRoute.job.name,
+                          params: {'cid': job.catId, 'jid': job.id}),
+                      onLongPress: () => context.goNamed(AppRoute.editJob.name,
+                          params: {'cid': job.catId, 'jid': job.id},
+                          extra: job),
                     ),
                   ))
               .toList(),

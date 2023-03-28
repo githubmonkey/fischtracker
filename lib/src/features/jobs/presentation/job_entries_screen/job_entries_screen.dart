@@ -1,4 +1,5 @@
 import 'package:fischtracker/src/common_widgets/async_value_widget.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_list.dart';
@@ -46,11 +47,13 @@ class JobEntriesPageContents extends StatelessWidget {
       body: JobEntriesList(job: job),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => context.goNamed(
-          AppRoute.addEntry.name,
-          params: {'cid': job.catId, 'jid': job.id},
-          extra: job,
-        ),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => EntryScreen(jobId: job.id),
+            ),
+          );
+        },
       ),
     );
   }

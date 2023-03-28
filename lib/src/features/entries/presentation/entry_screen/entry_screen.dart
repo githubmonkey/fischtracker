@@ -12,9 +12,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EntryScreen extends ConsumerStatefulWidget {
-  const EntryScreen({super.key, required this.jobId, this.entryId, this.entry});
+  const EntryScreen({super.key, this.jobId, this.entryId, this.entry});
 
-  final JobID jobId;
+  final JobID? jobId;
   final EntryID? entryId;
   final Entry? entry;
 
@@ -23,6 +23,7 @@ class EntryScreen extends ConsumerStatefulWidget {
 }
 
 class _EntryPageState extends ConsumerState<EntryScreen> {
+  late JobID _jobId;
   late DateTime _startDate;
   late TimeOfDay _startTime;
   late bool _isOngoing;
@@ -39,6 +40,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   @override
   void initState() {
     super.initState();
+    _jobId = widget.entry?.jobId ?? widget.jobId!;
     final start = widget.entry?.start ?? DateTime.now();
     _startDate = DateTime(start.year, start.month, start.day);
     _startTime = TimeOfDay.fromDateTime(start);
@@ -56,7 +58,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     final success =
         await ref.read(entryScreenControllerProvider.notifier).submit(
               entryId: widget.entryId,
-              jobId: widget.jobId,
+              jobId: _jobId,
               start: start,
               end: _isOngoing ? null : end,
               comment: _comment,

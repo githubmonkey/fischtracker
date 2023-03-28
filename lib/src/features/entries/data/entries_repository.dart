@@ -118,6 +118,17 @@ EntriesRepository entriesRepository(EntriesRepositoryRef ref) {
 }
 
 @riverpod
+Query<Entry> entriesQuery(EntriesQueryRef ref) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null when fetching jobs');
+  }
+  final repository = ref.watch(entriesRepositoryProvider);
+  return repository.queryEntries(uid: user.uid);
+}
+
+// TODO: make jobId nullable to combine with above?
+@riverpod
 Query<Entry> jobEntriesQuery(JobEntriesQueryRef ref, {required JobID jobId}) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {

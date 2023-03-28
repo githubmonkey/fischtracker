@@ -9,10 +9,12 @@ class EntryListItem extends ConsumerWidget {
   const EntryListItem({
     super.key,
     required this.entry,
+    //required this.job,
     this.onTap,
   });
 
   final Entry entry;
+  //final Job job;
   final VoidCallback? onTap;
 
   @override
@@ -21,7 +23,14 @@ class EntryListItem extends ConsumerWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: _buildContents(context, ref),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: _buildContents(context, ref),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
