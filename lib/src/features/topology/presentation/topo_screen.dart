@@ -74,9 +74,11 @@ class CatListTile extends ConsumerWidget {
             background:
                 Container(color: Theme.of(context).colorScheme.tertiary),
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) => ref
+            onDismissed: (direction) =>
+                ref.read(topoScreenControllerProvider.notifier).deleteCat(cat),
+            confirmDismiss: (direction) => ref
                 .read(topoScreenControllerProvider.notifier)
-                .deleteCat(cat, jobs),
+                .confirmDeleteCat(cat, jobs),
             child: Row(children: [
               Expanded(
                 child: ListTile(

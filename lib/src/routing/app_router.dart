@@ -2,9 +2,10 @@ import 'package:fischtracker/src/features/authentication/data/firebase_auth_repo
 import 'package:fischtracker/src/features/authentication/presentation/custom_profile_screen.dart';
 import 'package:fischtracker/src/features/authentication/presentation/custom_sign_in_screen.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
-import 'package:fischtracker/src/features/cats/presentation/cat_jobs_screen/cat_jobs_screen.dart';
 import 'package:fischtracker/src/features/cats/presentation/edit_cat_screen/edit_cat_screen.dart';
-import 'package:fischtracker/src/features/entries/presentation/entries_screen.dart';
+import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/entries/presentation/entries_screen/entries_screen.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/edit_job_screen.dart';
 import 'package:fischtracker/src/features/jobs/presentation/job_entries_screen/job_entries_screen.dart';
@@ -30,17 +31,17 @@ enum AppRoute {
   timers,
   topo,
   cats,
-  cat,
+  //cat,
   addCat,
   editCat,
   jobs,
   job,
   addJob,
   editJob,
+  entries,
   entry,
   addEntry,
   editEntry,
-  entries,
   profile,
 }
 
@@ -131,17 +132,17 @@ GoRouter goRouter(GoRouterRef ref) {
                   );
                 },
               ),
-              GoRoute(
-                path: 'cat/:cid',
-                name: AppRoute.cat.name,
-                pageBuilder: (context, state) {
-                  final cid = state.params['cid']!;
-                  return MaterialPage(
-                    key: state.pageKey,
-                    child: CatJobsScreen(catId: cid),
-                  );
-                },
-              ),
+              // GoRoute(
+              //   path: 'cat/:cid',
+              //   name: AppRoute.cat.name,
+              //   pageBuilder: (context, state) {
+              //     final cid = state.params['cid']!;
+              //     return MaterialPage(
+              //       key: state.pageKey,
+              //       child: CatJobsScreen(catId: cid),
+              //     );
+              //   },
+              // ),
               GoRoute(
                 path: 'cat/:cid/edit',
                 name: AppRoute.editCat.name,
@@ -411,6 +412,38 @@ GoRouter goRouter(GoRouterRef ref) {
               key: state.pageKey,
               child: const EntriesScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'add',
+                name: AppRoute.addEntry.name,
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) {
+                  final jid = state.params['jid']!;
+                  return MaterialPage(
+                    key: state.pageKey,
+                    fullscreenDialog: true,
+                    child: EntryScreen(
+                      jobId: jid,
+                    ),
+                  );
+                },
+              ),
+              GoRoute(
+                path: ':eid',
+                name: AppRoute.entry.name,
+                pageBuilder: (context, state) {
+                  final entryId = state.params['eid']!;
+                  final entry = state.extra as Entry?;
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: EntryScreen(
+                      entryId: entryId,
+                      entry: entry,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/account',

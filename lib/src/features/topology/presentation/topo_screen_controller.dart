@@ -15,7 +15,8 @@ class TopoScreenController extends _$TopoScreenController {
     // ok to leave this empty if the return type is FutureOr<void>
   }
 
-  Future<void> deleteCat(Cat cat, List<Job> jobs) async {
+  // This checks if the category can be dismissed
+  Future<bool> confirmDeleteCat(Cat cat, List<Job> jobs) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
       throw AssertionError('User can\'t be null');
@@ -28,6 +29,16 @@ class TopoScreenController extends _$TopoScreenController {
             description: 'Delete all jobs first',
           ),
           StackTrace.current);
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> deleteCat(Cat cat) async {
+    final currentUser = ref.read(authRepositoryProvider).currentUser;
+    if (currentUser == null) {
+      throw AssertionError('User can\'t be null');
     }
 
     final repository = ref.read(catsRepositoryProvider);
