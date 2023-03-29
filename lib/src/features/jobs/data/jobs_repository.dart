@@ -27,12 +27,10 @@ class JobsRepository {
     required UserID uid,
     required String catId,
     required String name,
-    required int ratePerHour,
   }) =>
       _firestore.collection(jobsPath(uid)).add({
         'catId': catId,
         'name': name,
-        'ratePerHour': ratePerHour,
       });
 
   // update

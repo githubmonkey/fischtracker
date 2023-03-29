@@ -11,19 +11,17 @@ class Job extends Equatable {
     required this.id,
     required this.catId,
     required this.name,
-    required this.ratePerHour,
     this.lastEntry,
   });
 
   final JobID id;
   final CatID catId;
   final String name;
-  final int ratePerHour;
   final Entry? lastEntry;
 
   // TODO: shouldn't id be part of the comparison?
   @override
-  List<Object> get props => [name, catId, ratePerHour, lastEntry ?? 'N/A'];
+  List<Object> get props => [name, catId, lastEntry ?? 'N/A'];
 
   @override
   bool get stringify => true;
@@ -48,13 +46,11 @@ class Job extends Equatable {
 
     final name = data['name'] as String;
     final catId = data['catId'] as String;
-    final ratePerHour = data['ratePerHour'] as int;
 
     return Job(
       id: id,
       catId: catId,
       name: name,
-      ratePerHour: ratePerHour,
       lastEntry: lastEntry,
     );
   }
@@ -63,7 +59,6 @@ class Job extends Equatable {
     id: id ?? this.id,
     catId: catId ?? this.catId,
     name: name ?? this.name,
-    ratePerHour: ratePerHour ?? this.ratePerHour,
     lastEntry: lastEntry ?? this.lastEntry,
   );
 
@@ -71,7 +66,6 @@ class Job extends Equatable {
     return {
       'catId': catId,
       'name': name,
-      'ratePerHour': ratePerHour,
       ... (lastEntry != null) ? {
        'lastEntryId': lastEntry!.id,
        'lastEntryStart': lastEntry!.start,
