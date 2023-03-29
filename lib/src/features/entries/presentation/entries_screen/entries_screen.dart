@@ -19,33 +19,46 @@ class EntriesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(Strings.entries),
       ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          ref.listen<AsyncValue>(
-            entriesScreenControllerProvider,
-            (_, state) => state.showAlertDialogOnError(context),
-          );
-          final entriesQuery = ref.watch(entriesQueryProvider);
-          return FirestoreListView<Entry>(
-            query: entriesQuery,
-            itemBuilder: (context, doc) {
-              final entry = doc.data();
-              return DismissibleEntryListItem(
-                dismissibleKey: Key('entry-${entry.id}'),
-                entry: entry,
-                onDismissed: () => ref
-                    .read(entriesScreenControllerProvider.notifier)
-                    .deleteEntry(entry),
-                onTap: () => context.goNamed(
-                  AppRoute.entry.name,
-                  params: {'eid': entry.id},
-                  extra: entry,
-                ),
-              );
-            },
-          );
-        },
-      ),
+      body: Consumer(builder: (context, ref, child) {
+        ref.listen<AsyncValue>(
+          entriesScreenControllerProvider,
+          (_, state) => state.showAlertDialogOnError(context),
+        );
+        final entriesQuery = ref.watch(entriesQueryProvider);
+        return FirestoreQueryBuilder<Entry>(
+          query: entriesQuery,
+          builder: (context, snapshot, _) {
+            if (snapshot.isFetching) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('error ${snapshot.error}');
+            }
+
+            return ListView.separated(
+              itemCount: snapshot.docs.length,
+              separatorBuilder: (context, index) =>
+                  Divider(height: 0.5, color: Theme.of(context).dividerColor),
+              itemBuilder: (context, index) {
+                if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                  snapshot.fetchMore();
+                }
+
+                final entry = snapshot.docs[index].data();
+                return DismissibleEntryListItem(
+                  dismissibleKey: Key('entry-${entry.id}'),
+                  entry: entry,
+                  onDismissed: () => ref
+                      .read(entriesScreenControllerProvider.notifier)
+                      .deleteEntry(entry),
+                  onTap: () => context.goNamed(AppRoute.entry.name,
+                      params: {'eid': entry.id}, extra: entry),
+                );
+              },
+            );
+          },
+        );
+      }),
     );
   }
 }

@@ -23,14 +23,7 @@ class EntryListItem extends ConsumerWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: _buildContents(context, ref),
-            ),
-            const Icon(Icons.chevron_right, color: Colors.grey),
-          ],
-        ),
+        child: _buildContents(context, ref),
       ),
     );
   }
