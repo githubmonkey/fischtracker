@@ -16,3 +16,4 @@ extension AsyncValueUI on AsyncValue {
     }
   }
 }
+

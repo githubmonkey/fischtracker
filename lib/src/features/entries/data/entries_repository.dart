@@ -86,6 +86,13 @@ class EntriesRepository {
           .snapshots()
           .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
+  Stream<List<Entry>> watchOpenEntries({required UserID uid}) =>
+      queryEntries(uid: uid)
+          .orderBy('start', descending: true)
+          .where('end', isNull: true)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+
   Query<Entry> queryEntries({required UserID uid, JobID? jobId}) {
     Query<Entry> query =
         _firestore.collection(entriesPath(uid)).withConverter<Entry>(
@@ -137,4 +144,14 @@ Query<Entry> jobEntriesQuery(JobEntriesQueryRef ref, {required JobID jobId}) {
   }
   final repository = ref.watch(entriesRepositoryProvider);
   return repository.queryEntries(uid: user.uid, jobId: jobId);
+}
+
+@riverpod
+Stream<List<Entry>> openEntriesStream(OpenEntriesStreamRef ref) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null when fetching jobs');
+  }
+  final repository = ref.watch(entriesRepositoryProvider);
+  return repository.watchOpenEntries(uid: user.uid);
 }

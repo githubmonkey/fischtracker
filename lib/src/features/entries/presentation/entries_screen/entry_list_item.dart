@@ -20,9 +20,9 @@ class EntryListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (model.isHeader)
+    if (model.isHeader) {
       return _buildHeader(context, ref);
-    else
+    } else {
       return InkWell(
         onTap: onTap,
         child: Container(
@@ -30,6 +30,7 @@ class EntryListItem extends ConsumerWidget {
           child: _buildContents(context, ref),
         ),
       );
+    }
   }
 
   Widget _buildHeader(BuildContext context, WidgetRef ref) {
@@ -122,7 +123,7 @@ class DismissibleEntryListItem extends StatelessWidget {
         model: model,
         onTap: null,
       );
-    } else
+    } else {
       return Dismissible(
         background: Container(color: Colors.red),
         key: dismissibleKey,
@@ -133,5 +134,6 @@ class DismissibleEntryListItem extends StatelessWidget {
           onTap: onTap,
         ),
       );
+    }
   }
 }

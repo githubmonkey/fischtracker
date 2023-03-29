@@ -138,4 +138,21 @@ class JobEntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
     return _SystemHash.finish(hash);
   }
 }
+
+String _$openEntriesStreamHash() => r'4784700dce3e13349b02441045f7b98738df9703';
+
+/// See also [openEntriesStream].
+@ProviderFor(openEntriesStream)
+final openEntriesStreamProvider =
+    AutoDisposeStreamProvider<List<Entry>>.internal(
+  openEntriesStream,
+  name: r'openEntriesStreamProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$openEntriesStreamHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef OpenEntriesStreamRef = AutoDisposeStreamProviderRef<List<Entry>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

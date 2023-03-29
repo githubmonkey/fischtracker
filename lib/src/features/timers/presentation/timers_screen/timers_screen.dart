@@ -18,23 +18,36 @@ class TimersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('FischTracker')),
-      body: Consumer(
-        builder: (context, ref, child) {
-          ref.listen<AsyncValue>(
-            timersScreenControllerProvider,
-            (_, state) => state.showAlertDialogOnError(context),
-          );
+      body: Consumer(builder: (context, ref, child) {
+        ref.listen<AsyncValue>(
+          timersScreenControllerProvider,
+          (_, state) => state.showAlertDialogOnError(context),
+        );
 
-          final catsQuery = ref.watch(catsQueryProvider);
-          return FirestoreListView<Cat>(
-            query: catsQuery,
-            itemBuilder: (context, doc) {
-              final cat = doc.data();
-              return CatJobsCard(key: Key('cat-${cat.id}'), cat: cat);
-            },
-          );
-        },
-      ),
+        final catsQuery = ref.watch(catsQueryProvider);
+        //final openEntriesStream = ref.watch(openEntriesStreamProvider);
+        return FirestoreListView<Cat>(
+          query: catsQuery,
+          itemBuilder: (context, doc) {
+            final cat = doc.data();
+            return CatJobsCard(key: Key('cat-${cat.id}'), cat: cat);
+          },
+        );
+      }),
+    );
+  }
+}
+
+class OpenEntriesCard extends StatelessWidget {
+  const OpenEntriesCard({super.key, required this.openEntries});
+
+  final List<Entry> openEntries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: Text('Busy with something'.hardcoded),
     );
   }
 }
@@ -49,12 +62,13 @@ class CatJobsCard extends StatelessWidget {
       elevation: 1,
       child: Consumer(builder: (context, ref, child) {
         final catJobsQuery = ref.watch(catJobsQueryProvider(cat.id));
-        return Column(
+        return ExpansionTile(
+          initiallyExpanded: true,
+          title: Text(
+            cat.name,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           children: [
-            Text(
-              cat.name,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
             FirestoreListView<Job>(
               shrinkWrap: true,
               query: catJobsQuery,
