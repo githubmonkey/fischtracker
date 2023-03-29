@@ -1,7 +1,7 @@
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
+import 'package:fischtracker/src/common_widgets/list_items_builder.dart';
 import 'package:fischtracker/src/constants/strings.dart';
-import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
-import 'package:fischtracker/src/features/entries/domain/entry.dart';
+import 'package:fischtracker/src/features/entries/application/entries_service.dart';
+import 'package:fischtracker/src/features/entries/domain/entries_list_tile_model.dart';
 import 'package:fischtracker/src/features/entries/presentation/entries_screen/entries_screen_controller.dart';
 import 'package:fischtracker/src/features/entries/presentation/entries_screen/entry_list_item.dart';
 import 'package:fischtracker/src/routing/app_router.dart';
@@ -24,40 +24,22 @@ class EntriesScreen extends StatelessWidget {
           entriesScreenControllerProvider,
           (_, state) => state.showAlertDialogOnError(context),
         );
-        final entriesQuery = ref.watch(entriesQueryProvider);
-        return FirestoreQueryBuilder<Entry>(
-          query: entriesQuery,
-          builder: (context, snapshot, _) {
-            if (snapshot.isFetching) {
-              return const CircularProgressIndicator();
-            }
-            if (snapshot.hasError) {
-              return Text('error ${snapshot.error}');
-            }
 
-            return ListView.separated(
-              itemCount: snapshot.docs.length,
-              separatorBuilder: (context, index) =>
-                  Divider(height: 0.5, color: Theme.of(context).dividerColor),
-              itemBuilder: (context, index) {
-                if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                  snapshot.fetchMore();
-                }
-
-                final entry = snapshot.docs[index].data();
-                return DismissibleEntryListItem(
-                  dismissibleKey: Key('entry-${entry.id}'),
-                  entry: entry,
-                  onDismissed: () => ref
-                      .read(entriesScreenControllerProvider.notifier)
-                      .deleteEntry(entry),
-                  onTap: () => context.goNamed(AppRoute.entry.name,
-                      params: {'eid': entry.id}, extra: entry),
-                );
-              },
-            );
-          },
-        );
+        final entriesTileModelStream =
+            ref.watch(entriesTileModelStreamProvider);
+        return ListItemsBuilder<EntriesListTileModel>(
+            data: entriesTileModelStream,
+            itemBuilder: (context, model) => model.isHeader
+                ? EntryListItem(model: model, onTap: null)
+                : DismissibleEntryListItem(
+                    dismissibleKey: Key('entry-${model.entry!.id}'),
+                    model: model,
+                    onDismissed: () => ref
+                        .read(entriesScreenControllerProvider.notifier)
+                        .deleteEntry(model.entry!),
+                    onTap: () => context.goNamed(AppRoute.entry.name,
+                        params: {'eid': model.entry!.id}, extra: model.entry!),
+                  ));
       }),
     );
   }

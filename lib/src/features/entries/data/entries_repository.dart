@@ -82,6 +82,7 @@ class EntriesRepository {
   // read
   Stream<List<Entry>> watchEntries({required UserID uid, JobID? jobId}) =>
       queryEntries(uid: uid, jobId: jobId)
+          .orderBy('start', descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 

@@ -1,6 +1,6 @@
+import 'package:fischtracker/src/common_widgets/empty_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fischtracker/src/common_widgets/empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
@@ -19,7 +19,8 @@ class ListItemsBuilder<T> extends StatelessWidget {
       data: (items) => items.isNotEmpty
           ? ListView.separated(
               itemCount: items.length + 2,
-              separatorBuilder: (context, index) => const Divider(height: 0.5),
+              separatorBuilder: (context, index) =>
+                  Divider(height: 0.5, color: Theme.of(context).dividerColor),
               itemBuilder: (context, index) {
                 if (index == 0 || index == items.length + 1) {
                   return const SizedBox.shrink();
