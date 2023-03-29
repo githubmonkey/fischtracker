@@ -62,6 +62,7 @@ class DateTimePicker extends StatelessWidget {
         Expanded(
           flex: 4,
           child: InputDropdown(
+            labelText: '',
             valueText: selectedTime.format(context),
             valueStyle: valueStyle,
             onPressed:
