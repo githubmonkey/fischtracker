@@ -71,8 +71,7 @@ class CatListTile extends ConsumerWidget {
         children: [
           Dismissible(
             key: Key('topo-cat-${cat.id}'),
-            background:
-                Container(color: Theme.of(context).colorScheme.tertiary),
+            background: Container(color: Colors.red),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) =>
                 ref.read(topoScreenControllerProvider.notifier).deleteCat(cat),
@@ -102,8 +101,7 @@ class CatListTile extends ConsumerWidget {
           ...jobs
               .map((job) => Dismissible(
                     key: Key('topo-job-${job.id}'),
-                    background: Container(
-                        color: Theme.of(context).colorScheme.secondary),
+                    background: Container(color: Colors.red),
                     direction: DismissDirection.endToStart,
                     onDismissed: (direction) => ref
                         .read(topoScreenControllerProvider.notifier)
