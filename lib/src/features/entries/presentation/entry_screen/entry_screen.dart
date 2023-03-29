@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fischtracker/src/common_widgets/date_time_picker.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
+import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/localization/string_hardcoded.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
@@ -23,6 +24,8 @@ class EntryScreen extends ConsumerStatefulWidget {
 }
 
 class _EntryPageState extends ConsumerState<EntryScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   late JobID _jobId;
   late DateTime _startDate;
   late TimeOfDay _startTime;
@@ -54,17 +57,28 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     _comment = widget.entry?.comment ?? '';
   }
 
-  Future<void> _setEntryAndDismiss() async {
-    final success =
-        await ref.read(entryScreenControllerProvider.notifier).submit(
-              entryId: widget.entryId,
-              jobId: _jobId,
-              start: start,
-              end: _isOngoing ? null : end,
-              comment: _comment,
-            );
-    if (success && mounted) {
-      context.pop();
+  bool _validateAndSaveForm() {
+    final form = _formKey.currentState!;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> _submit() async {
+    if (_validateAndSaveForm()) {
+      final success =
+      await ref.read(entryScreenControllerProvider.notifier).submit(
+        entryId: widget.entryId,
+        jobId: _jobId,
+        start: start,
+        end: _isOngoing ? null : end,
+        comment: _comment,
+      );
+      if (success && mounted) {
+        context.pop();
+      }
     }
   }
 
@@ -83,29 +97,48 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
               widget.entry != null ? 'Update' : 'Create',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            onPressed: () => _setEntryAndDismiss(),
+            onPressed: () => _submit(),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildStartDate(),
-              const SizedBox(height: 8.0),
-              _buildIsOngoing(),
-              _buildEndDate(),
-              const SizedBox(height: 8.0),
-              _buildDuration(),
-              const SizedBox(height: 8.0),
-              _buildComment(),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildJobDropdown(),
+                const SizedBox(height: 8.0),
+                _buildStartDate(),
+                const SizedBox(height: 8.0),
+                _buildIsOngoing(),
+                _buildEndDate(),
+                const SizedBox(height: 8.0),
+                _buildDuration(),
+                const SizedBox(height: 8.0),
+                _buildComment(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildJobDropdown() {
+    List<Job> jobs = ref.watch(jobsStreamProvider).value ?? [];
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(labelText: 'Job'),
+      items: jobs
+          .map<DropdownMenuItem<String>>((Job job) =>
+              DropdownMenuItem<String>(value: job.id, child: Text(job.name)))
+          .toList(),
+      value: _jobId,
+      validator: (value) => (value ?? '').isNotEmpty ? null : 'Not a valid job',
+      onChanged: (value) => _jobId = value ?? '',
     );
   }
 

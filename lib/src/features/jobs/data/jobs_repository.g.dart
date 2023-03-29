@@ -137,4 +137,19 @@ class JobStreamProvider extends AutoDisposeStreamProvider<Job> {
     return _SystemHash.finish(hash);
   }
 }
+
+String _$jobsStreamHash() => r'f01d81a09c62945d690eee7d5ca15918e1b17a0b';
+
+/// See also [jobsStream].
+@ProviderFor(jobsStream)
+final jobsStreamProvider = AutoDisposeStreamProvider<List<Job>>.internal(
+  jobsStream,
+  name: r'jobsStreamProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$jobsStreamHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef JobsStreamRef = AutoDisposeStreamProviderRef<List<Job>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

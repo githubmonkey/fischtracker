@@ -25,7 +25,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
 
   String? _catid;
   String? _name;
-  int? _ratePerHour;
 
   @override
   void initState() {
@@ -34,7 +33,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
     if (widget.job != null) {
       assert(widget.job!.catId == widget.catId);
       _name = widget.job?.name;
-      _ratePerHour = widget.job?.ratePerHour;
     }
   }
 
@@ -55,7 +53,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
                 oldJob: widget.job,
                 catId: _catid ?? '',
                 name: _name ?? '',
-                ratePerHour: _ratePerHour ?? 0,
               );
       if (success && mounted) {
         context.pop();
@@ -135,16 +132,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
         validator: (value) =>
             (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (value) => _name = value,
-      ),
-      TextFormField(
-        decoration: const InputDecoration(labelText: 'Rate per hour'),
-        keyboardAppearance: Brightness.light,
-        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
-        keyboardType: const TextInputType.numberWithOptions(
-          signed: false,
-          decimal: false,
-        ),
-        onSaved: (value) => _ratePerHour = int.tryParse(value ?? '') ?? 0,
       ),
     ];
   }

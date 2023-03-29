@@ -22,7 +22,6 @@ class EditJobScreenController extends _$EditJobScreenController {
     Job? oldJob,
     required CatID catId,
     required String name,
-    required int ratePerHour,
   }) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
@@ -67,7 +66,7 @@ class EditJobScreenController extends _$EditJobScreenController {
     // job previously existed
     if (jobId != null) {
       final job =
-          Job(id: jobId, catId: catId, name: name, ratePerHour: ratePerHour);
+          Job(id: jobId, catId: catId, name: name);
       state = await AsyncValue.guard(
         () => repository.updateJob(uid: currentUser.uid, job: job),
       );
@@ -76,8 +75,7 @@ class EditJobScreenController extends _$EditJobScreenController {
         () => repository.addJob(
             uid: currentUser.uid,
             catId: catId,
-            name: name,
-            ratePerHour: ratePerHour),
+            name: name),
       );
     }
     return state.hasError == false;

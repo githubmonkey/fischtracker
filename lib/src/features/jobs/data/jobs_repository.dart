@@ -27,12 +27,10 @@ class JobsRepository {
     required UserID uid,
     required String catId,
     required String name,
-    required int ratePerHour,
   }) =>
       _firestore.collection(jobsPath(uid)).add({
         'catId': catId,
         'name': name,
-        'ratePerHour': ratePerHour,
       });
 
   // update
@@ -68,6 +66,7 @@ class JobsRepository {
           .map((snapshot) => snapshot.data()!);
 
   Stream<List<Job>> watchJobs({required UserID uid}) => queryJobs(uid: uid)
+      .orderBy('name')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
@@ -81,7 +80,7 @@ class JobsRepository {
     if (catId != null) {
       query = query.where('catId', isEqualTo: catId);
     }
-    return query.orderBy('name');
+    return query;
   }
 
   Future<List<Job>> fetchJobs({required UserID uid}) async {
@@ -113,6 +112,16 @@ Stream<Job> jobStream(JobStreamRef ref, JobID jobId) {
   }
   final repository = ref.watch(jobsRepositoryProvider);
   return repository.watchJob(uid: user.uid, jobId: jobId);
+}
+
+@riverpod
+Stream<List<Job>> jobsStream(JobsStreamRef ref) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null');
+  }
+  final repository = ref.watch(jobsRepositoryProvider);
+  return repository.watchJobs(uid: user.uid);
 }
 
 final catJobsQueryProvider =

@@ -11,12 +11,11 @@ void main() {
       final job = Job.fromMap(const {
         'catId': 'cat-123',
         'name': 'Blogging',
-        'ratePerHour': 10,
       }, 'abc');
       expect(
           job,
           const Job(
-              catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc'));
+              catId: 'cat-123', name: 'Blogging', id: 'abc'));
     });
 
     test('missing name', () {
@@ -25,7 +24,6 @@ void main() {
       // * We can detect it by expecting that the test throws a TypeError
       expect(
           () => Job.fromMap(const {
-                'ratePerHour': 10,
               }, 'abc'),
           throwsA(isInstanceOf<TypeError>()));
     });
@@ -34,7 +32,6 @@ void main() {
       expect(
           () => Job.fromMap(const {
                 'name': 'Blogging',
-                'ratePerHour': 10,
               }, 'abc'),
           throwsA(isInstanceOf<TypeError>()));
     });
@@ -44,7 +41,6 @@ void main() {
         final job = Job.fromMap({
           'catId': 'cat-123',
           'name': 'Blogging',
-          'ratePerHour': 10,
           'lastEntryId': '345',
           'lastEntryStart': date1.millisecondsSinceEpoch,
           'lastEntryEnd': date2.millisecondsSinceEpoch,
@@ -55,7 +51,6 @@ void main() {
           Job(
             catId: 'cat-123',
             name: 'Blogging',
-            ratePerHour: 10,
             id: 'abc',
             lastEntry: Entry(
               id: '345',
@@ -72,7 +67,6 @@ void main() {
         final job = Job.fromMap({
           'catId': 'cat-123',
           'name': 'Blogging',
-          'ratePerHour': 10,
           'lastEntryId': '345',
           'lastEntryStart': date1.millisecondsSinceEpoch,
           'lastEntryComment': '',
@@ -82,7 +76,6 @@ void main() {
           Job(
             catId: 'cat-123',
             name: 'Blogging',
-            ratePerHour: 10,
             id: 'abc',
             lastEntry: Entry(
               id: '345',
@@ -99,7 +92,6 @@ void main() {
         final job = Job.fromMap({
           'catId': 'cat-123',
           'name': 'Blogging',
-          'ratePerHour': 10,
           'lastEntryId': '',
           'lastEntryStart': date1.millisecondsSinceEpoch,
           'lastEntryEnd': date2.millisecondsSinceEpoch,
@@ -110,7 +102,6 @@ void main() {
           const Job(
             catId: 'cat-123',
             name: 'Blogging',
-            ratePerHour: 10,
             id: 'abc',
           ),
         );
@@ -119,17 +110,15 @@ void main() {
   });
 
   group('toMap', () {
-    test('valid name, ratePerHour', () {
+    test('valid name', () {
       const job = Job(
         catId: 'cat-123',
         name: 'Blogging',
-        ratePerHour: 10,
         id: 'abc',
       );
       expect(job.toMap(), {
         'catId': 'cat-123',
         'name': 'Blogging',
-        'ratePerHour': 10,
       });
     });
 
@@ -138,7 +127,6 @@ void main() {
         final job = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
             jobId: 'abc',
@@ -151,7 +139,6 @@ void main() {
         expect(job.toMap(), {
           'catId': 'cat-123',
           'name': 'Blogging',
-          'ratePerHour': 10,
           'lastEntryId': '345',
           'lastEntryStart': date1,
           'lastEntryEnd': date2,
@@ -163,7 +150,6 @@ void main() {
         final job = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
             jobId: 'abc',
@@ -176,7 +162,6 @@ void main() {
         expect(job.toMap(), {
           'catId': 'cat-123',
           'name': 'Blogging',
-          'ratePerHour': 10,
           'lastEntryId': '345',
           'lastEntryStart': date1,
           'lastEntryComment': ''
@@ -188,30 +173,23 @@ void main() {
   group('equality', () {
     test('different catIds, equality returns false', () {
       const job1 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
+          Job(catId: 'cat-123', name: 'Blogging', id: 'abc');
       const job2 =
-          Job(catId: 'cat-567', name: 'Blogging', ratePerHour: 5, id: 'abc');
+          Job(catId: 'cat-567', name: 'Blogging', id: 'abc');
       expect(job1 == job2, false);
     });
     test('different names, equality returns false', () {
       const job1 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
+          Job(catId: 'cat-123', name: 'Blogging', id: 'abc');
       const job2 =
-          Job(catId: 'cat-123', name: 'Research', ratePerHour: 5, id: 'abc');
-      expect(job1 == job2, false);
-    });
-    test('different rates, equality returns false', () {
-      const job1 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
-      const job2 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 5, id: 'abc');
+          Job(catId: 'cat-123', name: 'Research', id: 'abc');
       expect(job1 == job2, false);
     });
     test('same properties, equality returns true', () {
       const job1 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
+          Job(catId: 'cat-123', name: 'Blogging', id: 'abc');
       const job2 =
-          Job(catId: 'cat-123', name: 'Blogging', ratePerHour: 10, id: 'abc');
+          Job(catId: 'cat-123', name: 'Blogging', id: 'abc');
       expect(job1 == job2, true);
     });
 
@@ -219,14 +197,12 @@ void main() {
       final job1 = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
               id: '123', jobId: 'abc', start: date1, end: null, comment: ''));
       final job2 = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
               id: '123', jobId: 'abc', start: date2, end: null, comment: ''));
@@ -237,14 +213,12 @@ void main() {
       final job1 = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
               id: '123', jobId: 'abc', start: date1, end: date2, comment: ''));
       final job2 = Job(
           catId: 'cat-123',
           name: 'Blogging',
-          ratePerHour: 10,
           id: 'abc',
           lastEntry: Entry(
               id: '123', jobId: 'abc', start: date1, end: null, comment: ''));
