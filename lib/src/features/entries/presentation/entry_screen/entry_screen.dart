@@ -134,7 +134,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
       decoration: const InputDecoration(labelText: 'Job'),
       items: jobs
           .map<DropdownMenuItem<String>>((Job job) =>
-              DropdownMenuItem<String>(value: job.id, child: Text(job.name)))
+              DropdownMenuItem<String>(value: job.id, child: Text(job.fullName)))
           .toList(),
       value: _jobId,
       validator: (value) => (value ?? '').isNotEmpty ? null : 'Not a valid job',
@@ -204,7 +204,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   Widget _buildComment() {
     return TextField(
       keyboardType: TextInputType.text,
-      maxLength: 50,
+      maxLength: 200,
       controller: TextEditingController(text: _comment),
       decoration: const InputDecoration(
         labelText: 'Comment',

@@ -34,7 +34,7 @@ class EntryListItem extends ConsumerWidget {
   }
 
   Widget _buildHeader(BuildContext context, WidgetRef ref) {
-    final texttheme = Theme.of(context).textTheme.bodyLarge;
+    final texttheme = Theme.of(context).textTheme.bodySmall;
     return Container(
       color: Theme.of(context).secondaryHeaderColor,
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -59,7 +59,8 @@ class EntryListItem extends ConsumerWidget {
     final durationFormatted = Format.hours(entry.durationInHours);
 
     final isOngoing = entry.end == null;
-    final textStyle = Theme.of(context).textTheme.bodyMedium;
+    final textLarge = Theme.of(context).textTheme.bodyMedium;
+    final textSmall = Theme.of(context).textTheme.bodySmall;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,8 +70,8 @@ class EntryListItem extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(model.job!.name, style: textStyle),
-                Text('$startTime - $endTime', style: textStyle),
+                Text(model.job!.fullName, style: textLarge),
+                Text('$startTime - $endTime', style: textLarge),
               ],
             ),
             if (isOngoing) ...<Widget>[
@@ -85,18 +86,12 @@ class EntryListItem extends ConsumerWidget {
             Expanded(child: Container()),
             Text(
               durationFormatted,
-              style: textStyle!.copyWith(
-                  color: textStyle.color!.withOpacity(isOngoing ? 0.5 : 1)),
+              style: textLarge!.copyWith(
+                  color: textLarge.color!.withOpacity(isOngoing ? 0.5 : 1)),
             ),
           ],
         ),
-        if (entry.comment.isNotEmpty)
-          Text(
-            entry.comment,
-            style: Theme.of(context).textTheme.bodySmall,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
+        if (entry.comment.isNotEmpty) Text(entry.comment, style: textSmall),
       ],
     );
   }
