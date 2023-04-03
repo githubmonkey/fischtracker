@@ -98,7 +98,9 @@ Query<Entry> entriesQuery(EntriesQueryRef ref, {JobID? jobId}) {
     throw AssertionError('User can\'t be null when fetching jobs');
   }
   final repository = ref.watch(entriesRepositoryProvider);
-  return repository.queryEntries(uid: user.uid, jobId: jobId);
+  return repository
+      .queryEntries(uid: user.uid, jobId: jobId)
+      .orderBy('start', descending: true);
 }
 
 @riverpod

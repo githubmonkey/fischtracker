@@ -86,6 +86,7 @@ class JobsRepository {
     return query;
   }
 
+  // Order doesn't matter
   Future<List<Job>> fetchJobs({required UserID uid}) async {
     final jobs = await queryJobs(uid: uid).get();
     return jobs.docs.map((doc) => doc.data()).toList();
@@ -134,5 +135,5 @@ final catJobsQueryProvider =
     throw AssertionError('User can\'t be null when fetching jobs');
   }
   final repository = ref.watch(jobsRepositoryProvider);
-  return repository.queryJobs(uid: user.uid, catId: catId);
+  return repository.queryJobs(uid: user.uid, catId: catId).orderBy('name');
 });

@@ -21,7 +21,7 @@ final entriesRepositoryProvider = Provider<EntriesRepository>.internal(
 );
 
 typedef EntriesRepositoryRef = ProviderRef<EntriesRepository>;
-String _$entriesQueryHash() => r'32dd3c446280ee5fbd4b340f62cf930f6302d82c';
+String _$entriesQueryHash() => r'70ad8335af0bf310e7be3e94974d4830e6625edc';
 
 /// Copied from Dart SDK
 class _SystemHash {

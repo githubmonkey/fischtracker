@@ -21,7 +21,7 @@ final catsRepositoryProvider = Provider<CatsRepository>.internal(
 );
 
 typedef CatsRepositoryRef = ProviderRef<CatsRepository>;
-String _$catsQueryHash() => r'123352f106b7b2023266a4cb3bd9f94ba20eed9e';
+String _$catsQueryHash() => r'e5eee281e22cef14614ba1950d8e1f802fc1e57d';
 
 /// See also [catsQuery].
 @ProviderFor(catsQuery)

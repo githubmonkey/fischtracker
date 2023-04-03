@@ -49,6 +49,7 @@ class CatsRepository {
           .map((snapshot) => snapshot.data()!);
 
   Stream<List<Cat>> watchCats({required UserID uid}) => queryCats(uid: uid)
+      .orderBy('name')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
@@ -58,11 +59,10 @@ class CatsRepository {
         fromFirestore: (snapshot, _) =>
             Cat.fromMap(snapshot.data()!, snapshot.id),
         toFirestore: (cat, _) => cat.toMap(),
-      )
-      .orderBy('name');
+      );
 
   Future<List<Cat>> fetchCats({required UserID uid}) async {
-    final cats = await queryCats(uid: uid).get();
+    final cats = await queryCats(uid: uid).orderBy('name').get();
     return cats.docs.map((doc) => doc.data()).toList();
   }
 
@@ -91,7 +91,7 @@ Query<Cat> catsQuery(CatsQueryRef ref) {
     throw AssertionError('User can\'t be null');
   }
   final repository = ref.watch(catsRepositoryProvider);
-  return repository.queryCats(uid: user.uid);
+  return repository.queryCats(uid: user.uid).orderBy('name');
 }
 
 @riverpod
