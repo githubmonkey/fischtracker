@@ -1,6 +1,7 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
+import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
@@ -25,7 +26,7 @@ class TimersScreen extends StatelessWidget {
         );
 
         final catsQuery = ref.watch(catsQueryProvider);
-        //final openEntriesStream = ref.watch(openEntriesStreamProvider);
+        //final openEntriesStream = ref.watch(openEntriesStreamProvider());
         return FirestoreListView<Cat>(
           query: catsQuery,
           itemBuilder: (context, doc) {
@@ -101,12 +102,16 @@ class JobListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final openEntriesForJob =
+        ref.watch(openEntriesStreamProvider(jobId: job.id));
+    final isOpen = openEntriesForJob.value?.isNotEmpty ?? false;
+
     return SwitchListTile(
-        value: job.isOpen,
+        value: isOpen,
         title: Text(job.name),
-        subtitle: (job.lastEntry == null)
-            ? null
-            : Text(getLastEntryDetails(context, job.lastEntry!)),
+        subtitle: (isOpen)
+            ? Text(getLastEntryDetails(context, openEntriesForJob.value!.first))
+            : null,
         onChanged: (_) =>
             ref.read(timersScreenControllerProvider.notifier).onChange(job));
   }

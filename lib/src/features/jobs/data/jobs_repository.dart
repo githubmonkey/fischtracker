@@ -25,12 +25,14 @@ class JobsRepository {
   // create
   Future<void> addJob({
     required UserID uid,
-    required String catId,
     required String name,
+    required String catId,
+    required String catName,
   }) =>
       _firestore.collection(jobsPath(uid)).add({
-        'catId': catId,
         'name': name,
+        'catId': catId,
+        'catName': catName,
       });
 
   // update
@@ -66,6 +68,7 @@ class JobsRepository {
           .map((snapshot) => snapshot.data()!);
 
   Stream<List<Job>> watchJobs({required UserID uid}) => queryJobs(uid: uid)
+      .orderBy('catName')
       .orderBy('name')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
@@ -83,6 +86,7 @@ class JobsRepository {
     return query;
   }
 
+  // Order doesn't matter
   Future<List<Job>> fetchJobs({required UserID uid}) async {
     final jobs = await queryJobs(uid: uid).get();
     return jobs.docs.map((doc) => doc.data()).toList();
@@ -131,5 +135,5 @@ final catJobsQueryProvider =
     throw AssertionError('User can\'t be null when fetching jobs');
   }
   final repository = ref.watch(jobsRepositoryProvider);
-  return repository.queryJobs(uid: user.uid, catId: catId);
+  return repository.queryJobs(uid: user.uid, catId: catId).orderBy('name');
 });

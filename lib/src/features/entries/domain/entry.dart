@@ -24,8 +24,7 @@ class Entry extends Equatable {
   @override
   bool get stringify => true;
 
-  double get durationInHours =>
-      (end ?? DateTime.now()).difference(start).inMinutes.toDouble() / 60.0;
+  Duration get duration => (end ?? DateTime.now()).difference(start);
 
   factory Entry.fromMap(Map<dynamic, dynamic> value, EntryID id) {
     final startMilliseconds = value['start'] as int;

@@ -17,6 +17,10 @@ class TimersScreenController extends _$TimersScreenController {
 
   Future<void> onChange(Job job) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
+    final openEntriesForJob =
+    ref.read(openEntriesStreamProvider(jobId: job.id));
+    final isOpen = openEntriesForJob.value?.isNotEmpty ?? false;
+
     if (currentUser == null) {
       throw AssertionError('User can\'t be null');
     }
@@ -24,12 +28,12 @@ class TimersScreenController extends _$TimersScreenController {
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      if (job.isOpen) {
+      if (isOpen) {
         // close this one and whatever else might be open
-        // TODO: no need to expect more than one
+        // TODO: log if there is more than one still open
         repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
           for (var e in entries) {
-            repository.updateLastEntry(
+            repository.updateEntry(
                 uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
           }
         });
@@ -38,7 +42,7 @@ class TimersScreenController extends _$TimersScreenController {
         repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
           for (var e in entries) {
             if (e.jobId != job.id) {
-              repository.updateLastEntry(
+              repository.updateEntry(
                   uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
             }
           }
@@ -68,7 +72,7 @@ class TimersScreenController extends _$TimersScreenController {
     state = await AsyncValue.guard(() async {
       final entries = await repository.fetchOpenEntries(uid: currentUser.uid);
       for (var e in entries) {
-        await repository.updateLastEntry(
+        await repository.updateEntry(
             uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
       }
 
@@ -94,7 +98,7 @@ class TimersScreenController extends _$TimersScreenController {
     state = await AsyncValue.guard(
       () => repository.fetchOpenEntries(uid: currentUser.uid).then((entries) {
         for (var e in entries) {
-          repository.updateLastEntry(
+          repository.updateEntry(
               uid: currentUser.uid, entry: e.copyWith(end: DateTime.now()));
         }
       }),
@@ -111,7 +115,7 @@ class TimersScreenController extends _$TimersScreenController {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(
-      () => repository.updateLastEntry(
+      () => repository.updateEntry(
         uid: currentUser.uid,
         entry: entry.copyWith(end: DateTime.now()),
       ),

@@ -21,7 +21,7 @@ class JobEntriesList extends ConsumerWidget {
       jobsEntriesListControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final jobEntriesQuery = ref.watch(jobEntriesQueryProvider(jobId: job.id));
+    final jobEntriesQuery = ref.watch(entriesQueryProvider(jobId: job.id));
     return FirestoreListView<Entry>(
       query: jobEntriesQuery,
       itemBuilder: (context, doc) {
@@ -33,7 +33,7 @@ class JobEntriesList extends ConsumerWidget {
               .read(jobsEntriesListControllerProvider.notifier)
               .deleteEntry(entry.id),
           onTap: () => context.goNamed(
-            AppRoute.entryViaJob.name,
+            AppRoute.editEntryViaJob.name,
             params: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
             extra: entry,
           ),

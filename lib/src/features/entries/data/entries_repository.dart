@@ -20,55 +20,21 @@ class EntriesRepository {
   static String jobPath(String uid, String jobId) => 'users/$uid/jobs/$jobId';
 
   // create
-  // Add a new entry and update the matching job object
   Future<void> addEntry({
     required UserID uid,
     required JobID jobId,
     required DateTime start,
     required DateTime? end,
     required String comment,
-  }) {
-    final batch = _firestore.batch();
-
-    final entryref = _firestore.collection(entriesPath(uid)).doc();
-    final jobref = _firestore.doc(jobPath(uid, jobId));
-
-    batch.set(entryref, {
-      'id': entryref.id,
-      'jobId': jobId,
-      'start': start.millisecondsSinceEpoch,
-      'end': end?.millisecondsSinceEpoch,
-      'comment': comment,
-    });
-
-    batch.update(jobref, {
-      'lastEntryId': entryref.id,
-      'lastEntryStart': start.millisecondsSinceEpoch,
-      'lastEntryEnd': end?.millisecondsSinceEpoch,
-      'lastEntryComment': comment,
-    });
-
-    return batch.commit();
-  }
+  }) =>
+      _firestore.collection(entriesPath(uid)).add({
+        'jobId': jobId,
+        'start': start.millisecondsSinceEpoch,
+        'end': end?.millisecondsSinceEpoch,
+        'comment': comment,
+      });
 
   // update
-  // This one also updates lastentry in the matching job object
-  Future<void> updateLastEntry({required UserID uid, required Entry entry}) {
-    final batch = _firestore.batch();
-    final entryref = _firestore.doc(entryPath(uid, entry.id));
-    final jobref = _firestore.doc(jobPath(uid, entry.jobId));
-
-    batch.update(entryref, entry.toMap());
-    batch.update(jobref, {
-      'lastEntryId': entry.id,
-      'lastEntryStart': entry.start.millisecondsSinceEpoch,
-      'lastEntryEnd': entry.end?.millisecondsSinceEpoch,
-      'lastEntryComment': entry.comment,
-    });
-
-    return batch.commit();
-  }
-
   Future<void> updateEntry({
     required UserID uid,
     required Entry entry,
@@ -86,8 +52,8 @@ class EntriesRepository {
           .snapshots()
           .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Stream<List<Entry>> watchOpenEntries({required UserID uid}) =>
-      queryEntries(uid: uid)
+  Stream<List<Entry>> watchOpenEntries({required UserID uid, JobID? jobId}) =>
+      queryEntries(uid: uid, jobId: jobId)
           .orderBy('start', descending: true)
           .where('end', isNull: true)
           .snapshots()
@@ -100,6 +66,7 @@ class EntriesRepository {
                   Entry.fromMap(snapshot.data()!, snapshot.id),
               toFirestore: (entry, _) => entry.toMap(),
             );
+    // TODO: this seems to prevent the job-entries list from being updated
     if (jobId != null) {
       query = query.where('jobId', isEqualTo: jobId);
     }
@@ -126,32 +93,24 @@ EntriesRepository entriesRepository(EntriesRepositoryRef ref) {
 }
 
 @riverpod
-Query<Entry> entriesQuery(EntriesQueryRef ref) {
+Query<Entry> entriesQuery(EntriesQueryRef ref, {JobID? jobId}) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null when fetching jobs');
   }
   final repository = ref.watch(entriesRepositoryProvider);
-  return repository.queryEntries(uid: user.uid);
-}
-
-// TODO: make jobId nullable to combine with above?
-@riverpod
-Query<Entry> jobEntriesQuery(JobEntriesQueryRef ref, {required JobID jobId}) {
-  final user = ref.watch(firebaseAuthProvider).currentUser;
-  if (user == null) {
-    throw AssertionError('User can\'t be null when fetching jobs');
-  }
-  final repository = ref.watch(entriesRepositoryProvider);
-  return repository.queryEntries(uid: user.uid, jobId: jobId);
+  return repository
+      .queryEntries(uid: user.uid, jobId: jobId)
+      .orderBy('start', descending: true);
 }
 
 @riverpod
-Stream<List<Entry>> openEntriesStream(OpenEntriesStreamRef ref) {
+Stream<List<Entry>> openEntriesStream(OpenEntriesStreamRef ref,
+    {JobID? jobId}) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null when fetching jobs');
   }
   final repository = ref.watch(entriesRepositoryProvider);
-  return repository.watchOpenEntries(uid: user.uid);
+  return repository.watchOpenEntries(uid: user.uid, jobId: jobId);
 }
