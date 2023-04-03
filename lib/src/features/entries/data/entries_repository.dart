@@ -66,6 +66,7 @@ class EntriesRepository {
                   Entry.fromMap(snapshot.data()!, snapshot.id),
               toFirestore: (entry, _) => entry.toMap(),
             );
+    // TODO: this seems to prevent the job-entries list from being updated
     if (jobId != null) {
       query = query.where('jobId', isEqualTo: jobId);
     }
