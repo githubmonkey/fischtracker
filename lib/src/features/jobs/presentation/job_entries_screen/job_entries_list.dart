@@ -21,7 +21,7 @@ class JobEntriesList extends ConsumerWidget {
       jobsEntriesListControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final jobEntriesQuery = ref.watch(jobEntriesQueryProvider(jobId: job.id));
+    final jobEntriesQuery = ref.watch(entriesQueryProvider(jobId: job.id));
     return FirestoreListView<Entry>(
       query: jobEntriesQuery,
       itemBuilder: (context, doc) {

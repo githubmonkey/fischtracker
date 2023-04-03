@@ -21,21 +21,7 @@ final entriesRepositoryProvider = Provider<EntriesRepository>.internal(
 );
 
 typedef EntriesRepositoryRef = ProviderRef<EntriesRepository>;
-String _$entriesQueryHash() => r'93cd0d807140cdb2fbc5cd932f9c7c2800c90ec2';
-
-/// See also [entriesQuery].
-@ProviderFor(entriesQuery)
-final entriesQueryProvider = AutoDisposeProvider<Query<Entry>>.internal(
-  entriesQuery,
-  name: r'entriesQueryProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$entriesQueryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef EntriesQueryRef = AutoDisposeProviderRef<Query<Entry>>;
-String _$jobEntriesQueryHash() => r'4b9901b69f7a7c0211f097b6e1dce9434e187ca0';
+String _$entriesQueryHash() => r'32dd3c446280ee5fbd4b340f62cf930f6302d82c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,29 +44,29 @@ class _SystemHash {
   }
 }
 
-typedef JobEntriesQueryRef = AutoDisposeProviderRef<Query<Entry>>;
+typedef EntriesQueryRef = AutoDisposeProviderRef<Query<Entry>>;
 
-/// See also [jobEntriesQuery].
-@ProviderFor(jobEntriesQuery)
-const jobEntriesQueryProvider = JobEntriesQueryFamily();
+/// See also [entriesQuery].
+@ProviderFor(entriesQuery)
+const entriesQueryProvider = EntriesQueryFamily();
 
-/// See also [jobEntriesQuery].
-class JobEntriesQueryFamily extends Family<Query<Entry>> {
-  /// See also [jobEntriesQuery].
-  const JobEntriesQueryFamily();
+/// See also [entriesQuery].
+class EntriesQueryFamily extends Family<Query<Entry>> {
+  /// See also [entriesQuery].
+  const EntriesQueryFamily();
 
-  /// See also [jobEntriesQuery].
-  JobEntriesQueryProvider call({
-    required String jobId,
+  /// See also [entriesQuery].
+  EntriesQueryProvider call({
+    String? jobId,
   }) {
-    return JobEntriesQueryProvider(
+    return EntriesQueryProvider(
       jobId: jobId,
     );
   }
 
   @override
-  JobEntriesQueryProvider getProviderOverride(
-    covariant JobEntriesQueryProvider provider,
+  EntriesQueryProvider getProviderOverride(
+    covariant EntriesQueryProvider provider,
   ) {
     return call(
       jobId: provider.jobId,
@@ -99,35 +85,35 @@ class JobEntriesQueryFamily extends Family<Query<Entry>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'jobEntriesQueryProvider';
+  String? get name => r'entriesQueryProvider';
 }
 
-/// See also [jobEntriesQuery].
-class JobEntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
-  /// See also [jobEntriesQuery].
-  JobEntriesQueryProvider({
-    required this.jobId,
+/// See also [entriesQuery].
+class EntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
+  /// See also [entriesQuery].
+  EntriesQueryProvider({
+    this.jobId,
   }) : super.internal(
-          (ref) => jobEntriesQuery(
+          (ref) => entriesQuery(
             ref,
             jobId: jobId,
           ),
-          from: jobEntriesQueryProvider,
-          name: r'jobEntriesQueryProvider',
+          from: entriesQueryProvider,
+          name: r'entriesQueryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$jobEntriesQueryHash,
-          dependencies: JobEntriesQueryFamily._dependencies,
+                  : _$entriesQueryHash,
+          dependencies: EntriesQueryFamily._dependencies,
           allTransitiveDependencies:
-              JobEntriesQueryFamily._allTransitiveDependencies,
+              EntriesQueryFamily._allTransitiveDependencies,
         );
 
-  final String jobId;
+  final String? jobId;
 
   @override
   bool operator ==(Object other) {
-    return other is JobEntriesQueryProvider && other.jobId == jobId;
+    return other is EntriesQueryProvider && other.jobId == jobId;
   }
 
   @override
