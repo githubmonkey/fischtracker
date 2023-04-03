@@ -26,7 +26,7 @@ class EntryScreen extends ConsumerStatefulWidget {
 class _EntryPageState extends ConsumerState<EntryScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late JobID _jobId;
+  late JobID? _jobId;
   late DateTime _startDate;
   late TimeOfDay _startTime;
   late bool _isOngoing;
@@ -43,7 +43,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   @override
   void initState() {
     super.initState();
-    _jobId = widget.entry?.jobId ?? widget.jobId!;
+    _jobId = widget.entry?.jobId ?? widget.jobId;
     final start = widget.entry?.start ?? DateTime.now();
     _startDate = DateTime(start.year, start.month, start.day);
     _startTime = TimeOfDay.fromDateTime(start);
@@ -71,7 +71,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
       final success =
       await ref.read(entryScreenControllerProvider.notifier).submit(
         entryId: widget.entryId,
-        jobId: _jobId,
+        jobId: _jobId!,
         start: start,
         end: _isOngoing ? null : end,
         comment: _comment,
@@ -132,6 +132,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     List<Job> jobs = ref.watch(jobsStreamProvider).value ?? [];
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(labelText: 'Job'),
+      hint: Text('----'),
       items: jobs
           .map<DropdownMenuItem<String>>((Job job) =>
               DropdownMenuItem<String>(value: job.id, child: Text(job.fullName)))

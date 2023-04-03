@@ -4,6 +4,7 @@ import 'package:fischtracker/src/features/entries/application/entries_service.da
 import 'package:fischtracker/src/features/entries/domain/entries_list_tile_model.dart';
 import 'package:fischtracker/src/features/entries/presentation/entries_screen/entries_screen_controller.dart';
 import 'package:fischtracker/src/features/entries/presentation/entries_screen/entry_list_item.dart';
+import 'package:fischtracker/src/features/entries/presentation/entry_screen/entry_screen.dart';
 import 'package:fischtracker/src/routing/app_router.dart';
 import 'package:fischtracker/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,12 @@ class EntriesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(Strings.entries),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => EntryScreen()));
+          }),
       body: Consumer(builder: (context, ref, child) {
         ref.listen<AsyncValue>(
           entriesScreenControllerProvider,
