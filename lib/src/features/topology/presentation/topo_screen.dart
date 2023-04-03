@@ -42,9 +42,10 @@ class TopoScreen extends StatelessWidget {
                   CatListTile(cat: items[index].cat, jobs: items[index].jobs),
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (_, __) => const EmptyContent(
+            error: (error, stacktrace) => EmptyContent(
               title: 'Something went wrong',
               message: 'Can\'t load items right now',
+              error: error,
             ),
           );
         },
