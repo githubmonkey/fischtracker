@@ -33,7 +33,7 @@ class JobEntriesList extends ConsumerWidget {
               .read(jobsEntriesListControllerProvider.notifier)
               .deleteEntry(entry.id),
           onTap: () => context.goNamed(
-            AppRoute.entryViaJob.name,
+            AppRoute.editEntryViaJob.name,
             params: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
             extra: entry,
           ),

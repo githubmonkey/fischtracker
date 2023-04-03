@@ -39,9 +39,8 @@ enum AppRoute {
   job,
   addJob,
   editJob,
+  editEntryViaJob,
   entries,
-  entryViaJob,
-  entry,
   addEntry,
   editEntry,
   profile,
@@ -184,7 +183,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 routes: [
                   GoRoute(
                     path: 'entry/:eid',
-                    name: AppRoute.entryViaJob.name,
+                    name: AppRoute.editEntryViaJob.name,
                     pageBuilder: (context, state) {
                       final entryId = state.params['eid']!;
                       final entry = state.extra as Entry?;
@@ -244,7 +243,7 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
               GoRoute(
                 path: ':eid',
-                name: AppRoute.entry.name,
+                name: AppRoute.editEntry.name,
                 pageBuilder: (context, state) {
                   final entryId = state.params['eid']!;
                   final entry = state.extra as Entry?;
