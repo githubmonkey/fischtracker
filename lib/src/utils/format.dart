@@ -1,11 +1,16 @@
 import 'package:intl/intl.dart';
 
 class Format {
-  static String hours(double hours) {
-    final hoursNotNegative = hours < 0.0 ? 0.0 : hours;
-    final formatter = NumberFormat.decimalPattern();
-    final formatted = formatter.format(hoursNotNegative);
-    return '${formatted}h';
+  static String duration(Duration duration) {
+    var minutes = duration.inMinutes;
+    final sign = (minutes < 0) ? "-" : "";
+    minutes = minutes.abs();
+
+    var hours = minutes ~/ Duration.minutesPerHour;
+    minutes = minutes.remainder(Duration.minutesPerHour);
+    final minutesPadding = minutes < 10 ? "0" : "";
+
+    return '$sign${hours.abs()}h:$minutesPadding$minutes';
   }
 
   static String date(DateTime date) {

@@ -33,7 +33,7 @@ class EntryListItem extends ConsumerWidget {
     final endTime = entry.end == null
         ? 'ongoing'.hardcoded
         : TimeOfDay.fromDateTime(entry.end!).format(context);
-    final durationFormatted = Format.hours(entry.durationInHours);
+    final durationFormatted = Format.duration(entry.duration);
 
     final isOngoing = entry.end == null;
     final textStyle = Theme.of(context).textTheme.bodyLarge;

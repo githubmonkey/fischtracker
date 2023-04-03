@@ -50,7 +50,7 @@ class EntriesService {
         EntriesListTileModel(
           isHeader: true,
           date: dailyEntriesDetails.date,
-          durationInHours: dailyEntriesDetails.duration,
+          duration: dailyEntriesDetails.duration,
         ),
         for (EntryJob entryDetails in dailyEntriesDetails.entries)
           EntriesListTileModel(

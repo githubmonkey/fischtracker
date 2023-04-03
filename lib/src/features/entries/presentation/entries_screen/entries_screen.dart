@@ -24,7 +24,7 @@ class EntriesScreen extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => EntryScreen()));
+                .push(MaterialPageRoute(builder: (context) => const EntryScreen()));
           }),
       body: Consumer(builder: (context, ref, child) {
         ref.listen<AsyncValue>(

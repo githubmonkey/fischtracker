@@ -7,8 +7,8 @@ class DailyEntriesDetails {
   final DateTime date;
   final List<EntryJob> entries;
 
-  double get duration => entries
-      .map((e) => e.entry.durationInHours)
+  Duration get duration => entries
+      .map((e) => e.entry.duration)
       .reduce((value, element) => value + element);
 
   /// splits all entries into separate groups by date

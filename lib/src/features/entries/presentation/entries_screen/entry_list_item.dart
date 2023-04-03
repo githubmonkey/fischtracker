@@ -43,7 +43,7 @@ class EntryListItem extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(Format.longdate(model.date!), style: texttheme),
-          Text(Format.hours(model.durationInHours!),
+          Text(Format.duration(model.duration!),
               style: texttheme, textAlign: TextAlign.right),
         ],
       ),
@@ -56,7 +56,7 @@ class EntryListItem extends ConsumerWidget {
     final endTime = entry.end == null
         ? 'ongoing'.hardcoded
         : TimeOfDay.fromDateTime(entry.end!).format(context);
-    final durationFormatted = Format.hours(entry.durationInHours);
+    final durationFormatted = Format.duration(entry.duration);
 
     final isOngoing = entry.end == null;
     final textLarge = Theme.of(context).textTheme.bodyMedium;

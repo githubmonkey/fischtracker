@@ -132,7 +132,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
     List<Job> jobs = ref.watch(jobsStreamProvider).value ?? [];
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(labelText: 'Job'),
-      hint: Text('----'),
+      hint: const Text('----'),
       items: jobs
           .map<DropdownMenuItem<String>>((Job job) =>
               DropdownMenuItem<String>(value: job.id, child: Text(job.fullName)))
@@ -187,8 +187,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   }
 
   Widget _buildDuration() {
-    final durationInHours = end.difference(start).inMinutes.toDouble() / 60.0;
-    final durationFormatted = Format.hours(durationInHours);
+    final durationFormatted = Format.duration(end.difference(start));
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
