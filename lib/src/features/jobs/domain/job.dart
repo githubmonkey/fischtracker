@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
-import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:flutter/foundation.dart';
 
 typedef JobID = String;
@@ -9,71 +8,45 @@ typedef JobID = String;
 class Job extends Equatable {
   const Job({
     required this.id,
-    required this.catId,
     required this.name,
-    this.lastEntry,
+    required this.catId,
+    required this.catName,
   });
 
   final JobID id;
-  final CatID catId;
   final String name;
-  final Entry? lastEntry;
+  final CatID catId;
+  final String catName;
 
   // TODO: shouldn't id be part of the comparison?
   @override
-  List<Object> get props => [name, catId, lastEntry ?? 'N/A'];
+  List<Object> get props => [name, catId, catName];
 
   @override
   bool get stringify => true;
 
   factory Job.fromMap(Map<String, dynamic> data, String id) {
-    // optional last entry data
-    final lastEntryId = data['lastEntryId'] as String?;
-    final startMilliseconds = data['lastEntryStart'] as int?;
-    final endMilliseconds = data['lastEntryEnd'] as int?;
-    final lastEntryComment = data['lastEntryComment'] as String?;
-
-    final lastEntry = lastEntryId?.isNotEmpty ?? false
-        ? Entry(
-            id: lastEntryId!,
-            jobId: id,
-            start: DateTime.fromMillisecondsSinceEpoch(startMilliseconds!),
-            end: endMilliseconds == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(endMilliseconds),
-            comment: lastEntryComment!)
-        : null;
-
     final name = data['name'] as String;
     final catId = data['catId'] as String;
+    final catName = data['catName'] as String;
 
-    return Job(
-      id: id,
-      catId: catId,
-      name: name,
-      lastEntry: lastEntry,
-    );
+    return Job(id: id, name: name, catId: catId, catName: catName);
   }
 
-  Job copyWith({id, catId, name, ratePerHour, lastEntry}) => Job(
-    id: id ?? this.id,
-    catId: catId ?? this.catId,
-    name: name ?? this.name,
-    lastEntry: lastEntry ?? this.lastEntry,
-  );
+  Job copyWith({id, name, catId, catName}) => Job(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        catId: catId ?? this.catId,
+        catName: catName ?? this.catName,
+      );
 
   Map<String, dynamic> toMap() {
     return {
-      'catId': catId,
       'name': name,
-      ... (lastEntry != null) ? {
-       'lastEntryId': lastEntry!.id,
-       'lastEntryStart': lastEntry!.start,
-       if (lastEntry!.end != null) 'lastEntryEnd': lastEntry!.end,
-       'lastEntryComment': lastEntry!.comment,
-      } : {}
+      'catId': catId,
+      'catName': catName,
     };
   }
 
-  bool get isOpen => (lastEntry != null && lastEntry!.end == null);
+  String get fullName => '$catName / $name';
 }

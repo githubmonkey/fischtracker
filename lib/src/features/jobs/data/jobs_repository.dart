@@ -25,12 +25,14 @@ class JobsRepository {
   // create
   Future<void> addJob({
     required UserID uid,
-    required String catId,
     required String name,
+    required String catId,
+    required String catName,
   }) =>
       _firestore.collection(jobsPath(uid)).add({
-        'catId': catId,
         'name': name,
+        'catId': catId,
+        'catName': catName,
       });
 
   // update
@@ -66,6 +68,7 @@ class JobsRepository {
           .map((snapshot) => snapshot.data()!);
 
   Stream<List<Job>> watchJobs({required UserID uid}) => queryJobs(uid: uid)
+      .orderBy('catName')
       .orderBy('name')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());

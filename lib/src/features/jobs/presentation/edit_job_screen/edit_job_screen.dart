@@ -23,8 +23,9 @@ class EditJobScreen extends ConsumerStatefulWidget {
 class _EditJobPageState extends ConsumerState<EditJobScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _catid;
   String? _name;
+  String? _catid;
+
 
   @override
   void initState() {
@@ -51,8 +52,8 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
           await ref.read(editJobScreenControllerProvider.notifier).submit(
                 jobId: widget.jobId,
                 oldJob: widget.job,
-                catId: _catid ?? '',
                 name: _name ?? '',
+                catId: _catid ?? '',
               );
       if (success && mounted) {
         context.pop();
@@ -108,20 +109,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
     );
   }
 
-  Widget _buildCatDropdown() {
-    List<Cat> cats = ref.watch(catsStreamProvider).value ?? [];
-    return DropdownButtonFormField<String>(
-      items: cats
-          .map<DropdownMenuItem<String>>((Cat cat) =>
-          DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
-          .toList(),
-      value: _catid,
-      validator: (value) =>
-      (value ?? '').isNotEmpty ? null : 'Not a valid category',
-      onChanged: (value) => _catid = value,
-    );
-  }
-
   List<Widget> _buildFormChildren() {
     return [
       _buildCatDropdown(),
@@ -134,5 +121,19 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
         onSaved: (value) => _name = value,
       ),
     ];
+  }
+
+  Widget _buildCatDropdown() {
+    List<Cat> cats = ref.watch(catsStreamProvider).value ?? [];
+    return DropdownButtonFormField<String>(
+      items: cats
+          .map<DropdownMenuItem<String>>((Cat cat) =>
+          DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
+          .toList(),
+      value: _catid,
+      validator: (value) =>
+      (value ?? '').isNotEmpty ? null : 'Not a valid category',
+      onChanged: (value) => _catid = value,
+    );
   }
 }

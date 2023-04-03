@@ -131,7 +131,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   Widget _buildJobDropdown() {
     List<Job> jobs = ref.watch(jobsStreamProvider).value ?? [];
     return DropdownButtonFormField<String>(
-      decoration: InputDecoration(labelText: 'Job'),
+      decoration: const InputDecoration(labelText: 'Job'),
       items: jobs
           .map<DropdownMenuItem<String>>((Job job) =>
               DropdownMenuItem<String>(value: job.id, child: Text(job.name)))

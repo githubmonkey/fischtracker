@@ -52,16 +52,30 @@ class CatsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Query<Cat> queryCats({required UserID uid}) =>
-      _firestore.collection(catsPath(uid)).withConverter(
-            fromFirestore: (snapshot, _) =>
-                Cat.fromMap(snapshot.data()!, snapshot.id),
-            toFirestore: (cat, _) => cat.toMap(),
-          ).orderBy('name');
+  Query<Cat> queryCats({required UserID uid}) => _firestore
+      .collection(catsPath(uid))
+      .withConverter(
+        fromFirestore: (snapshot, _) =>
+            Cat.fromMap(snapshot.data()!, snapshot.id),
+        toFirestore: (cat, _) => cat.toMap(),
+      )
+      .orderBy('name');
 
   Future<List<Cat>> fetchCats({required UserID uid}) async {
     final cats = await queryCats(uid: uid).get();
     return cats.docs.map((doc) => doc.data()).toList();
+  }
+
+  Future<Cat?> fetchCat({required UserID uid, required CatID catId}) async {
+    final doc = await _firestore
+        .doc(catPath(uid, catId))
+        .withConverter<Cat>(
+            fromFirestore: (snapshot, _) =>
+                Cat.fromMap(snapshot.data()!, snapshot.id),
+            toFirestore: (cat, _) => cat.toMap())
+        .get();
+
+    return doc.data();
   }
 }
 
@@ -98,4 +112,14 @@ Stream<Cat> catStream(CatStreamRef ref, {required CatID catId}) {
   }
   final repository = ref.watch(catsRepositoryProvider);
   return repository.watchCat(uid: user.uid, catId: catId);
+}
+
+@riverpod
+Future<Cat?> catFuture(CatFutureRef ref, {required CatID catId}) {
+  final user = ref.watch(firebaseAuthProvider).currentUser;
+  if (user == null) {
+    throw AssertionError('User can\'t be null');
+  }
+  final repository = ref.watch(catsRepositoryProvider);
+  return repository.fetchCat(uid: user.uid, catId: catId);
 }

@@ -151,4 +151,85 @@ class CatStreamProvider extends AutoDisposeStreamProvider<Cat> {
     return _SystemHash.finish(hash);
   }
 }
+
+String _$catFutureHash() => r'f02e1e12ed61ef5deed896b66bdd7c725fcd52e2';
+typedef CatFutureRef = AutoDisposeFutureProviderRef<Cat?>;
+
+/// See also [catFuture].
+@ProviderFor(catFuture)
+const catFutureProvider = CatFutureFamily();
+
+/// See also [catFuture].
+class CatFutureFamily extends Family<AsyncValue<Cat?>> {
+  /// See also [catFuture].
+  const CatFutureFamily();
+
+  /// See also [catFuture].
+  CatFutureProvider call({
+    required String catId,
+  }) {
+    return CatFutureProvider(
+      catId: catId,
+    );
+  }
+
+  @override
+  CatFutureProvider getProviderOverride(
+    covariant CatFutureProvider provider,
+  ) {
+    return call(
+      catId: provider.catId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'catFutureProvider';
+}
+
+/// See also [catFuture].
+class CatFutureProvider extends AutoDisposeFutureProvider<Cat?> {
+  /// See also [catFuture].
+  CatFutureProvider({
+    required this.catId,
+  }) : super.internal(
+          (ref) => catFuture(
+            ref,
+            catId: catId,
+          ),
+          from: catFutureProvider,
+          name: r'catFutureProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$catFutureHash,
+          dependencies: CatFutureFamily._dependencies,
+          allTransitiveDependencies: CatFutureFamily._allTransitiveDependencies,
+        );
+
+  final String catId;
+
+  @override
+  bool operator ==(Object other) {
+    return other is CatFutureProvider && other.catId == catId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, catId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -139,20 +139,85 @@ class JobEntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
   }
 }
 
-String _$openEntriesStreamHash() => r'4784700dce3e13349b02441045f7b98738df9703';
+String _$openEntriesStreamHash() => r'720c9d9fb71947c09123abf9e075ae1b6975bc18';
+typedef OpenEntriesStreamRef = AutoDisposeStreamProviderRef<List<Entry>>;
 
 /// See also [openEntriesStream].
 @ProviderFor(openEntriesStream)
-final openEntriesStreamProvider =
-    AutoDisposeStreamProvider<List<Entry>>.internal(
-  openEntriesStream,
-  name: r'openEntriesStreamProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$openEntriesStreamHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const openEntriesStreamProvider = OpenEntriesStreamFamily();
 
-typedef OpenEntriesStreamRef = AutoDisposeStreamProviderRef<List<Entry>>;
+/// See also [openEntriesStream].
+class OpenEntriesStreamFamily extends Family<AsyncValue<List<Entry>>> {
+  /// See also [openEntriesStream].
+  const OpenEntriesStreamFamily();
+
+  /// See also [openEntriesStream].
+  OpenEntriesStreamProvider call({
+    String? jobId,
+  }) {
+    return OpenEntriesStreamProvider(
+      jobId: jobId,
+    );
+  }
+
+  @override
+  OpenEntriesStreamProvider getProviderOverride(
+    covariant OpenEntriesStreamProvider provider,
+  ) {
+    return call(
+      jobId: provider.jobId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'openEntriesStreamProvider';
+}
+
+/// See also [openEntriesStream].
+class OpenEntriesStreamProvider extends AutoDisposeStreamProvider<List<Entry>> {
+  /// See also [openEntriesStream].
+  OpenEntriesStreamProvider({
+    this.jobId,
+  }) : super.internal(
+          (ref) => openEntriesStream(
+            ref,
+            jobId: jobId,
+          ),
+          from: openEntriesStreamProvider,
+          name: r'openEntriesStreamProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$openEntriesStreamHash,
+          dependencies: OpenEntriesStreamFamily._dependencies,
+          allTransitiveDependencies:
+              OpenEntriesStreamFamily._allTransitiveDependencies,
+        );
+
+  final String? jobId;
+
+  @override
+  bool operator ==(Object other) {
+    return other is OpenEntriesStreamProvider && other.jobId == jobId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, jobId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

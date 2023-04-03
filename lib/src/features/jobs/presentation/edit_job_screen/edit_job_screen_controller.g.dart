@@ -6,22 +6,8 @@ part of 'edit_job_screen_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$countHash() => r'33be28b3e893e7ae478a3edf7138f5c9d1663acb';
-
-/// See also [count].
-@ProviderFor(count)
-final countProvider = AutoDisposeProvider<int>.internal(
-  count,
-  name: r'countProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$countHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef CountRef = AutoDisposeProviderRef<int>;
 String _$editJobScreenControllerHash() =>
-    r'66ccfb2a190ae2926959f8c06af8195dfd603e17';
+    r'd585aa7422621eb899786c95e745cc11036ebdb1';
 
 /// See also [EditJobScreenController].
 @ProviderFor(EditJobScreenController)

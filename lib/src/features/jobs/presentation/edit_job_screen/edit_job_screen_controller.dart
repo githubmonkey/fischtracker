@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
-import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:fischtracker/src/features/jobs/presentation/edit_job_screen/job_submit_exception.dart';
@@ -20,8 +20,8 @@ class EditJobScreenController extends _$EditJobScreenController {
   Future<bool> submit({
     JobID? jobId,
     Job? oldJob,
-    required CatID catId,
     required String name,
+    required CatID catId,
   }) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
@@ -49,11 +49,11 @@ class EditJobScreenController extends _$EditJobScreenController {
       return false;
     }
 
-    // TODO: check if CatID matches a valid category; less critical once it
-    // comes from a pulldown menu
+    // check if CatID matches a valid category
     final catRepo = ref.read(catsRepositoryProvider);
-    final cats = await catRepo.fetchCats(uid: currentUser.uid);
-    if (!cats.any((cat) => cat.id == catId)) {
+    final cat = await catRepo.fetchCat(uid: currentUser.uid, catId: catId);
+
+    if (cat == null) {
       state = AsyncError(
           JobSubmitException(
             title: 'Unknown category',
@@ -63,26 +63,20 @@ class EditJobScreenController extends _$EditJobScreenController {
       return false;
     }
 
-    // job previously existed
     if (jobId != null) {
-      final job =
-          Job(id: jobId, catId: catId, name: name);
+      // job previously existed; update
+      final job = Job(id: jobId, name: name, catId: catId, catName: cat.name);
       state = await AsyncValue.guard(
         () => repository.updateJob(uid: currentUser.uid, job: job),
       );
     } else {
+      // new job; create
       state = await AsyncValue.guard(
         () => repository.addJob(
-            uid: currentUser.uid,
-            catId: catId,
-            name: name),
+            uid: currentUser.uid, name: name, catId: catId, catName: cat.name),
       );
     }
     return state.hasError == false;
   }
 }
 
-@riverpod
-int count(CountRef ref) {
-  return 0;
-}
