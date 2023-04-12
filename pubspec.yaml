@@ -50,7 +50,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/time-tracking.svg
+    - assets/fisch-tracker.svg
 
   fonts:
     - family: SocialIcons

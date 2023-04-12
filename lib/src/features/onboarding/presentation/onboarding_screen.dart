@@ -21,13 +21,13 @@ class OnboardingScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Track your time.\nBecause time counts.',
+              'Track your time.\nKnow where it goes.',
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             FractionallySizedBox(
               widthFactor: 0.5,
-              child: SvgPicture.asset('assets/time-tracking.svg',
+              child: SvgPicture.asset('assets/fisch-tracker.svg',
                   semanticsLabel: 'Time tracking logo'),
             ),
             PrimaryButton(
