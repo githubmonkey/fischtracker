@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,6 +15,7 @@ List<AuthProvider<AuthListener, AuthCredential>> authProviders(
     GoogleProvider(
       clientId:
           '468951951198-ejb9edtmh8ekvgoa738si3k6i94hic0s.apps.googleusercontent.com',
-    )
+    ),
+    AppleProvider(),
   ];
 }
