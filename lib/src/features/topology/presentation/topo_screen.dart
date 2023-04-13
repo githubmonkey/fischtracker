@@ -36,11 +36,14 @@ class TopoScreen extends StatelessWidget {
           final catsJobsStream = ref.watch(catsJobsStreamProvider);
 
           return catsJobsStream.when(
-            data: (items) => ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) =>
-                  CatListTile(cat: items[index].cat, jobs: items[index].jobs),
-            ),
+            data: (items) => items.isNotEmpty
+                ? ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) => CatListTile(
+                        cat: items[index].cat, jobs: items[index].jobs),
+                  )
+                : EmptyContent(
+                    message: 'Add some categories and jobs to get started.'),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stacktrace) => EmptyContent(
               title: 'Something went wrong',

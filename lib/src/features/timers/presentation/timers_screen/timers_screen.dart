@@ -1,4 +1,5 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
+import 'package:fischtracker/src/common_widgets/empty_content.dart';
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
@@ -33,6 +34,8 @@ class TimersScreen extends StatelessWidget {
             final cat = doc.data();
             return CatJobsCard(key: Key('cat-${cat.id}'), cat: cat);
           },
+          emptyBuilder: (_) =>
+              EmptyContent(message: 'Build a topology to get started.'),
         );
       }),
     );

@@ -1,4 +1,5 @@
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
+import 'package:fischtracker/src/common_widgets/empty_content.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
@@ -39,6 +40,7 @@ class JobEntriesList extends ConsumerWidget {
           ),
         );
       },
+      emptyBuilder: (_) => EmptyContent(),
     );
   }
 }
