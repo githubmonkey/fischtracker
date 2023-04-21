@@ -61,14 +61,6 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
             icon: const Icon(Icons.account_tree),
             label: 'Topology'.hardcoded,
           ),
-          // BottomNavigationBarItem(
-          //   icon: const Icon(Icons.category),
-          //   label: 'Cats'.hardcoded,
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: const Icon(Icons.work),
-          //   label: 'Jobs'.hardcoded,
-          // ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.view_headline),
             label: 'Entries'.hardcoded,
