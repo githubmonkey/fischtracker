@@ -34,7 +34,11 @@ dependencies:
   riverpod_annotation: 2.1.0
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
+    sdk: flutter
+  flutter_driver:
     sdk: flutter
   mocktail: ^0.3.0
   random_string: ^2.3.1
