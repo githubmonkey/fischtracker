@@ -110,4 +110,12 @@ cp screenshots/tmp screenshots/nexus_10_portrait
 
 ```
 
+### Upload via fastlane supply
+
+Move the generated output to fastlane/metadata
+
+```bash
+bundle exec fastlane supply --skip_upload_changelogs
+```
+
 ## [License: MIT](LICENSE.md)

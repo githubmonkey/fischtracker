@@ -197,7 +197,8 @@ void main() {
         child: const MyApp(),
       ));
       await tester.pumpAndSettle();
-      await binding.takeScreenshot('auth_screen');
+      // auth_screen
+      await binding.takeScreenshot('1_en-US.png');
       expect(find.text('Sign in with Google'), findsOneWidget);
     });
   });
@@ -220,7 +221,8 @@ void main() {
         child: const MyApp(),
       ));
       await tester.pumpAndSettle();
-      await binding.takeScreenshot('timer_screen_empty');
+      // timer_screen_empty
+      await binding.takeScreenshot('2_en-US.png');
       expect(find.text('Build a topology to get started.'), findsOneWidget);
     });
 
@@ -241,7 +243,8 @@ void main() {
           child: const MyApp(),
         ));
         await tester.pumpAndSettle();
-        await binding.takeScreenshot('timer_screen');
+        // timer_screen
+        await binding.takeScreenshot('4_en-US.png');
         expect(find.text('Admin'), findsOneWidget);
       });
 
@@ -259,7 +262,8 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text("Topology"), warnIfMissed: true);
         await tester.pumpAndSettle();
-        await binding.takeScreenshot('topo_screen');
+        // topo_screen
+        await binding.takeScreenshot('3_en-US.png');
         expect(find.text('Admin'), findsOneWidget);
       });
 
@@ -278,7 +282,8 @@ void main() {
         final Finder topoButton = find.text("Entries");
         await tester.tap(topoButton, warnIfMissed: true);
         await tester.pumpAndSettle();
-        await binding.takeScreenshot('entry_screen');
+        // entry_screen
+        await binding.takeScreenshot('5_en-US.png');
         expect(find.text('Research / Writing'), findsOneWidget);
       });
 
@@ -297,7 +302,8 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text("Research / Programming"), warnIfMissed: true);
         await tester.pumpAndSettle();
-        await binding.takeScreenshot('entry_edit_screen');
+        // entry_edit_screen
+        await binding.takeScreenshot('6_en-US.png');
         expect(find.text('Still Ongoing...'), findsOneWidget);
       });
     });
