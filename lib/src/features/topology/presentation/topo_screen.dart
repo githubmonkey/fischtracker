@@ -42,7 +42,7 @@ class TopoScreen extends StatelessWidget {
                     itemBuilder: (context, index) => CatListTile(
                         cat: items[index].cat, jobs: items[index].jobs),
                   )
-                : EmptyContent(
+                : const EmptyContent(
                     message: 'Add some categories and jobs to get started.'),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stacktrace) => EmptyContent(
@@ -87,16 +87,16 @@ class CatListTile extends ConsumerWidget {
                 child: ListTile(
                   title: Text(cat.name),
                   onTap: () => context
-                      .goNamed(AppRoute.cat.name, params: {'cid': cat.id}),
+                      .goNamed(AppRoute.cat.name, pathParameters: {'cid': cat.id}),
                   onLongPress: () => context.goNamed(AppRoute.editCat.name,
-                      params: {'cid': cat.id}, extra: cat),
+                      pathParameters: {'cid': cat.id}, extra: cat),
                 ),
               ),
               TextButton.icon(
                 icon: const Icon(Icons.add),
                 label: Text('New Job'.hardcoded),
                 onPressed: () => context
-                    .goNamed(AppRoute.addJob.name, params: {'cid': cat.id}),
+                    .goNamed(AppRoute.addJob.name, pathParameters: {'cid': cat.id}),
               ),
             ]),
           ),
@@ -114,9 +114,9 @@ class CatListTile extends ConsumerWidget {
                       leading: const Icon(Icons.work_history),
                       title: Text(job.name),
                       onTap: () => context.goNamed(AppRoute.job.name,
-                          params: {'cid': job.catId, 'jid': job.id}),
+                          pathParameters: {'cid': job.catId, 'jid': job.id}),
                       onLongPress: () => context.goNamed(AppRoute.editJob.name,
-                          params: {'cid': job.catId, 'jid': job.id},
+                          pathParameters: {'cid': job.catId, 'jid': job.id},
                           extra: job),
                     ),
                   ))

@@ -35,12 +35,12 @@ class JobEntriesList extends ConsumerWidget {
               .deleteEntry(entry.id),
           onTap: () => context.goNamed(
             AppRoute.editEntryViaJob.name,
-            params: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
+            pathParameters: {'cid': job.catId, 'jid': job.id, 'eid': entry.id},
             extra: entry,
           ),
         );
       },
-      emptyBuilder: (_) => EmptyContent(),
+      emptyBuilder: (_) => const EmptyContent(),
     );
   }
 }

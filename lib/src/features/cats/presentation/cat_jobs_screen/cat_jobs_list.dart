@@ -36,13 +36,13 @@ class CatJobsList extends ConsumerWidget {
               .deleteJob(job.id),
           onTap: () => context.goNamed(
             AppRoute.job.name,
-            params: {'cid': cat.id, 'jid': job.id},
+            pathParameters: {'cid': cat.id, 'jid': job.id},
             extra: job,
           ),
         );
       },
       emptyBuilder: (_) =>
-          EmptyContent(message: 'Add some jobs to this category.'),
+          const EmptyContent(message: 'Add some jobs to this category.'),
     );
   }
 }

@@ -35,7 +35,7 @@ class TimersScreen extends StatelessWidget {
             return CatJobsCard(key: Key('cat-${cat.id}'), cat: cat);
           },
           emptyBuilder: (_) =>
-              EmptyContent(message: 'Build a topology to get started.'),
+              const EmptyContent(message: 'Build a topology to get started.'),
         );
       }),
     );
