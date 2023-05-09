@@ -198,7 +198,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
       // auth_screen
-      await binding.takeScreenshot('1_en-US.png');
+      await binding.takeScreenshot('1_en-US');
       expect(find.text('Sign in with Google'), findsOneWidget);
     });
   });
@@ -222,7 +222,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
       // timer_screen_empty
-      await binding.takeScreenshot('2_en-US.png');
+      await binding.takeScreenshot('2_en-US');
       expect(find.text('Build a topology to get started.'), findsOneWidget);
     });
 
@@ -244,7 +244,7 @@ void main() {
         ));
         await tester.pumpAndSettle();
         // timer_screen
-        await binding.takeScreenshot('4_en-US.png');
+        await binding.takeScreenshot('4_en-US');
         expect(find.text('Admin'), findsOneWidget);
       });
 
@@ -263,7 +263,7 @@ void main() {
         await tester.tap(find.text("Topology"), warnIfMissed: true);
         await tester.pumpAndSettle();
         // topo_screen
-        await binding.takeScreenshot('3_en-US.png');
+        await binding.takeScreenshot('3_en-US');
         expect(find.text('Admin'), findsOneWidget);
       });
 
@@ -283,7 +283,7 @@ void main() {
         await tester.tap(topoButton, warnIfMissed: true);
         await tester.pumpAndSettle();
         // entry_screen
-        await binding.takeScreenshot('5_en-US.png');
+        await binding.takeScreenshot('5_en-US');
         expect(find.text('Research / Writing'), findsOneWidget);
       });
 
@@ -303,7 +303,7 @@ void main() {
         await tester.tap(find.text("Research / Programming"), warnIfMissed: true);
         await tester.pumpAndSettle();
         // entry_edit_screen
-        await binding.takeScreenshot('6_en-US.png');
+        await binding.takeScreenshot('6_en-US');
         expect(find.text('Still Ongoing...'), findsOneWidget);
       });
     });
