@@ -6,10 +6,10 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
 class AsyncValueListBuilder<T> extends StatelessWidget {
   const AsyncValueListBuilder({
-    Key? key,
+    super.key,
     required this.data,
     required this.itemBuilder,
-  }) : super(key: key);
+  });
   final AsyncValue<List<T>> data;
   final ItemWidgetBuilder<T> itemBuilder;
 

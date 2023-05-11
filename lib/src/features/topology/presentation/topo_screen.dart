@@ -120,7 +120,7 @@ class CatListTile extends ConsumerWidget {
                           extra: job),
                     ),
                   ))
-              .toList(),
+              ,
         ],
       ),
     );

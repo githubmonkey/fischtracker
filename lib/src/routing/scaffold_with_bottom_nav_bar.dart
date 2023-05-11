@@ -7,8 +7,7 @@ import 'package:fischtracker/src/routing/app_router.dart';
 // TODO: Implement a better solution once this PR is merged:
 // https://github.com/flutter/packages/pull/2650
 class ScaffoldWithBottomNavBar extends StatefulWidget {
-  const ScaffoldWithBottomNavBar({Key? key, required this.child})
-      : super(key: key);
+  const ScaffoldWithBottomNavBar({super.key, required this.child});
   final Widget child;
 
   @override

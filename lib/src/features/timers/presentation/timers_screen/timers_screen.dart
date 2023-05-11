@@ -57,7 +57,7 @@ class OpenEntriesCard extends StatelessWidget {
 }
 
 class CatJobsCard extends StatelessWidget {
-  const CatJobsCard({Key? key, required this.cat}) : super(key: key);
+  const CatJobsCard({super.key, required this.cat});
   final Cat cat;
 
   @override
@@ -89,8 +89,7 @@ class CatJobsCard extends StatelessWidget {
 }
 
 class JobListTile extends ConsumerWidget {
-  const JobListTile({Key? key, required this.job, this.onTap})
-      : super(key: key);
+  const JobListTile({super.key, required this.job, this.onTap});
   final Job job;
   final VoidCallback? onTap;
 
