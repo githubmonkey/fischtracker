@@ -67,7 +67,9 @@ matching the tester1@foo.bar account.
 firebase emulators:start --export-on-exit --import ./data
 ```
 
-### Start an android or ios emulator
+## Android
+
+### Start an android  emulator
 
 This is a bit tricky, since `flutter emulator` shows a list of available emulator ids but the tests
 need to be started with the device id. That one is only available once the emulator has been
@@ -117,5 +119,36 @@ Move the generated output to fastlane/metadata
 ```bash
 bundle exec fastlane supply --skip_upload_changelogs
 ```
+
+
+## IOS
+
+### Start an android emulator
+
+Get a list of all available simulators. If the right one isn't available, create it.
+
+```bash
+xcrun simctl list
+```
+
+Find the device id of the simulator you want. Start it, then run the tests
+```bash
+open -a simulator --args -CurrentDeviceUDID 5DDF4716-EA15-4109-8F87-11E65126F940
+flutter drive --driver=test_driver/integration_test.dart --target=integration_test/screenshots_test.dart -d 5DDF4716-EA15-4109-8F87-11E65126F940
+```
+
+the output needs to be renamed, can't just be dumped into a directory like with android
+
+### Upload with fastlane
+
+First download meta info once
+```bash
+bundle exec fastlane deliver init
+bundle exec fastlane deliver download_screenshots
+```
+
+Afterwards, build and upload to testflight, check, fix assets, promote to appstore 
+and include screenshots
+
 
 ## [License: MIT](LICENSE.md)

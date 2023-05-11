@@ -16,6 +16,8 @@
 default_platform(:ios)
 
 platform :ios do
+
+  ## NOTE: This will fail because the profile is wrong
   desc "Build release version and store it in build/ios/outputs; use adhoc profile for firebase"
   lane :build_adhoc do
     # build_ios_app is a built-in fastlane action.
@@ -48,4 +50,20 @@ platform :ios do
     build_adhoc
     distribute_to_firebase
   end
+
+  lane :release_to_testflight do
+    # this builds for the appstore
+    gym
+
+    # this is an alias for upload_to_testflight
+    pilot(skip_waiting_for_build_processing: true)
+
+    upload_symbols_to_crashlytics(
+      app_id: "1:468951951198:ios:44b8508d6a6dde0a2411cf",
+      dsym_path: "../build/ios/outputs/fischtracker-release.app.dSYM.zip"
+    )
+  end
+
+  ## To promote from testfight to appstore run bundle exec fastlane deliver
+  ## Then manually check and submit for review
 end
