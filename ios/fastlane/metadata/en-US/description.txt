@@ -1,0 +1,5 @@
+FischTracker is a no-frills time tracker. If you ever went to bed wondering where your day disappeared, this app is for you. 
+Configure categories and jobs (tasks), then toggle the timer when you move from one job to the next. 
+FischTracker is designed for simplicity and ease of use. It focuses on productivity and time management. It aims to answer questions such as "How much time do I spend in management meetings?" or "Do I manage to divide my time equally between research and teaching?"
+
+FischTracker is not suited for billing and accounting purposes.

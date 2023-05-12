@@ -45,7 +45,7 @@ class EntriesScreen extends StatelessWidget {
                         .read(entriesScreenControllerProvider.notifier)
                         .deleteEntry(model.entry!),
                     onTap: () => context.goNamed(AppRoute.editEntry.name,
-                        params: {'eid': model.entry!.id}, extra: model.entry!),
+                        pathParameters: {'eid': model.entry!.id}, extra: model.entry!),
                   ));
       }),
     );

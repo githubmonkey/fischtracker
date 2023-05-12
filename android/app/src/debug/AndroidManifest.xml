@@ -5,4 +5,6 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- this is needed for the firebase auth emulator -->
+    <application android:usesCleartextTraffic="true"></application>
 </manifest>

@@ -46,7 +46,7 @@ class JobsScreen extends StatelessWidget {
                   job: job,
                   onTap: () => context.goNamed(
                     AppRoute.job.name,
-                    params: {'jid': job.id},
+                    pathParameters: {'jid': job.id},
                   ),
                 ),
               );

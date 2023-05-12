@@ -58,24 +58,24 @@ GoRouter goRouter(GoRouterRef ref) {
     redirect: (context, state) {
       final didCompleteOnboarding = onboardingRepository.isOnboardingComplete();
       if (!didCompleteOnboarding) {
-        // Always check state.subloc before returning a non-null route
+        // Always check state.matchedLocation before returning a non-null route
         // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart#L78
-        if (state.subloc != '/onboarding') {
+        if (state.matchedLocation != '/onboarding') {
           return '/onboarding';
         }
       }
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {
-        if (state.subloc.startsWith('/signIn')) {
+        if (state.matchedLocation.startsWith('/signIn')) {
           return '/timers';
         }
       } else {
-        if (state.subloc.startsWith('/timers') ||
-            state.subloc.startsWith('/topo') ||
-            state.subloc.startsWith('/cats') ||
-            state.subloc.startsWith('/jobs') ||
-            state.subloc.startsWith('/entries') ||
-            state.subloc.startsWith('/account')) {
+        if (state.matchedLocation.startsWith('/timers') ||
+            state.matchedLocation.startsWith('/topo') ||
+            state.matchedLocation.startsWith('/cats') ||
+            state.matchedLocation.startsWith('/jobs') ||
+            state.matchedLocation.startsWith('/entries') ||
+            state.matchedLocation.startsWith('/account')) {
           return '/signIn';
         }
       }
@@ -137,7 +137,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: 'cat/:cid',
                 name: AppRoute.cat.name,
                 pageBuilder: (context, state) {
-                  final cid = state.params['cid']!;
+                  final cid = state.pathParameters['cid']!;
                   return MaterialPage(
                     key: state.pageKey,
                     child: CatJobsScreen(catId: cid),
@@ -148,7 +148,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: 'cat/:cid/edit',
                 name: AppRoute.editCat.name,
                 pageBuilder: (context, state) {
-                  final catId = state.params['cid'];
+                  final catId = state.pathParameters['cid'];
                   final cat = state.extra as Cat?;
                   return MaterialPage(
                     key: state.pageKey,
@@ -162,7 +162,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 name: AppRoute.addJob.name,
                 parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
-                  final catId = state.params['cid']!;
+                  final catId = state.pathParameters['cid']!;
                   return MaterialPage(
                     key: state.pageKey,
                     fullscreenDialog: true,
@@ -174,7 +174,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: 'cat/:cid/job/:jid',
                 name: AppRoute.job.name,
                 pageBuilder: (context, state) {
-                  final jid = state.params['jid']!;
+                  final jid = state.pathParameters['jid']!;
                   return MaterialPage(
                     key: state.pageKey,
                     child: JobEntriesScreen(jobId: jid),
@@ -185,7 +185,7 @@ GoRouter goRouter(GoRouterRef ref) {
                     path: 'entry/:eid',
                     name: AppRoute.editEntryViaJob.name,
                     pageBuilder: (context, state) {
-                      final entryId = state.params['eid']!;
+                      final entryId = state.pathParameters['eid']!;
                       final entry = state.extra as Entry?;
                       return MaterialPage(
                         key: state.pageKey,
@@ -202,8 +202,8 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: 'cat/:cid/job/:jid/edit',
                 name: AppRoute.editJob.name,
                 pageBuilder: (context, state) {
-                  final catId = state.params['cid'];
-                  final jobId = state.params['jid'];
+                  final catId = state.pathParameters['cid'];
+                  final jobId = state.pathParameters['jid'];
                   final job = state.extra as Job?;
                   return MaterialPage(
                     key: state.pageKey,
@@ -231,7 +231,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 name: AppRoute.addEntry.name,
                 parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
-                  final jid = state.params['jid']!;
+                  final jid = state.pathParameters['jid']!;
                   return MaterialPage(
                     key: state.pageKey,
                     fullscreenDialog: true,
@@ -245,7 +245,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: ':eid',
                 name: AppRoute.editEntry.name,
                 pageBuilder: (context, state) {
-                  final entryId = state.params['eid']!;
+                  final entryId = state.pathParameters['eid']!;
                   final entry = state.extra as Entry?;
                   return MaterialPage(
                     key: state.pageKey,

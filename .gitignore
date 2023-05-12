@@ -47,8 +47,9 @@ unlinked_spec.ds
 .flutter-plugins-dependencies
 
 **/assets/extras/
-**/screenshots/
 **/test/failures
+**/integration_test/screenshots/
+
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -113,7 +114,6 @@ android/app/google-services.json
 # fastlane
 **/fastlane/report.xml
 **/fastlane/Preview.html
-**/fastlane/screenshots
 **/fastlane/test_output
 **/fastlane/readme.md
 
