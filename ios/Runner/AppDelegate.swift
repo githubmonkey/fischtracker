@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import integration_test
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
