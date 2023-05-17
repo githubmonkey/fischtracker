@@ -112,6 +112,22 @@ cp screenshots/tmp screenshots/nexus_10_portrait
 
 ```
 
+### Working simulators for screenshots
+| Android              |                 |
+|----------------------|-----------------|
+| phoneScreenshots     | Pixel_6_API_33  |
+| sevenInchScreenshots | Nexus_7_API_33  |
+| tenInchScreenshots   | Nexus_10_API_33 |
+
+| iOS                              |                                                                              |
+|----------------------------------|------------------------------------------------------------------------------|
+| iPhone 6.7 Display               | iPhone 14 Pro Max (5DDF4716-EA15-4109-8F87-11E65126F940)                     |
+| iPhone 6.5 Display               | iPhone 14 Pro (466BFECA-CBBF-462F-AF8A-46BBF72487F5)                         |
+| iPhone 5.5" Display              | iPhone 8 Plus (19230BBC-5317-4E5B-A8D8-32381577C58E)                         |
+| iPad Pro (6th Gen) 12.9" Display | iPad Pro (12.9-inch) (6th generation) (D5E47BC1-2BD6-4A7A-A489-9D066A70A8CC) |
+| iPad Pro (2nd Gen) 12.9" Display | iPad Pro (12.9-inch) (2nd generation) (4C5F8D46-DBDA-4B07-9870-2F3E4624D4F2) |
+
+
 ### Upload via fastlane supply
 
 Move the generated output to fastlane/metadata
