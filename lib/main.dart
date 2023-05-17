@@ -15,9 +15,9 @@ import 'package:fischtracker/firebase_options.dart';
 import 'package:fischtracker/src/app.dart';
 import 'package:fischtracker/src/localization/string_hardcoded.dart';
 import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
+
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
-
 
 // Toggle this for testing Crashlytics in your app locally.
 const _kTestingCrashlytics = true;
@@ -33,8 +33,8 @@ Future<void> main() async {
   }
 
   if (kDebugMode) {
-     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
 
   FirebaseCrashlytics? crashlytics;

@@ -12,8 +12,7 @@ class EditCatScreenController extends AutoDisposeAsyncNotifier<void> {
     // ok to leave this empty if the return type is FutureOr<void>
   }
 
-  Future<bool> submit(
-      {CatID? catID, Cat? oldCat, required String name}) async {
+  Future<bool> submit({CatID? catID, Cat? oldCat, required String name}) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
       throw AssertionError('User can\'t be null');

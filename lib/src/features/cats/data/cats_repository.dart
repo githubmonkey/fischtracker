@@ -53,13 +53,12 @@ class CatsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Query<Cat> queryCats({required UserID uid}) => _firestore
-      .collection(catsPath(uid))
-      .withConverter(
-        fromFirestore: (snapshot, _) =>
-            Cat.fromMap(snapshot.data()!, snapshot.id),
-        toFirestore: (cat, _) => cat.toMap(),
-      );
+  Query<Cat> queryCats({required UserID uid}) =>
+      _firestore.collection(catsPath(uid)).withConverter(
+            fromFirestore: (snapshot, _) =>
+                Cat.fromMap(snapshot.data()!, snapshot.id),
+            toFirestore: (cat, _) => cat.toMap(),
+          );
 
   Future<List<Cat>> fetchCats({required UserID uid}) async {
     final cats = await queryCats(uid: uid).orderBy('name').get();

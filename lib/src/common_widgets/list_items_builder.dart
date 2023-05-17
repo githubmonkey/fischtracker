@@ -30,7 +30,7 @@ class ListItemsBuilder<T> extends StatelessWidget {
             )
           : const EmptyContent(),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, __) =>  EmptyContent(
+      error: (error, __) => EmptyContent(
         title: 'Something went wrong',
         message: 'Can\'t load items right now',
         error: error,

@@ -6,7 +6,7 @@ import 'package:fischtracker/src/features/jobs/domain/job.dart';
 class CatJobs extends Equatable {
   const CatJobs(this.cat, this.jobs);
 
-final Cat cat;
+  final Cat cat;
   final List<Job> jobs;
 
   @override

@@ -300,7 +300,8 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text("Entries"), warnIfMissed: true);
         await tester.pumpAndSettle();
-        await tester.tap(find.text("Research / Programming"), warnIfMissed: true);
+        await tester.tap(find.text("Research / Programming"),
+            warnIfMissed: true);
         await tester.pumpAndSettle();
         // entry_edit_screen
         await binding.takeScreenshot('6_en-US');

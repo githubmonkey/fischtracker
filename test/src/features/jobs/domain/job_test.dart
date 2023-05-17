@@ -2,7 +2,7 @@ import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
- group('fromMap', () {
+  group('fromMap', () {
     test('job with all properties', () {
       final job = Job.fromMap(
           const {'name': 'Blog', 'catId': 'cat-123', 'catName': 'Admin'},

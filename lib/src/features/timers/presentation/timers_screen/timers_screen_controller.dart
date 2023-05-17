@@ -18,7 +18,7 @@ class TimersScreenController extends _$TimersScreenController {
   Future<void> onChange(Job job) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     final openEntriesForJob =
-    ref.read(openEntriesStreamProvider(jobId: job.id));
+        ref.read(openEntriesStreamProvider(jobId: job.id));
     final isOpen = openEntriesForJob.value?.isNotEmpty ?? false;
 
     if (currentUser == null) {

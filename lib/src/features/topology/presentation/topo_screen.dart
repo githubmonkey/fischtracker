@@ -86,8 +86,8 @@ class CatListTile extends ConsumerWidget {
               Expanded(
                 child: ListTile(
                   title: Text(cat.name),
-                  onTap: () => context
-                      .goNamed(AppRoute.cat.name, pathParameters: {'cid': cat.id}),
+                  onTap: () => context.goNamed(AppRoute.cat.name,
+                      pathParameters: {'cid': cat.id}),
                   onLongPress: () => context.goNamed(AppRoute.editCat.name,
                       pathParameters: {'cid': cat.id}, extra: cat),
                 ),
@@ -95,8 +95,8 @@ class CatListTile extends ConsumerWidget {
               TextButton.icon(
                 icon: const Icon(Icons.add),
                 label: Text('New Job'.hardcoded),
-                onPressed: () => context
-                    .goNamed(AppRoute.addJob.name, pathParameters: {'cid': cat.id}),
+                onPressed: () => context.goNamed(AppRoute.addJob.name,
+                    pathParameters: {'cid': cat.id}),
               ),
             ]),
           ),

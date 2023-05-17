@@ -26,7 +26,6 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   String? _name;
   String? _catid;
 
-
   @override
   void initState() {
     super.initState();
@@ -128,11 +127,11 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
     return DropdownButtonFormField<String>(
       items: cats
           .map<DropdownMenuItem<String>>((Cat cat) =>
-          DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
+              DropdownMenuItem<String>(value: cat.id, child: Text(cat.name)))
           .toList(),
       value: _catid,
       validator: (value) =>
-      (value ?? '').isNotEmpty ? null : 'Not a valid category',
+          (value ?? '').isNotEmpty ? null : 'Not a valid category',
       onChanged: (value) => _catid = value,
     );
   }

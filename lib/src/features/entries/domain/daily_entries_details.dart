@@ -1,6 +1,5 @@
 import 'package:fischtracker/src/features/entries/domain/entry_job.dart';
 
-
 /// Groups together all jobs/entries on a given day
 class DailyEntriesDetails {
   DailyEntriesDetails({required this.date, required this.entries});

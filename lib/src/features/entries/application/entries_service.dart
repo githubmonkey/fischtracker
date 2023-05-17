@@ -46,7 +46,8 @@ class EntriesService {
     final allDailyEntriesDetails = DailyEntriesDetails.all(allEntries);
 
     return <EntriesListTileModel>[
-      for (DailyEntriesDetails dailyEntriesDetails in allDailyEntriesDetails) ...[
+      for (DailyEntriesDetails dailyEntriesDetails
+          in allDailyEntriesDetails) ...[
         EntriesListTileModel(
           isHeader: true,
           date: dailyEntriesDetails.date,

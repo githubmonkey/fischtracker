@@ -69,13 +69,13 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       final success =
-      await ref.read(entryScreenControllerProvider.notifier).submit(
-        entryId: widget.entryId,
-        jobId: _jobId!,
-        start: start,
-        end: _isOngoing ? null : end,
-        comment: _comment,
-      );
+          await ref.read(entryScreenControllerProvider.notifier).submit(
+                entryId: widget.entryId,
+                jobId: _jobId!,
+                start: start,
+                end: _isOngoing ? null : end,
+                comment: _comment,
+              );
       if (success && mounted) {
         context.pop();
       }
@@ -134,8 +134,8 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
       decoration: const InputDecoration(labelText: 'Job'),
       hint: const Text('----'),
       items: jobs
-          .map<DropdownMenuItem<String>>((Job job) =>
-              DropdownMenuItem<String>(value: job.id, child: Text(job.fullName)))
+          .map<DropdownMenuItem<String>>((Job job) => DropdownMenuItem<String>(
+              value: job.id, child: Text(job.fullName)))
           .toList(),
       value: _jobId,
       validator: (value) => (value ?? '').isNotEmpty ? null : 'Not a valid job',
