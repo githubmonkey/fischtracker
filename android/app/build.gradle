@@ -37,7 +37,8 @@ if (releaseKeystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
+    namespace "org.rozendallabs.fischtracker"
+    compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {

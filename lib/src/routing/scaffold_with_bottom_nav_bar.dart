@@ -33,10 +33,10 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       context.goNamed(AppRoute.timers.name);
     } else if (index == 1) {
       context.goNamed(AppRoute.topo.name);
-    // } else if (index == 2) {
-    //   context.goNamed(AppRoute.cats.name);
-    // } else if (index == 3) {
-    //   context.goNamed(AppRoute.jobs.name);
+      // } else if (index == 2) {
+      //   context.goNamed(AppRoute.cats.name);
+      // } else if (index == 3) {
+      //   context.goNamed(AppRoute.jobs.name);
     } else if (index == 2) {
       context.goNamed(AppRoute.entries.name);
     } else if (index == 3) {

@@ -5,7 +5,7 @@ import 'package:fischtracker/src/utils/format.dart';
 import 'package:flutter/material.dart';
 
 class DateTimePicker extends StatelessWidget {
-   const DateTimePicker({
+  const DateTimePicker({
     Key? key,
     required this.labelText,
     required this.selectedDate,

@@ -79,4 +79,3 @@ class EditJobScreenController extends _$EditJobScreenController {
     return state.hasError == false;
   }
 }
-

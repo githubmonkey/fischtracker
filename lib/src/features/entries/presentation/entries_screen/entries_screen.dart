@@ -23,8 +23,8 @@ class EntriesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const EntryScreen()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const EntryScreen()));
           }),
       body: Consumer(builder: (context, ref, child) {
         ref.listen<AsyncValue>(
@@ -45,7 +45,8 @@ class EntriesScreen extends StatelessWidget {
                         .read(entriesScreenControllerProvider.notifier)
                         .deleteEntry(model.entry!),
                     onTap: () => context.goNamed(AppRoute.editEntry.name,
-                        pathParameters: {'eid': model.entry!.id}, extra: model.entry!),
+                        pathParameters: {'eid': model.entry!.id},
+                        extra: model.entry!),
                   ));
       }),
     );
