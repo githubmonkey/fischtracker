@@ -15,21 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios build_app_store
+### ios build_adhoc
 
 ```sh
-[bundle exec] fastlane ios build_app_store
+[bundle exec] fastlane ios build_adhoc
 ```
 
-Build release version and store it in build/ios/outputs; use appstore profile for firebase
-
-### ios distribute_to_testflight
-
-```sh
-[bundle exec] fastlane ios distribute_to_testflight
-```
-
-
+Build release version and store it in build/ios/outputs; use adhoc profile for firebase
 
 ### ios distribute_to_firebase
 
@@ -43,14 +35,6 @@ Distribute previously built to firebase, upload crashlytics symbols at the same 
 
 ```sh
 [bundle exec] fastlane ios build_and_distribute
-```
-
-Build and distribute all
-
-### ios build_and_distribute_testfligh
-
-```sh
-[bundle exec] fastlane ios build_and_distribute_testfligh
 ```
 
 Build and distribute all
