@@ -139,7 +139,7 @@ bundle exec fastlane supply --skip_upload_changelogs
 
 ## IOS
 
-### Start an android emulator
+### Start an iOS simulator
 
 Get a list of all available simulators. If the right one isn't available, create it.
 
