@@ -44,8 +44,6 @@ class _SystemHash {
   }
 }
 
-typedef EntriesQueryRef = AutoDisposeProviderRef<Query<Entry>>;
-
 /// See also [entriesQuery].
 @ProviderFor(entriesQuery)
 const entriesQueryProvider = EntriesQueryFamily();
@@ -92,10 +90,10 @@ class EntriesQueryFamily extends Family<Query<Entry>> {
 class EntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
   /// See also [entriesQuery].
   EntriesQueryProvider({
-    this.jobId,
-  }) : super.internal(
+    String? jobId,
+  }) : this._internal(
           (ref) => entriesQuery(
-            ref,
+            ref as EntriesQueryRef,
             jobId: jobId,
           ),
           from: entriesQueryProvider,
@@ -107,9 +105,43 @@ class EntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
           dependencies: EntriesQueryFamily._dependencies,
           allTransitiveDependencies:
               EntriesQueryFamily._allTransitiveDependencies,
+          jobId: jobId,
         );
 
+  EntriesQueryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.jobId,
+  }) : super.internal();
+
   final String? jobId;
+
+  @override
+  Override overrideWith(
+    Query<Entry> Function(EntriesQueryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: EntriesQueryProvider._internal(
+        (ref) => create(ref as EntriesQueryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        jobId: jobId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<Query<Entry>> createElement() {
+    return _EntriesQueryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -125,8 +157,20 @@ class EntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
   }
 }
 
+mixin EntriesQueryRef on AutoDisposeProviderRef<Query<Entry>> {
+  /// The parameter `jobId` of this provider.
+  String? get jobId;
+}
+
+class _EntriesQueryProviderElement
+    extends AutoDisposeProviderElement<Query<Entry>> with EntriesQueryRef {
+  _EntriesQueryProviderElement(super.provider);
+
+  @override
+  String? get jobId => (origin as EntriesQueryProvider).jobId;
+}
+
 String _$openEntriesStreamHash() => r'720c9d9fb71947c09123abf9e075ae1b6975bc18';
-typedef OpenEntriesStreamRef = AutoDisposeStreamProviderRef<List<Entry>>;
 
 /// See also [openEntriesStream].
 @ProviderFor(openEntriesStream)
@@ -174,10 +218,10 @@ class OpenEntriesStreamFamily extends Family<AsyncValue<List<Entry>>> {
 class OpenEntriesStreamProvider extends AutoDisposeStreamProvider<List<Entry>> {
   /// See also [openEntriesStream].
   OpenEntriesStreamProvider({
-    this.jobId,
-  }) : super.internal(
+    String? jobId,
+  }) : this._internal(
           (ref) => openEntriesStream(
-            ref,
+            ref as OpenEntriesStreamRef,
             jobId: jobId,
           ),
           from: openEntriesStreamProvider,
@@ -189,9 +233,43 @@ class OpenEntriesStreamProvider extends AutoDisposeStreamProvider<List<Entry>> {
           dependencies: OpenEntriesStreamFamily._dependencies,
           allTransitiveDependencies:
               OpenEntriesStreamFamily._allTransitiveDependencies,
+          jobId: jobId,
         );
 
+  OpenEntriesStreamProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.jobId,
+  }) : super.internal();
+
   final String? jobId;
+
+  @override
+  Override overrideWith(
+    Stream<List<Entry>> Function(OpenEntriesStreamRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: OpenEntriesStreamProvider._internal(
+        (ref) => create(ref as OpenEntriesStreamRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        jobId: jobId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<List<Entry>> createElement() {
+    return _OpenEntriesStreamProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -206,5 +284,19 @@ class OpenEntriesStreamProvider extends AutoDisposeStreamProvider<List<Entry>> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin OpenEntriesStreamRef on AutoDisposeStreamProviderRef<List<Entry>> {
+  /// The parameter `jobId` of this provider.
+  String? get jobId;
+}
+
+class _OpenEntriesStreamProviderElement
+    extends AutoDisposeStreamProviderElement<List<Entry>>
+    with OpenEntriesStreamRef {
+  _OpenEntriesStreamProviderElement(super.provider);
+
+  @override
+  String? get jobId => (origin as OpenEntriesStreamProvider).jobId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

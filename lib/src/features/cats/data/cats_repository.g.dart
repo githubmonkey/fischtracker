@@ -72,8 +72,6 @@ class _SystemHash {
   }
 }
 
-typedef CatStreamRef = AutoDisposeStreamProviderRef<Cat>;
-
 /// See also [catStream].
 @ProviderFor(catStream)
 const catStreamProvider = CatStreamFamily();
@@ -120,10 +118,10 @@ class CatStreamFamily extends Family<AsyncValue<Cat>> {
 class CatStreamProvider extends AutoDisposeStreamProvider<Cat> {
   /// See also [catStream].
   CatStreamProvider({
-    required this.catId,
-  }) : super.internal(
+    required String catId,
+  }) : this._internal(
           (ref) => catStream(
-            ref,
+            ref as CatStreamRef,
             catId: catId,
           ),
           from: catStreamProvider,
@@ -134,9 +132,43 @@ class CatStreamProvider extends AutoDisposeStreamProvider<Cat> {
                   : _$catStreamHash,
           dependencies: CatStreamFamily._dependencies,
           allTransitiveDependencies: CatStreamFamily._allTransitiveDependencies,
+          catId: catId,
         );
 
+  CatStreamProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.catId,
+  }) : super.internal();
+
   final String catId;
+
+  @override
+  Override overrideWith(
+    Stream<Cat> Function(CatStreamRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CatStreamProvider._internal(
+        (ref) => create(ref as CatStreamRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        catId: catId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<Cat> createElement() {
+    return _CatStreamProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -152,8 +184,20 @@ class CatStreamProvider extends AutoDisposeStreamProvider<Cat> {
   }
 }
 
+mixin CatStreamRef on AutoDisposeStreamProviderRef<Cat> {
+  /// The parameter `catId` of this provider.
+  String get catId;
+}
+
+class _CatStreamProviderElement extends AutoDisposeStreamProviderElement<Cat>
+    with CatStreamRef {
+  _CatStreamProviderElement(super.provider);
+
+  @override
+  String get catId => (origin as CatStreamProvider).catId;
+}
+
 String _$catFutureHash() => r'f02e1e12ed61ef5deed896b66bdd7c725fcd52e2';
-typedef CatFutureRef = AutoDisposeFutureProviderRef<Cat?>;
 
 /// See also [catFuture].
 @ProviderFor(catFuture)
@@ -201,10 +245,10 @@ class CatFutureFamily extends Family<AsyncValue<Cat?>> {
 class CatFutureProvider extends AutoDisposeFutureProvider<Cat?> {
   /// See also [catFuture].
   CatFutureProvider({
-    required this.catId,
-  }) : super.internal(
+    required String catId,
+  }) : this._internal(
           (ref) => catFuture(
-            ref,
+            ref as CatFutureRef,
             catId: catId,
           ),
           from: catFutureProvider,
@@ -215,9 +259,43 @@ class CatFutureProvider extends AutoDisposeFutureProvider<Cat?> {
                   : _$catFutureHash,
           dependencies: CatFutureFamily._dependencies,
           allTransitiveDependencies: CatFutureFamily._allTransitiveDependencies,
+          catId: catId,
         );
 
+  CatFutureProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.catId,
+  }) : super.internal();
+
   final String catId;
+
+  @override
+  Override overrideWith(
+    FutureOr<Cat?> Function(CatFutureRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CatFutureProvider._internal(
+        (ref) => create(ref as CatFutureRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        catId: catId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Cat?> createElement() {
+    return _CatFutureProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -232,5 +310,18 @@ class CatFutureProvider extends AutoDisposeFutureProvider<Cat?> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin CatFutureRef on AutoDisposeFutureProviderRef<Cat?> {
+  /// The parameter `catId` of this provider.
+  String get catId;
+}
+
+class _CatFutureProviderElement extends AutoDisposeFutureProviderElement<Cat?>
+    with CatFutureRef {
+  _CatFutureProviderElement(super.provider);
+
+  @override
+  String get catId => (origin as CatFutureProvider).catId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
