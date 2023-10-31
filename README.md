@@ -35,7 +35,7 @@ firebase configure
 ## Run code generator for riverpod
 
 ```
-flutter pub run build_runner watch -d
+dart run build_runner watch -d
 ```
 
 ## Firebase rules and indexe
