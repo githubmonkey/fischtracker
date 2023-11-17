@@ -102,25 +102,23 @@ class CatListTile extends ConsumerWidget {
           ),
           if (jobs.isNotEmpty)
             Divider(thickness: 0.5, color: Theme.of(context).dividerColor),
-          ...jobs
-              .map((job) => Dismissible(
-                    key: Key('topo-job-${job.id}'),
-                    background: Container(color: Colors.red),
-                    direction: DismissDirection.endToStart,
-                    onDismissed: (direction) => ref
-                        .read(topoScreenControllerProvider.notifier)
-                        .deleteJob(job),
-                    child: ListTile(
-                      leading: const Icon(Icons.work_history),
-                      title: Text(job.name),
-                      onTap: () => context.goNamed(AppRoute.job.name,
-                          pathParameters: {'cid': job.catId, 'jid': job.id}),
-                      onLongPress: () => context.goNamed(AppRoute.editJob.name,
-                          pathParameters: {'cid': job.catId, 'jid': job.id},
-                          extra: job),
-                    ),
-                  ))
-              .toList(),
+          ...jobs.map((job) => Dismissible(
+                key: Key('topo-job-${job.id}'),
+                background: Container(color: Colors.red),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) => ref
+                    .read(topoScreenControllerProvider.notifier)
+                    .deleteJob(job),
+                child: ListTile(
+                  leading: const Icon(Icons.work_history),
+                  title: Text(job.name),
+                  onTap: () => context.goNamed(AppRoute.job.name,
+                      pathParameters: {'cid': job.catId, 'jid': job.id}),
+                  onLongPress: () => context.goNamed(AppRoute.editJob.name,
+                      pathParameters: {'cid': job.catId, 'jid': job.id},
+                      extra: job),
+                ),
+              )),
         ],
       ),
     );

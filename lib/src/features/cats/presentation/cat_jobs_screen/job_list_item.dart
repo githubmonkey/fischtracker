@@ -3,8 +3,7 @@ import 'package:fischtracker/src/features/jobs/domain/job.dart';
 import 'package:flutter/material.dart';
 
 class CatListTile extends StatelessWidget {
-  const CatListTile({Key? key, required this.cat, this.onTap})
-      : super(key: key);
+  const CatListTile({super.key, required this.cat, this.onTap});
   final Cat cat;
   final VoidCallback? onTap;
 
