@@ -18,6 +18,9 @@ class CustomSignInScreen extends ConsumerWidget {
       body: SignInScreen(
         providers: authProviders,
         footerBuilder: (context, action) => const SignInAnonymouslyFooter(),
+        styles: const {
+          EmailFormStyle(signInButtonVariant: ButtonVariant.filled),
+        },
       ),
     );
   }
