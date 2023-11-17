@@ -23,7 +23,10 @@ All the data is persisted with Firestore and is kept in sync across multiple dev
 
 - [ ] more tests
 - [ ] additional auth providers
-- [ ] android support
+- [ ] WearOS compagnion app
+- [ ] report page/summary
+- [ ] custom styling
+
 
 ## Generate firebase config
 
