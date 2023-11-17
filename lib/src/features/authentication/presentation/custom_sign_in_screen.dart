@@ -1,7 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 
 import 'auth_providers.dart';
 
