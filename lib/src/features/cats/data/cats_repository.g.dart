@@ -20,6 +20,8 @@ final catsRepositoryProvider = Provider<CatsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef CatsRepositoryRef = ProviderRef<CatsRepository>;
 String _$catsQueryHash() => r'e5eee281e22cef14614ba1950d8e1f802fc1e57d';
 
@@ -34,6 +36,8 @@ final catsQueryProvider = AutoDisposeProvider<Query<Cat>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef CatsQueryRef = AutoDisposeProviderRef<Query<Cat>>;
 String _$catsStreamHash() => r'ca1ad8f829c60c173cd3eb514f991e85849d2d18';
 
@@ -48,6 +52,8 @@ final catsStreamProvider = AutoDisposeStreamProvider<List<Cat>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef CatsStreamRef = AutoDisposeStreamProviderRef<List<Cat>>;
 String _$catStreamHash() => r'f9b665ec268c0c5dd5eb08d25108fea1bdc318b9';
 
@@ -184,6 +190,8 @@ class CatStreamProvider extends AutoDisposeStreamProvider<Cat> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin CatStreamRef on AutoDisposeStreamProviderRef<Cat> {
   /// The parameter `catId` of this provider.
   String get catId;
@@ -311,6 +319,8 @@ class CatFutureProvider extends AutoDisposeFutureProvider<Cat?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin CatFutureRef on AutoDisposeFutureProviderRef<Cat?> {
   /// The parameter `catId` of this provider.
   String get catId;
@@ -324,4 +334,4 @@ class _CatFutureProviderElement extends AutoDisposeFutureProviderElement<Cat?>
   String get catId => (origin as CatFutureProvider).catId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

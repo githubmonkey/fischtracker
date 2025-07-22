@@ -20,6 +20,8 @@ final entriesRepositoryProvider = Provider<EntriesRepository>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EntriesRepositoryRef = ProviderRef<EntriesRepository>;
 String _$entriesQueryHash() => r'70ad8335af0bf310e7be3e94974d4830e6625edc';
 
@@ -157,6 +159,8 @@ class EntriesQueryProvider extends AutoDisposeProvider<Query<Entry>> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin EntriesQueryRef on AutoDisposeProviderRef<Query<Entry>> {
   /// The parameter `jobId` of this provider.
   String? get jobId;
@@ -285,6 +289,8 @@ class OpenEntriesStreamProvider extends AutoDisposeStreamProvider<List<Entry>> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin OpenEntriesStreamRef on AutoDisposeStreamProviderRef<List<Entry>> {
   /// The parameter `jobId` of this provider.
   String? get jobId;
@@ -299,4 +305,4 @@ class _OpenEntriesStreamProviderElement
   String? get jobId => (origin as OpenEntriesStreamProvider).jobId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
