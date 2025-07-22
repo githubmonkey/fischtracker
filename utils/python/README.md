@@ -2,10 +2,13 @@
 # Prerequisits for all firebase python ops:
 ## Set credentials via env
 
+This is using https://github.com/googleapis/python-firestore but there might be other options for firestore access
+
 Set variable in shell and editor terminal, don't change env name or google auth will not find default
 
 ```bash
-export GOOGLE_APPLICATION_CREDENTIALS=/Users/.../keystores/my_project.json
+export GOOGLE_CLOUD_PROJECT=fisch-tracker
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/.../keystores/project_service_account.json
 ```
 
 ## Generate a new service account key
