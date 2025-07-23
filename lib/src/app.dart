@@ -9,12 +9,12 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
-    final myTheme = ref.watch(myThemeProvider.notifier);
+    final myThemeState = ref.watch(myThemeProvider);
     return MaterialApp.router(
       routerConfig: goRouter,
-      theme: myTheme.theme,
-      darkTheme: myTheme.darkTheme,
-      themeMode: myTheme.themeMode,
+      theme: myThemeState.theme,
+      darkTheme: myThemeState.darkTheme,
+      themeMode: myThemeState.themeMode,
       debugShowCheckedModeBanner: false,
     );
   }

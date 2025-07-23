@@ -156,7 +156,7 @@ class _EntryPageState extends ConsumerState<EntryScreen> {
   Widget _buildIsOngoing() {
     final color = _isOngoing
         ? null
-        : Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.38);
+        : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.38);
 
     return Row(
       mainAxisSize: MainAxisSize.max,

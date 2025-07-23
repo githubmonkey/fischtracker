@@ -87,7 +87,8 @@ class EntryListItem extends ConsumerWidget {
             Text(
               durationFormatted,
               style: textLarge!.copyWith(
-                  color: textLarge.color!.withOpacity(isOngoing ? 0.5 : 1)),
+                  color:
+                      textLarge.color!.withValues(alpha: isOngoing ? 0.5 : 1)),
             ),
           ],
         ),

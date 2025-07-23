@@ -17,6 +17,7 @@ import 'package:fischtracker/src/features/topology/presentation/topo_screen.dart
 import 'package:fischtracker/src/routing/go_router_refresh_stream.dart';
 import 'package:fischtracker/src/routing/scaffold_with_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -48,7 +49,7 @@ enum AppRoute {
 
 @riverpod
 // ignore: unsupported_provider_value
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter goRouter(Ref ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final onboardingRepository = ref.watch(onboardingRepositoryProvider);
   return GoRouter(

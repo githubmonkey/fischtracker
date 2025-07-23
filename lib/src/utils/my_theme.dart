@@ -7,49 +7,63 @@ part 'my_theme.g.dart';
 
 @riverpod
 class MyTheme extends _$MyTheme {
+  MyTheme({this.scheme = FlexScheme.mango});
+
+  final FlexScheme scheme;
+
   @override
-  FutureOr<void> build() {
-    // ok to leave this empty if the return type is FutureOr<void>
+  MyThemeState build() {
+    return MyThemeState(
+      theme: FlexThemeData.light(
+        scheme: scheme,
+        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        blendLevel: 9,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 10,
+          blendOnColors: false,
+          useM2StyleDividerInM3: true,
+          inputDecoratorBorderType: FlexInputBorderType.underline,
+          inputDecoratorUnfocusedBorderIsColored: false,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        swapLegacyOnMaterial3: true,
+        fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+      darkTheme: FlexThemeData.dark(
+        scheme: scheme,
+        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        blendLevel: 13,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 20,
+          useM2StyleDividerInM3: true,
+          inputDecoratorBorderType: FlexInputBorderType.underline,
+          inputDecoratorUnfocusedBorderIsColored: false,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        swapLegacyOnMaterial3: true,
+        fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+      themeMode: ThemeMode.system, // Or any other default ThemeMode
+    );
   }
-
-  final theme = FlexThemeData.light(
-    scheme: FlexScheme.mango,
-    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-    blendLevel: 9,
-    subThemesData: const FlexSubThemesData(
-      blendOnLevel: 10,
-      blendOnColors: false,
-      blendTextTheme: true,
-      useM2StyleDividerInM3: true,
-      inputDecoratorBorderType: FlexInputBorderType.underline,
-      inputDecoratorUnfocusedBorderIsColored: false,
-    ),
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    useMaterial3: true,
-    swapLegacyOnMaterial3: true,
-    fontFamily: GoogleFonts.notoSans().fontFamily,
-  );
-
-  final darkTheme = FlexThemeData.dark(
-    scheme: FlexScheme.mango,
-    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-    blendLevel: 13,
-    subThemesData: const FlexSubThemesData(
-      blendOnLevel: 20,
-      blendTextTheme: true,
-      useM2StyleDividerInM3: true,
-      inputDecoratorBorderType: FlexInputBorderType.underline,
-      inputDecoratorUnfocusedBorderIsColored: false,
-    ),
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    useMaterial3: true,
-    swapLegacyOnMaterial3: true,
-    fontFamily: GoogleFonts.notoSans().fontFamily,
-  );
 
   // If you do not have a themeMode switch, uncomment this line
   // to let the device system mode control the theme mode:
-  final themeMode = ThemeMode.system;
+  // final themeMode = ThemeMode.system;
+}
+
+class MyThemeState {
+  MyThemeState({
+    required this.theme,
+    required this.darkTheme,
+    required this.themeMode,
+  });
+
+  final ThemeData theme;
+  final ThemeData darkTheme;
+  final ThemeMode themeMode;
 }
 
 const ColorScheme flexSchemeLight = ColorScheme(
@@ -70,11 +84,9 @@ const ColorScheme flexSchemeLight = ColorScheme(
   onError: Color(0xffffffff),
   errorContainer: Color(0xfffcd8df),
   onErrorContainer: Color(0xff141213),
-  background: Color(0xfffdfaf7),
-  onBackground: Color(0xff090909),
   surface: Color(0xfffdfaf7),
   onSurface: Color(0xff090909),
-  surfaceVariant: Color(0xffebe7df),
+  surfaceContainerHighest: Color(0xffebe7df),
   onSurfaceVariant: Color(0xff121211),
   outline: Color(0xff7c7c7c),
   outlineVariant: Color(0xffc8c8c8),
@@ -104,11 +116,9 @@ const ColorScheme flexSchemeDark = ColorScheme(
   onError: Color(0xff140c0d),
   errorContainer: Color(0xffb1384e),
   onErrorContainer: Color(0xfffbe8ec),
-  background: Color(0xff1b1914),
-  onBackground: Color(0xffedecec),
   surface: Color(0xff1b1914),
   onSurface: Color(0xffedecec),
-  surfaceVariant: Color(0xff433e35),
+  surfaceContainerHighest: Color(0xff433e35),
   onSurfaceVariant: Color(0xffe1e0df),
   outline: Color(0xff7d7676),
   outlineVariant: Color(0xff2e2c2c),

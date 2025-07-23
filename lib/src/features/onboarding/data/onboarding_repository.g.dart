@@ -7,7 +7,7 @@ part of 'onboarding_repository.dart';
 // **************************************************************************
 
 String _$onboardingRepositoryHash() =>
-    r'd8b2ae05f189ac097a222b21be02073b06f8c1fc';
+    r'f1406548c28f01be33cb2dc343af65476a25101b';
 
 /// See also [onboardingRepository].
 @ProviderFor(onboardingRepository)
@@ -21,6 +21,8 @@ final onboardingRepositoryProvider = Provider<OnboardingRepository>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef OnboardingRepositoryRef = ProviderRef<OnboardingRepository>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

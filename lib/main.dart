@@ -28,7 +28,6 @@ Future<void> main() async {
   //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   // }
 
-
   if (kReleaseMode) {
     // Don't log anything below warnings in production.
     Logger.root.level = Level.WARNING;
@@ -113,7 +112,8 @@ void registerErrorHandlers() {
     FirebaseCrashlytics.instance.log(message);
 
     if (record.level >= Level.SEVERE) {
-      FirebaseCrashlytics.instance.recordError(message, filterStackTrace(StackTrace.current),
+      FirebaseCrashlytics.instance.recordError(
+          message, filterStackTrace(StackTrace.current),
           fatal: true);
     }
   });

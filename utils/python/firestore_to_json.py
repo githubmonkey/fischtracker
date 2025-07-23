@@ -10,7 +10,7 @@ def myconverter(o):
 
 
 def main():
-    db = firestore.Client()
+    db = firestore.Client(project='fisch-tracker')
 
     if len(sys.argv) != 3:
         print('usage: %s <path to collection> <outfile>' % sys.argv[0])

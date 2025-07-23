@@ -6,7 +6,7 @@ part of 'jobs_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$jobsRepositoryHash() => r'99834710b25b2229bf6bd85bb1e522bfb2b61d5b';
+String _$jobsRepositoryHash() => r'38b37bbcb0ced4ca0754f549ebbe9384bc2bda31';
 
 /// See also [jobsRepository].
 @ProviderFor(jobsRepository)
@@ -20,8 +20,10 @@ final jobsRepositoryProvider = Provider<JobsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef JobsRepositoryRef = ProviderRef<JobsRepository>;
-String _$jobsQueryHash() => r'46482866aecb8be7e41fd6bdb0e2d5a6a87fc350';
+String _$jobsQueryHash() => r'aeaccb50f75b9e5bc97b07443935ffd432dba51a';
 
 /// See also [jobsQuery].
 @ProviderFor(jobsQuery)
@@ -34,8 +36,10 @@ final jobsQueryProvider = AutoDisposeProvider<Query<Job>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef JobsQueryRef = AutoDisposeProviderRef<Query<Job>>;
-String _$jobStreamHash() => r'72fc86cf080cd4a6bdb2da9f13ff81efb312521e';
+String _$jobStreamHash() => r'0713110998fd87210993baf69e4d9cf722a73031';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -170,6 +174,8 @@ class JobStreamProvider extends AutoDisposeStreamProvider<Job> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin JobStreamRef on AutoDisposeStreamProviderRef<Job> {
   /// The parameter `jobId` of this provider.
   String get jobId;
@@ -183,7 +189,7 @@ class _JobStreamProviderElement extends AutoDisposeStreamProviderElement<Job>
   String get jobId => (origin as JobStreamProvider).jobId;
 }
 
-String _$jobsStreamHash() => r'f01d81a09c62945d690eee7d5ca15918e1b17a0b';
+String _$jobsStreamHash() => r'60665a0c5a3d3ad12ad3d058f25b10e618dbb098';
 
 /// See also [jobsStream].
 @ProviderFor(jobsStream)
@@ -196,6 +202,8 @@ final jobsStreamProvider = AutoDisposeStreamProvider<List<Job>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef JobsStreamRef = AutoDisposeStreamProviderRef<List<Job>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

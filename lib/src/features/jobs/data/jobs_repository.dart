@@ -7,6 +7,7 @@ import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/entries/domain/entry.dart';
 import 'package:fischtracker/src/features/jobs/domain/job.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'jobs_repository.g.dart';
@@ -94,12 +95,12 @@ class JobsRepository {
 }
 
 @Riverpod(keepAlive: true)
-JobsRepository jobsRepository(JobsRepositoryRef ref) {
+JobsRepository jobsRepository(Ref ref) {
   return JobsRepository(FirebaseFirestore.instance);
 }
 
 @riverpod
-Query<Job> jobsQuery(JobsQueryRef ref) {
+Query<Job> jobsQuery(Ref ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
@@ -109,7 +110,7 @@ Query<Job> jobsQuery(JobsQueryRef ref) {
 }
 
 @riverpod
-Stream<Job> jobStream(JobStreamRef ref, JobID jobId) {
+Stream<Job> jobStream(Ref ref, JobID jobId) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
@@ -119,7 +120,7 @@ Stream<Job> jobStream(JobStreamRef ref, JobID jobId) {
 }
 
 @riverpod
-Stream<List<Job>> jobsStream(JobsStreamRef ref) {
+Stream<List<Job>> jobsStream(Ref ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null');
