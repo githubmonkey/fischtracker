@@ -33,7 +33,7 @@ class Job extends Equatable {
     return Job(id: id, name: name, catId: catId, catName: catName);
   }
 
-  Job copyWith({id, name, catId, catName}) => Job(
+  Job copyWith({JobID? id, String? name, CatID? catId, String? catName}) => Job(
         id: id ?? this.id,
         name: name ?? this.name,
         catId: catId ?? this.catId,

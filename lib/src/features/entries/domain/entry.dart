@@ -40,7 +40,13 @@ class Entry extends Equatable {
     );
   }
 
-  Entry copyWith({id, jobId, start, end, comment}) => Entry(
+  Entry copyWith(
+          {EntryID? id,
+          JobID? jobId,
+          DateTime? start,
+          DateTime? end,
+          String? comment}) =>
+      Entry(
         id: id ?? this.id,
         jobId: jobId ?? this.jobId,
         start: start ?? this.start,

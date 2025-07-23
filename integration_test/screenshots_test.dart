@@ -5,6 +5,7 @@ import 'package:fischtracker/firebase_options.dart';
 import 'package:fischtracker/src/app.dart';
 import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
+import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/entries/data/entries_repository.dart';
 import 'package:fischtracker/src/features/jobs/data/jobs_repository.dart';
 import 'package:fischtracker/src/features/onboarding/data/onboarding_repository.dart';
@@ -20,7 +21,7 @@ const String email = 'tester1@foo.bar';
 const String password = '123123123';
 const String uid = 'mwllcJMmfsRhAiAziiSQuau9ViGi';
 
-void _addJob(cat, name) async {
+void _addJob(Cat cat, String name) async {
   final jobsRepository = JobsRepository(FirebaseFirestore.instance);
   await jobsRepository.addJob(
       uid: uid, catId: cat.id, catName: cat.name, name: name);

@@ -6,7 +6,7 @@ part of 'entries_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entriesServiceHash() => r'ad6f017678723501d64b7d33ea05ce3553cc010b';
+String _$entriesServiceHash() => r'106c29e519ac1706956f952263745337399caba9';
 
 /// See also [entriesService].
 @ProviderFor(entriesService)
@@ -24,7 +24,7 @@ final entriesServiceProvider = AutoDisposeProvider<EntriesService>.internal(
 // ignore: unused_element
 typedef EntriesServiceRef = AutoDisposeProviderRef<EntriesService>;
 String _$entriesTileModelStreamHash() =>
-    r'69af265d2969a10a62e0b9e7b679ce336445b91c';
+    r'e8f3184f1b1db43eb92198669492a36d3ee03356';
 
 /// See also [entriesTileModelStream].
 @ProviderFor(entriesTileModelStream)

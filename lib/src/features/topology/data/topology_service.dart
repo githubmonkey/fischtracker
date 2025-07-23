@@ -1,6 +1,7 @@
 import 'package:fischtracker/src/features/cats/data/cats_repository.dart';
 import 'package:fischtracker/src/features/cats/domain/cat.dart';
 import 'package:fischtracker/src/features/topology/domain/cat_jobs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
@@ -32,7 +33,7 @@ class CatsJobsService {
 }
 
 @riverpod
-CatsJobsService catsJobsService(CatsJobsServiceRef ref) {
+CatsJobsService catsJobsService(Ref ref) {
   return CatsJobsService(
     catsRepository: ref.watch(catsRepositoryProvider),
     jobsRepository: ref.watch(jobsRepositoryProvider),
@@ -40,7 +41,7 @@ CatsJobsService catsJobsService(CatsJobsServiceRef ref) {
 }
 
 @riverpod
-Stream<List<CatJobs>> catsJobsStream(CatsJobsStreamRef ref) {
+Stream<List<CatJobs>> catsJobsStream(Ref ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null when fetching entries');

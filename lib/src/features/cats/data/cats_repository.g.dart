@@ -6,7 +6,7 @@ part of 'cats_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$catsRepositoryHash() => r'8dbe605bc54148cbd5553d67606fe02f47b8304a';
+String _$catsRepositoryHash() => r'90e14af5831cd162df441431bd19c2da086ce1dd';
 
 /// See also [catsRepository].
 @ProviderFor(catsRepository)
@@ -23,7 +23,7 @@ final catsRepositoryProvider = Provider<CatsRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CatsRepositoryRef = ProviderRef<CatsRepository>;
-String _$catsQueryHash() => r'e5eee281e22cef14614ba1950d8e1f802fc1e57d';
+String _$catsQueryHash() => r'5b560e4f8c62a0586ff9e15938e520fe576f9260';
 
 /// See also [catsQuery].
 @ProviderFor(catsQuery)
@@ -39,7 +39,7 @@ final catsQueryProvider = AutoDisposeProvider<Query<Cat>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CatsQueryRef = AutoDisposeProviderRef<Query<Cat>>;
-String _$catsStreamHash() => r'ca1ad8f829c60c173cd3eb514f991e85849d2d18';
+String _$catsStreamHash() => r'9869b08f95564e0b68d3297f7d094d8a07336218';
 
 /// See also [catsStream].
 @ProviderFor(catsStream)
@@ -55,7 +55,7 @@ final catsStreamProvider = AutoDisposeStreamProvider<List<Cat>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CatsStreamRef = AutoDisposeStreamProviderRef<List<Cat>>;
-String _$catStreamHash() => r'f9b665ec268c0c5dd5eb08d25108fea1bdc318b9';
+String _$catStreamHash() => r'238862dcc509634552d4fbbb0f8f4a2a46ce9354';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -205,7 +205,7 @@ class _CatStreamProviderElement extends AutoDisposeStreamProviderElement<Cat>
   String get catId => (origin as CatStreamProvider).catId;
 }
 
-String _$catFutureHash() => r'f02e1e12ed61ef5deed896b66bdd7c725fcd52e2';
+String _$catFutureHash() => r'636acce8290e5ef3ed5af3ac1c5b4c77504268c0';
 
 /// See also [catFuture].
 @ProviderFor(catFuture)

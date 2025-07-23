@@ -1,4 +1,5 @@
 import 'package:fischtracker/src/features/entries/domain/daily_entries_details.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:fischtracker/src/features/authentication/data/firebase_auth_repository.dart';
@@ -64,7 +65,7 @@ class EntriesService {
 }
 
 @riverpod
-EntriesService entriesService(EntriesServiceRef ref) {
+EntriesService entriesService(Ref ref) {
   return EntriesService(
     jobsRepository: ref.watch(jobsRepositoryProvider),
     entriesRepository: ref.watch(entriesRepositoryProvider),
@@ -72,8 +73,7 @@ EntriesService entriesService(EntriesServiceRef ref) {
 }
 
 @riverpod
-Stream<List<EntriesListTileModel>> entriesTileModelStream(
-    EntriesTileModelStreamRef ref) {
+Stream<List<EntriesListTileModel>> entriesTileModelStream(Ref ref) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null when fetching entries');

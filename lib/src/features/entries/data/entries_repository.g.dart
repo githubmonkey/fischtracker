@@ -6,7 +6,7 @@ part of 'entries_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entriesRepositoryHash() => r'b372d27ef1dca2699bbc980d86a778328a7cf730';
+String _$entriesRepositoryHash() => r'ad38184e057a5a0ee3f4cbf1573f2dcb496948fc';
 
 /// See also [entriesRepository].
 @ProviderFor(entriesRepository)
@@ -23,7 +23,7 @@ final entriesRepositoryProvider = Provider<EntriesRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef EntriesRepositoryRef = ProviderRef<EntriesRepository>;
-String _$entriesQueryHash() => r'70ad8335af0bf310e7be3e94974d4830e6625edc';
+String _$entriesQueryHash() => r'96ef53d51349378f0ab210ebc46b95ab1a81884b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -174,7 +174,7 @@ class _EntriesQueryProviderElement
   String? get jobId => (origin as EntriesQueryProvider).jobId;
 }
 
-String _$openEntriesStreamHash() => r'720c9d9fb71947c09123abf9e075ae1b6975bc18';
+String _$openEntriesStreamHash() => r'c3be8134c5729843a7f4cf74f83b59a639a193bb';
 
 /// See also [openEntriesStream].
 @ProviderFor(openEntriesStream)
